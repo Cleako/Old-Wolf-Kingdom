@@ -1,0 +1,473 @@
+package org.lupus_regnum.client.component;
+
+
+import java.util.ArrayList;
+
+import org.lupus_regnum.client.Client;
+import org.lupus_regnum.client.GameImage;
+import org.lupus_regnum.client.GameImageMiddleMan;
+import org.lupus_regnum.client.mudclient;
+import org.lupus_regnum.client.model.RSCComponent;
+
+public abstract class RSCStatChanger extends RSCComponent {
+
+	private ArrayList<RSCOptionDialogButton> buttons = new ArrayList<RSCOptionDialogButton>();
+
+	public mudclient mc;
+	public Object obj; // args
+	
+
+	public RSCStatChanger() {
+		Client.getClient().components.add(this);
+		super.setX(110 + 43);	
+		super.setY(107 - 38);
+		super.setWidth(451);
+		super.setHeight(315);
+	}
+
+
+
+	public boolean onKeyEvent(int keynum) {
+
+		return false;
+	}
+
+	public boolean onMouseClick(boolean left, int x, int y) {
+		for(RSCOptionDialogButton button : buttons) {
+			if(Client.inBounds(x, y, button.x, button.y, button.width, button.height)) {
+				if(button.exit) {
+					destroy();
+					return true;
+				}
+				onButtonClicked(button);
+				return true;
+			}
+		}
+		return true;
+	}
+
+	@SuppressWarnings("static-access")
+	public void onRender(GameImageMiddleMan gfx, mudclient client) {
+		try {
+			
+			
+			if(mc == null)
+				mc = client;
+			
+			if(!mudclient.BIG_CLIENT) {
+				client.displayMessage("You can only use stat changer on big client", 3, -1);
+				return;
+			}//3275
+			
+			int buttonColor = super.WHITE;
+			int highlightButtonColor = super.WHITE;//GameImage.convertRGBToLong(45, 107, 135);
+
+			int selected = mudclient.SELECTED_STAT;
+		
+			//gfx.drawBox(super.getX(), super.getY(), super.getWidth(), super.getHeight(), super.getColor()); // make black box
+			//gfx.drawLineY(super.getX(), super.getY(), super.getHeight(), super.ORANGE); // left side
+			//gfx.drawLineY(super.getX() + super.getWidth(), super.getY(), super.getHeight(), super.ORANGE); // right side
+			//gfx.drawLineX(super.getX(), super.getY(), super.getWidth(), super.ORANGE); // top
+			//gfx.drawLineX(super.getX(), super.getY() + super.getHeight(), super.getWidth(), super.ORANGE); // bottom
+			gfx.drawPicture(super.getX(), super.getY(), 2471);
+			gfx.drawString("Selected Stat: @gre@" + client.skillArray[selected] + "@yel@ (Lv " + client.playerStatBase[selected] + ") (Exp " + client.playerStatExperience[selected] + ")", super.getX() + 35, super.getY() + 13 + 10 + 27, 5, super.WHITE);
+			gfx.drawString("Total Exp: @yel@" + client.TOTAL_EXP, super.getX() + 10, super.getY() + super.getHeight() - 11, 5, super.WHITE);
+			gfx.drawString("Combat Lv: @yel@" + client.ourPlayer.level + "  @whi@HP: @yel@" + client.playerStatBase[3], super.getX() + 250, super.getY() + super.getHeight() - 11, 5, super.WHITE);
+	
+
+			// EXIT
+			RSCOptionDialogButton button = new RSCOptionDialogButton();
+			button.x = super.getX() + super.getWidth() - 25;
+			button.y = super.getY() + 5;
+			button.height = 20;
+			button.width = 20;
+			button.text = "X";
+			button.exit = true;
+			buttons.add(button);
+			boolean highlight = Client.inBounds(client.mouseX, client.mouseY, button.x, button.y, button.width, button.height);
+			//gfx.drawBox(button.x, button.y, button.width, button.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(button.x, button.y, button.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(button.x + button.width, button.y, button.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(button.x, button.y, button.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(button.x, button.y + button.height, button.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(button.text, button.x + (button.width / 2), button.y + (button.height / 2) + 5, 3, (highlight ? super.RED : super.ORANGE));
+
+			/// buttons
+
+			// atk
+
+			int buttonWidth = 124;
+			int buttonHeight = 34;
+
+			int lastButtonX = super.getX() + 35;
+			int lastButtonY = super.getY() + 60;
+
+
+			int SPACE_BETWEEN_BUTTONS = 4;
+			RSCOptionDialogButton atk = new RSCOptionDialogButton();
+			buttons.add(atk);
+
+			atk.x = lastButtonX;
+			atk.y = lastButtonY;
+
+			atk.height = buttonHeight;
+			atk.width = buttonWidth;
+			atk.text = "Attack";
+			highlight = selected == 0;
+			gfx.drawPicture(atk.x, atk.y, highlight ? 2473 : 2472);
+			//gfx.drawBox(atk.x, atk.y, atk.width, atk.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(atk.x, atk.y, atk.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(atk.x + atk.width, atk.y, atk.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(atk.x, atk.y, atk.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(atk.x, atk.y + atk.height, atk.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(atk.text + (highlight ? "*" : ""), atk.x + (atk.width / 2), atk.y + (atk.height / 2) + 5, 3, (highlight ? highlightButtonColor : buttonColor));
+
+			lastButtonX+=buttonWidth + SPACE_BETWEEN_BUTTONS;
+
+			RSCOptionDialogButton def = new RSCOptionDialogButton();
+			buttons.add(def);
+
+			def.x = lastButtonX;
+			def.y = lastButtonY;
+
+			def.height = buttonHeight;
+			def.width = buttonWidth;
+			def.text = "Defense";
+			highlight = selected == 1;
+			gfx.drawPicture(def.x, def.y, highlight ? 2473 : 2472);
+			//gfx.drawBox(def.x, def.y, def.width, def.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(def.x, def.y, def.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(def.x + def.width, def.y, def.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(def.x, def.y, def.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(def.x, def.y + def.height, def.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(def.text + (highlight ? "*" : ""), def.x + (def.width / 2), def.y + (def.height / 2) + 5, 3, (highlight ? highlightButtonColor : buttonColor));
+
+			lastButtonX+=buttonWidth + SPACE_BETWEEN_BUTTONS;
+
+			RSCOptionDialogButton str = new RSCOptionDialogButton();
+			buttons.add(str);
+
+			str.x = lastButtonX;
+			str.y = lastButtonY;
+
+			str.height = buttonHeight;
+			str.width = buttonWidth;
+			str.text = "Strength";
+			highlight = selected == 2;
+			gfx.drawPicture(str.x, str.y, highlight ? 2473 : 2472);
+			//gfx.drawBox(str.x, str.y, str.width, str.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(str.x, str.y, str.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(str.x + str.width, str.y, str.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(str.x, str.y, str.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(str.x, str.y + str.height, str.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(str.text + (highlight ? "*" : ""), str.x + (str.width / 2), str.y + (str.height / 2) + 5, 3, (highlight ? highlightButtonColor : buttonColor));
+
+
+			lastButtonX = super.getX() + 35;
+			lastButtonY = super.getY() + 60 + buttonHeight + SPACE_BETWEEN_BUTTONS;
+
+
+			RSCOptionDialogButton range = new RSCOptionDialogButton();
+			buttons.add(range);
+
+			range.x = lastButtonX;
+			range.y = lastButtonY;
+
+			range.height = buttonHeight;
+			range.width = buttonWidth;
+			range.text = "Ranged";
+			highlight = selected == 4;
+			gfx.drawPicture(range.x, range.y, highlight ? 2473 : 2472);
+			//gfx.drawBox(range.x, range.y, range.width, range.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(range.x, range.y, range.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(range.x + range.width, range.y, range.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(range.x, range.y, range.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(range.x, range.y + range.height, range.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(range.text + (highlight ? "*" : ""), range.x + (range.width / 2), range.y + (range.height / 2) + 5, 3, (highlight ? highlightButtonColor : buttonColor));
+
+			lastButtonX+=buttonWidth + SPACE_BETWEEN_BUTTONS;
+
+			RSCOptionDialogButton pray = new RSCOptionDialogButton();
+			buttons.add(pray);
+
+			pray.x = lastButtonX;
+			pray.y = lastButtonY;
+
+			pray.height = buttonHeight;
+			pray.width = buttonWidth;
+			pray.text = "Prayer";
+			highlight = selected == 5;
+			gfx.drawPicture(pray.x, pray.y, highlight ? 2473 : 2472);
+			//gfx.drawBox(pray.x, pray.y, pray.width, pray.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(pray.x, pray.y, pray.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(pray.x + pray.width, pray.y, pray.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(pray.x, pray.y, pray.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(pray.x, pray.y + pray.height, pray.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(pray.text + (highlight ? "*" : ""), pray.x + (pray.width / 2), pray.y + (pray.height / 2) + 5, 3, (highlight ? highlightButtonColor : buttonColor));
+
+			lastButtonX+=buttonWidth + SPACE_BETWEEN_BUTTONS;
+
+			RSCOptionDialogButton magic = new RSCOptionDialogButton();
+			buttons.add(magic);
+
+			magic.x = lastButtonX;
+			magic.y = lastButtonY;
+
+			magic.height = buttonHeight;
+			magic.width = buttonWidth;
+			magic.text = "Magic";
+			highlight = selected == 6;
+			
+			gfx.drawPicture(magic.x, magic.y, highlight ? 2473 : 2472);
+			//gfx.drawBox(magic.x, magic.y, magic.width, magic.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(magic.x, magic.y, magic.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(magic.x + magic.width, magic.y, magic.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(magic.x, magic.y, magic.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(magic.x, magic.y + magic.height, magic.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(magic.text + (highlight ? "*" : ""), magic.x + (magic.width / 2), magic.y + (magic.height / 2) + 5, 3, (highlight ? highlightButtonColor : buttonColor));
+
+
+			/*
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 *  OTHER PLUS MINUS BUTTONS
+			 * 
+			 * 
+			 * 
+			 * 
+			 * 
+			 */
+
+			lastButtonX = super.getX() + 96;
+			lastButtonY = super.getY() + 143;
+			buttonHeight = 25;
+			buttonWidth = 27;
+
+			
+			RSCOptionDialogButton minus1 = new RSCOptionDialogButton();
+
+			minus1.amount = 0;
+			buttons.add(minus1);
+
+			minus1.x = lastButtonX;
+			minus1.y = lastButtonY;
+			//2392 - 2393 (highlight)//2392 - 2393 (highlight)
+			//2392 - 2393 (highlight)
+			minus1.height = buttonHeight;
+			minus1.width = buttonWidth;
+			minus1.text = "-";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, minus1.x, minus1.y, minus1.width, minus1.height);
+			gfx.drawPicture(minus1.x, minus1.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(minus1.x, minus1.y, minus1.width, minus1.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(minus1.x, minus1.y, minus1.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(minus1.x + minus1.width, minus1.y, minus1.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(minus1.x, minus1.y, minus1.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(minus1.x, minus1.y + minus1.height, minus1.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(minus1.text, minus1.x + (minus1.width / 2), minus1.y + (minus1.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+
+			lastButtonY+= buttonHeight + 10;
+
+			RSCOptionDialogButton minus2 = new RSCOptionDialogButton();
+
+			buttons.add(minus2);
+			minus2.amount = 1;
+			minus2.x = lastButtonX;
+			minus2.y = lastButtonY;
+
+			minus2.height = buttonHeight;
+			minus2.width = buttonWidth;
+			minus2.text = "-";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, minus2.x, minus2.y, minus2.width, minus2.height);
+			gfx.drawPicture(minus2.x, minus2.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(minus2.x, minus2.y, minus2.width, minus2.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(minus2.x, minus2.y, minus2.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(minus2.x + minus2.width, minus2.y, minus2.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(minus2.x, minus2.y, minus2.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(minus2.x, minus2.y + minus2.height, minus2.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(minus2.text, minus2.x + (minus2.width / 2), minus2.y + (minus2.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+
+			lastButtonY+= buttonHeight + 10;
+			
+			
+			
+			RSCOptionDialogButton minus3 = new RSCOptionDialogButton();
+			buttons.add(minus3);
+			minus3.amount = 2;
+			minus3.x = lastButtonX;
+			minus3.y = lastButtonY;
+
+			minus3.height = buttonHeight;
+			minus3.width = buttonWidth;
+			minus3.text = "-";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, minus3.x, minus3.y, minus3.width, minus3.height);
+			
+			
+			gfx.drawPicture(minus3.x, minus3.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(minus3.x, minus3.y, minus3.width, minus3.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(minus3.x, minus3.y, minus3.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(minus3.x + minus3.width, minus3.y, minus3.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(minus3.x, minus3.y, minus3.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(minus3.x, minus3.y + minus3.height, minus3.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(minus3.text, minus3.x + (minus3.width / 2), minus3.y + (minus3.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+
+			lastButtonY+= buttonHeight + 10;
+			
+			RSCOptionDialogButton minus4 = new RSCOptionDialogButton();
+			buttons.add(minus4);
+
+			minus4.x = lastButtonX;
+			minus4.y = lastButtonY;
+
+			minus4.height = buttonHeight;
+			minus4.width = buttonWidth;
+			minus4.text = "-";
+			minus4.amount = 3;
+			highlight = Client.inBounds(client.mouseX, client.mouseY, minus4.x, minus4.y, minus4.width, minus4.height);
+			gfx.drawPicture(minus4.x, minus4.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(minus4.x, minus4.y, minus4.width, minus4.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(minus4.x, minus4.y, minus4.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(minus4.x + minus4.width, minus4.y, minus4.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(minus4.x, minus4.y, minus4.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(minus4.x, minus4.y + minus4.height, minus4.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(minus4.text, minus4.x + (minus4.width / 2), minus4.y + (minus4.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+
+		
+		
+			
+			
+			/**
+			 * 
+			 * 
+			 * 
+			 *  PLUS BUTTONS
+			 * 
+			 */
+			
+			
+			lastButtonX = super.getX() + 312;
+			lastButtonY = super.getY() + 143;
+			buttonHeight = 25;
+			buttonWidth = 27;
+			
+			RSCOptionDialogButton plus1 = new RSCOptionDialogButton();
+
+			buttons.add(plus1);
+
+			plus1.x = lastButtonX;
+			plus1.y = lastButtonY;
+			plus1.amount = 0;
+			plus1.height = buttonHeight;
+			plus1.width = buttonWidth;
+			plus1.text = "+";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, plus1.x, plus1.y, plus1.width, plus1.height);
+			gfx.drawPicture(plus1.x, plus1.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(plus1.x, plus1.y, plus1.width, plus1.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(plus1.x, plus1.y, plus1.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(plus1.x + plus1.width, plus1.y, plus1.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(plus1.x, plus1.y, plus1.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(plus1.x, plus1.y + plus1.height, plus1.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(plus1.text, plus1.x + (plus1.width / 2), plus1.y + (plus1.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+
+			lastButtonY+= buttonHeight + 10;
+
+			RSCOptionDialogButton plus2 = new RSCOptionDialogButton();
+
+			buttons.add(plus2);
+
+			plus2.x = lastButtonX;
+			plus2.y = lastButtonY;
+			plus2.amount = 1;
+			plus2.height = buttonHeight;
+			plus2.width = buttonWidth;
+			plus2.text = "+";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, plus2.x, plus2.y, plus2.width, plus2.height);
+			gfx.drawPicture(plus2.x, plus2.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(plus2.x, plus2.y, plus2.width, plus2.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(plus2.x, plus2.y, plus2.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(plus2.x + plus2.width, plus2.y, plus2.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(plus2.x, plus2.y, plus2.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(plus2.x, plus2.y + plus2.height, plus2.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(plus2.text, plus2.x + (plus2.width / 2), plus2.y + (plus2.height / 2) + 5, 4,(highlight ? super.ORANGE : super.WHITE));
+
+			lastButtonY+= buttonHeight + 10;
+			
+			
+			
+			RSCOptionDialogButton plus3 = new RSCOptionDialogButton();
+			buttons.add(plus3);
+
+			plus3.x = lastButtonX;
+			plus3.y = lastButtonY;
+			plus3.amount = 2;
+			plus3.height = buttonHeight;
+			plus3.width = buttonWidth;
+			plus3.text = "+";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, plus3.x, plus3.y, plus3.width, plus3.height);
+			gfx.drawPicture(plus3.x, plus3.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(plus3.x, plus3.y, plus3.width, plus3.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(plus3.x, plus3.y, plus3.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(plus3.x + plus3.width, plus3.y, plus3.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(plus3.x, plus3.y, plus3.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(plus3.x, plus3.y + plus3.height, plus3.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(plus3.text, plus3.x + (plus3.width / 2), plus3.y + (plus3.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+
+			lastButtonY+= buttonHeight + 10;
+			
+			RSCOptionDialogButton plus4 = new RSCOptionDialogButton();
+			buttons.add(plus4);
+
+			plus4.x = lastButtonX;
+			plus4.y = lastButtonY;
+			plus4.amount = 3;
+			plus4.height = buttonHeight;
+			plus4.width = buttonWidth;
+			plus4.text = "+";
+			highlight = Client.inBounds(client.mouseX, client.mouseY, plus4.x, plus4.y, plus4.width, plus4.height);
+			gfx.drawPicture(plus4.x, plus4.y, highlight ? 2393 : 2392);
+			//gfx.drawBox(plus4.x, plus4.y, plus4.width, plus4.height, super.DARK_GRAY); // make gray
+			//gfx.drawLineY(plus4.x, plus4.y, plus4.height, highlight ? super.GREEN : super.WHITE); // left side
+			//gfx.drawLineY(plus4.x + plus4.width, plus4.y, plus4.height, highlight ? super.GREEN : super.WHITE); // right side
+			//gfx.drawLineX(plus4.x, plus4.y, plus4.width, highlight ? super.GREEN : super.WHITE); // top
+			//gfx.drawLineX(plus4.x, plus4.y + plus4.height, plus4.width, highlight ? super.GREEN : super.WHITE); // bottom
+			gfx.drawText(plus4.text, plus4.x + (plus4.width / 2), plus4.y + (plus4.height / 2) + 5, 4, (highlight ? super.ORANGE : super.WHITE));
+			
+			
+			
+			
+			lastButtonX = super.getX() + 220;
+			lastButtonY = super.getY() + 155 + 7;
+			gfx.drawText("XP 1000", lastButtonX, lastButtonY, 4, super.WHITE);
+			lastButtonY+=34;
+			gfx.drawText("XP 10,000", lastButtonX, lastButtonY, 4, super.WHITE);
+			lastButtonY+=34;
+			gfx.drawText("XP 100,000", lastButtonX, lastButtonY, 4, super.WHITE);
+			lastButtonY+=34;
+			gfx.drawText("XP 1,000,000", lastButtonX, lastButtonY, 4, super.WHITE);
+			
+			
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+	public abstract void onButtonClicked(RSCOptionDialogButton button);
+
+
+	public void setOptions(String... options) {
+		for(String s : options) {
+			RSCOptionDialogButton button = new RSCOptionDialogButton();
+			button.setText(s);
+			buttons.add(button);
+		}
+
+	}
+
+}
+
+
