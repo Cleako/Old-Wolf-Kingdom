@@ -1,0 +1,16 @@
+<!-- IF S_KEYCAPTCHA_AVAILABLE -->
+	<table class="KeyCAPTCHA_def_tpl">
+		<tr class="KeyCAPTCHA_def_tpl">
+			<b class="KeyCAPTCHA_def_tpl">{L_KEYCAPTCHA_TASK_HEADER}: &nbsp; {L_KEYCAPTCHA_TASK_EXPLAIN}</b>
+		</tr>
+		<tr class="KeyCAPTCHA_def_tpl">
+			{KEYCAPTCHA_CODE}
+		</tr>
+	</table class="KeyCAPTCHA_def_tpl">
+	<input type="hidden" name="kc_response_field" id="kc_response_field" value="false" />
+	<noscript>
+		{L_KEYCAPTCHA_MESSAGE_NOSCRIPT}
+	</noscript>
+<!-- ELSE -->
+	{L_KEYCAPTCHA_MESSAGE_NA}
+<!-- ENDIF -->

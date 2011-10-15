@@ -1,0 +1,29 @@
+<!-- IF S_TYPE == 1 -->
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+	<h3>{L_CONFIRMATION}</h3>
+	<fieldset class="fields2">
+<!-- ENDIF -->
+
+<!-- IF S_KEYCAPTCHA_AVAILABLE -->
+	<dl>
+	<dt><label>{L_KEYCAPTCHA_TASK_HEADER}</label>:<br /><span>{L_KEYCAPTCHA_TASK_EXPLAIN}</span></dt>
+	<dd>
+		{KEYCAPTCHA_CODE}
+		<input type="hidden" name="kc_response_field" id="kc_response_field" value="false" />
+		<noscript>
+		<div>
+			{L_KEYCAPTCHA_MESSAGE_NOSCRIPT}
+		</div>
+		</noscript>
+	</dd>
+	</dl>
+<!-- ELSE -->
+	{L_KEYCAPTCHA_MESSAGE_NA}
+<!-- ENDIF -->
+
+<!-- IF S_TYPE == 1 -->
+	</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->

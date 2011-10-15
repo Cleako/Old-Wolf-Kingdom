@@ -1,0 +1,52 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{L_ACP_VC_SETTINGS}</h1>
+
+<p>{L_ACP_VC_SETTINGS_EXPLAIN}</p>
+
+
+<form id="acp_captcha" method="post" action="{U_ACTION}">
+
+<fieldset>
+<legend>{L_GENERAL_OPTIONS}</legend>
+
+<dl>
+	<dt><label for="peoplesign_key">{L_PEOPLESIGN_KEY}:</label><br /><span>{L_PEOPLESIGN_KEY_EXPLAIN}</span></dt>
+	<dd><input id="peoplesign_key" name="peoplesign_key" value="{PEOPLESIGN_KEY}" size="50" type="text" /></dd>
+</dl>
+<dl>
+	<dt><label for="peoplesign_options">{L_PEOPLESIGN_OPTIONS}:</label><br /><span>{L_PEOPLESIGN_OPTIONS_EXPLAIN}</span></dt>
+	<dd><textarea name="peoplesign_options" value="{PEOPLESIGN_OPTIONS}" cols="75" rows="10"/>{PEOPLESIGN_OPTIONS}</textarea></dd>
+</dl>
+<div align="right" style="font-style: italic">
+	{L_PEOPLESIGN_VERSION}: {PEOPLESIGN_VERSION_ID}
+</div>
+
+</fieldset>
+<fieldset>
+	<legend>{L_PREVIEW}</legend>
+<!-- IF PREVIEW -->
+	<div class="successbox">
+		<h3>{L_WARNING}</h3>
+		<p>{L_CAPTCHA_PREVIEW_MSG}</p>
+	</div>
+<!-- ENDIF -->
+<!-- INCLUDE {CAPTCHA_PREVIEW} -->
+</fieldset>
+
+<fieldset>
+	<legend>{L_ACP_SUBMIT_CHANGES}</legend>
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="preview" value="{L_PREVIEW}" />&nbsp;
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+	</p>
+	<input type="hidden" name="select_captcha" value="{CAPTCHA_NAME}" />
+	<input type="hidden" name="configure" value="1" />
+
+	{S_FORM_TOKEN}
+</fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->
