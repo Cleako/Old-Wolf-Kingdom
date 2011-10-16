@@ -1,4 +1,1 @@
-set PATH=lib\apache-ant-1.8.2\bin
-
-set JAVA_HOME=C:\Program Files\Java\jdk1.7.0
-ant runls > Login_Server_Log.txt 2>&1
+"C:\Program Files\Java\jdk1.6.0_27/bin/java.exe" -classpath "dist\Lupus Regnum Server.jar" org.lupus_regnum.ls.Server > Login_Server_Log.txt 2>&1
