@@ -13,9 +13,9 @@ if(!defined('IN_PHPBB'))
 				
 				<h4>Screenshots</h4>
 					<p>
-						<a href="/image_repository/lupusregnum1.png" TARGET="_blank"><img src="/image_repository/lupusregnum1sm.png"/></a>
-						<a href="/image_repository/lupusregnum2.png" TARGET="_blank"><img src="/image_repository/lupusregnum2sm.png"/></a>
-						<a href="/image_repository/lupusregnum3.png" TARGET="_blank"><img src="/image_repository/lupusregnum3sm.png"/></a>
+						<a href="/lupus/images/lupusregnum1.png" TARGET="_blank"><img src="/image_repository/lupusregnum1sm.png"/></a>
+						<a href="/lupus/images/lupusregnum2.png" TARGET="_blank"><img src="/image_repository/lupusregnum2sm.png"/></a>
+						<a href="/lupus/images/lupusregnum3.png" TARGET="_blank"><img src="/image_repository/lupusregnum3sm.png"/></a>
 					</p>
 			</article>
 		</div>
