@@ -1,0 +1,146 @@
+ Sun, Oct 16, 2011 @ 3:56:43 PM  Database connection achieved.
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>95</id><startX>339</startX><startY>705</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>165</id><startX>347</startX><startY>714</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>168</id><startX>360</startX><startY>715</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>169</id><startX>363</startX><startY>714</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>358</id><startX>559</startX><startY>650</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>358</id><startX>556</startX><startY>648</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>537</startX><startY>752</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>541</startX><startY>749</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>542</startX><startY>746</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>540</startX><startY>751</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>543</startX><startY>745</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>533</startX><startY>761</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>534</startX><startY>750</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>544</startX><startY>756</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>534</startX><startY>752</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>534</startX><startY>761</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>539</startX><startY>764</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>539</startX><startY>759</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>537</startX><startY>755</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>529</startX><startY>755</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>104</id><startX>423</startX><startY>637</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>104</id><startX>420</startX><startY>640</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>271</id><startX>494</startX><startY>659</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>271</id><startX>498</startX><startY>653</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>271</id><startX>502</startX><startY>659</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>271</id><startX>499</startX><startY>667</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>271</id><startX>506</startX><startY>665</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>594</id><startX>520</startX><startY>663</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>594</id><startX>516</startX><startY>662</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>594</id><startX>516</startX><startY>669</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>594</id><startX>513</startX><startY>668</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>523</id><startX>420</startX><startY>764</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>421</id><startX>416</startX><startY>761</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>417</startX><startY>763</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>419</startX><startY>760</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>422</startX><startY>759</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>423</startX><startY>756</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>426</startX><startY>759</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>427</startX><startY>764</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>422</startX><startY>766</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>420</startX><startY>767</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>424</startX><startY>766</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>556</id><startX>425</startX><startY>764</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>409</startX><startY>765</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>405</startX><startY>763</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>402</startX><startY>766</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>399</startX><startY>763</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>396</startX><startY>764</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>399</startX><startY>766</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>400</startX><startY>763</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>557</id><startX>402</startX><startY>766</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>164</id><startX>339</startX><startY>706</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>70</id><startX>406</startX><startY>681</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>45</id><startX>413</startX><startY>639</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>45</id><startX>407</startX><startY>632</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>540</startX><startY>748</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>541</startX><startY>748</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>541</startX><startY>746</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>540</startX><startY>746</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>542</startX><startY>746</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>540</startX><startY>752</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>541</startX><startY>754</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>540</startX><startY>755</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>542</startX><startY>754</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>542</startX><startY>755</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>537</startX><startY>760</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>536</startX><startY>760</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>534</startX><startY>761</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>535</startX><startY>758</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>537</startX><startY>759</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>466</startX><startY>768</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>465</startX><startY>768</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>521</id><startX>464</startX><startY>768</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>163</id><startX>325</startX><startY>713</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>163</id><startX>331</startX><startY>713</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>95</id><startX>564</startX><startY>672</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>95</id><startX>569</startX><startY>680</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>95</id><startX>565</startX><startY>684</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>184</id><startX>521</startX><startY>3353</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>184</id><startX>519</startX><startY>3348</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>50</id><startX>508</startX><startY>3338</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>50</id><startX>511</startX><startY>3337</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>50</id><startX>512</startX><startY>3340</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>95</id><startX>517</startX><startY>3325</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>95</id><startX>515</startX><startY>3322</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Fucked Npc: <id>184</id><startX>521</startX><startY>3349</startY>
+ Sun, Oct 16, 2011 @ 3:56:46 PM  Dragon Annihilators [P2P] Server starting up...
+Loaded new plugin: org.lupus_regnum.gs.plugins.minigames.ChristmasDrop
+Loaded new plugin: org.lupus_regnum.gs.plugins.minigames.DropParty
+Loaded new plugin: org.lupus_regnum.gs.plugins.minigames.EventSummoning
+Loaded new plugin: org.lupus_regnum.gs.plugins.minigames.HalloweenDrop
+Loaded new plugin: org.lupus_regnum.gs.plugins.minigames.LastManStanding
+Loaded new plugin: org.lupus_regnum.gs.plugins.minigames.Lottery
+Loaded new plugin: org.lupus_regnum.gs.plugins.commands.Admins
+Loaded new plugin: org.lupus_regnum.gs.plugins.commands.Moderator
+Loaded new plugin: org.lupus_regnum.gs.plugins.commands.PlayerModerator
+Loaded new plugin: org.lupus_regnum.gs.plugins.commands.RegularUser
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Herblaw
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.XPBoxes
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Cooking
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Crafting
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Fletching
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.InvUseOnItem
+Loaded new quest: Doric's Quest
+Loaded new quest: Druidic Ritual
+Loaded new quest: The Restless Ghost
+Loaded new quest: Trusting Sean Crooks
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Smelting
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.InvUseOnObject
+Loaded new quest: Fishing adventure
+Loaded new quest: The Knight's Sword
+Loaded new quest: Witch's Potion
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Fishing
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Mining
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Prayer
+Loaded new plugin: org.lupus_regnum.gs.plugins.skills.Woodcutting
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.Bed
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.Dummy
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.Hopper
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.Pick
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.RandomObjects
+Loaded new plugin: org.lupus_regnum.gs.plugins.plugs.TeleportationPools
+Loaded new quest: Cook's Assistant
+Loaded new quest: Goblin Diplomacy
+Loaded new quest: Imp Catcher
+Loaded new quest: Romeo and Juliet
+Loaded new quest: Sheep Shearer
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Aggie
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Apothecary
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Bananas
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Bankers
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Boat
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.BrotherJared
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Certer
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.EntranaMonks
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.KebabSeller
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.MakeOverMage
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.MonkHealer
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.ShopKeeper
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Tanner
+Loaded new plugin: org.lupus_regnum.gs.plugins.npcs.Thrander
+ Sun, Oct 16, 2011 @ 3:56:47 PM  Attempting to connect to LS
+ Sun, Oct 16, 2011 @ 3:56:47 PM  Registering world (1) with LS
+ Sun, Oct 16, 2011 @ 3:56:47 PM  GameEngine now running
+ Sun, Oct 16, 2011 @ 3:56:47 PM  World successfully registered with LS

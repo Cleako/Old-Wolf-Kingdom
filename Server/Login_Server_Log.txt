@@ -1,0 +1,5 @@
+Login Server starting up...
+Connected to MySQL
+LoginEngine now running
+Registering world: 1
+Connection to world 1 lost!
