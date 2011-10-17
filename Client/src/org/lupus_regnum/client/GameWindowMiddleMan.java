@@ -16,12 +16,12 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 	private static final long serialVersionUID = 3365932367768513685L;
 	protected final void login(String user, String pass, boolean reconnecting) {
 		if (socketTimeout > 0) {
-			loginScreenPrint("Please wait...", "Connecting to server");
+			loginScreenPrint("Please wait...", "Accessing to time stream.");
 			try {
 				Thread.sleep(2000L);
 			} catch (Exception _ex) {
 			}
-			loginScreenPrint("Sorry! The server is currently full.",
+			loginScreenPrint("Sorry! The time stream is currently overloaded.",
 					"Please try again later");
 			return;
 		}
@@ -31,15 +31,15 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 			password = pass;
 			pass = DataOperations.addCharacters(pass, 20);
 			if (user.trim().length() == 0) {
-				loginScreenPrint("You must enter both a username",
-						"and a password - Please try again");
+				loginScreenPrint("You must enter both a designation",
+						"and a key code - Please try again");
 				return;
 			}
 			if (reconnecting)
-				gameBoxPrint("Connection lost! Please wait...",
-						"Attempting to re-establish");
+				gameBoxPrint("Lost connection to time stream! Please wait...",
+						"Attempting to re-connect.");
 			else
-				loginScreenPrint("Please wait...", "Connecting to server");
+				loginScreenPrint("Please wait...", "Connecting to time stream.");
 
 				
 			streamClass = new StreamClass(makeSocket(Config.SERVER_IP, Config.SERVER_PORT), this);
@@ -53,8 +53,8 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 			streamClass.finalisePacket();
 			long sessionID = streamClass.read8ByteLong();
 			if (sessionID == 0L) {
-				loginScreenPrint("Login server offline.",
-						"Please try again in a few mins");
+				loginScreenPrint("Time stream access offline.",
+						"Please try again in a few minutes.");
 				return;
 			}
 			System.out.print("Session ID: " + sessionID);
@@ -102,53 +102,53 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 				return;
 			}
 			if (loginResponse == -1) {
-				loginScreenPrint("Error unable to login.", "Server timed out");
+				loginScreenPrint("Unable to join.", "Time stream node offline");
 				return;
 			}
 			// 0 = Valid
 			// 1 = Reconnecting
 			if (loginResponse == 2) {
-				loginScreenPrint("Invalid username or password.",
-						"Try again, or create a new account");
+				loginScreenPrint("Invalid designation or key code.",
+						"Re-enter credentials or create a new hero.");
 				return;
 			}
 			if (loginResponse == 3) {
-				loginScreenPrint("That username is already logged in.",
-						"Wait 60 seconds then retry");
+				loginScreenPrint("That hero is already logged into the time stream.",
+						"Please wait 60 seconds and then try again.");
 				return;
 			}
 			if (loginResponse == 4) {
-				loginScreenPrint("The client has been updated.",
-						"Please restart DQ.");
+				loginScreenPrint("The time client has been updated.",
+						"Please re-open the Lupus Regnum game client.");
 				return;
 			}
 			if (loginResponse == 5) {
-				loginScreenPrint("Error unable to login.", "Please retry");
+				loginScreenPrint("Time stream node connection error.", "Please try again.");
 				return;
 			}
 			if (loginResponse == 6) {
-				loginScreenPrint("Account banned.",
-						"Appeal on the forums, ASAP.");
+				loginScreenPrint("Your hero has been banned.",
+						"You may request an appeal on the forum.");
 				return;
 			}
 			if (loginResponse == 7) {
-				loginScreenPrint("Error - failed to decode profile.",
-						"Contact an admin");
+				loginScreenPrint("Lupus Regnum database error.",
+						"Please contact game staff immediately.");
 				return;
 			}
 			if (loginResponse == 8) {
-				loginScreenPrint("Too many connections from your IP.",
+				loginScreenPrint("Too many current connections from your PC.",
 						"Please try again later.");
 				return;
 			}
 			if (loginResponse == 9) {
-				loginScreenPrint("Account already in use.",
-						"You may only login to one character at a time");
+				loginScreenPrint("Your hero is already logged into the time stream.",
+						"Please wait 60 seconds and try again.");
 				return;
 			}
 			// 99 = Mod/Admin
-			loginScreenPrint("Error unable to login.",
-					"Unrecognised response code");
+			loginScreenPrint("Time stream node connection error.",
+					"Please try again.");
 			return;
 		} catch (Exception exception) {
 			System.out.println(String.valueOf(exception));
@@ -166,8 +166,8 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 			password = "";
 			resetIntVars();
 		} else {
-			loginScreenPrint("Sorry! Unable to connect.",
-					"Check internet settings or try another world");
+			loginScreenPrint("Time stream access offline.",
+						"Please try again in a few minutes");
 		}
 	}
 
@@ -186,7 +186,7 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 		password = "";
 
 		resetIntVars();
-		loginScreenPrint("Please enter your username and password", "");
+		loginScreenPrint("State your designation and key code.", "");
 		
 		
 	}
@@ -195,7 +195,7 @@ public abstract class GameWindowMiddleMan extends GameWindow {
 		System.out.println("Lost connection");
 
 		login(username, password, true);
-		loginScreenPrint("Please enter your username and password", "");
+		loginScreenPrint("State your designation and key code.", "");
 	}
 
 	protected final void gameBoxPrint(String s, String s1) {
