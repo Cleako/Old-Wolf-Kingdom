@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the
+      latest version of this MOD. Although MODs are checked before being
+      allowed in the MODs Database there is no guarantee that there are no
+      security problems within the MOD. No support will be given for MODs not
+      found within the MODs Database which can be found at
+      http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+	<header>
+		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
+		<title lang="en-gb">Special and Normal Rank Images - Subsilver2 style</title>
+		<description lang="en-gb">This MOD will show a progress bar for each user, showing how far they have progressed towards the next rank in a rank set. These instructions modify subsilver2-based templates.</description>
+		<author-notes lang="en-gb"><![CDATA[The styling used by this mod is entirely arbitrary and was included as an example. You may wish to use different HTML and CSS for your template.]]></author-notes>
+		<author-group>
+			<author>
+				<realname>IBBoard</realname>
+				<email>phpbb@ibboard.co.uk</email>
+				<username>IBBoard</username>
+				<homepage>http://www.ibboard.co.uk</homepage>
+			</author>
+		</author-group>
+		<link-group>
+			<link type="parent" href="install.xml" lang="en-gb">Main instructions</link>
+		</link-group>
+		<mod-version>1.0</mod-version>
+		<installation>
+			<level>intermediate</level>
+			<time>180</time>
+			<target-version>3.0.9</target-version>
+		</installation>
+		<history>
+			<entry>
+				<date>2010-08-01</date>
+				<rev-version>1.0</rev-version>
+				<changelog lang="en-gb">
+					<change>Update to final release</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2010-07-06</date>
+				<rev-version>0.2.1</rev-version>
+				<changelog lang="en-gb">
+					<change>Fix path for stylesheet - should be theme and not themes</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2009-06-15</date>
+				<rev-version>0.2</rev-version>
+				<changelog lang="en-gb">
+					<change>Add initial instructions for subsilver2</change>
+				</changelog>
+			</entry>
+		</history>
+	</header>
+	<action-group>
+		<open src="styles/subsilver2/template/memberlist_view.html">
+			<edit>
+				<find><![CDATA[
+			<!-- IF RANK_IMG -->
+				<tr>
+					<td align="center">{RANK_IMG}</td>
+				</tr>
+			<!-- ENDIF -->]]></find>
+				<action type="after-add"><![CDATA[
+			<!-- IF PERCENTAGE_PROGRESS_NUM > -1 -->
+				<tr>
+					<td>{L_PROGRESS_TO_NEXT_RANK}<div class="rank_progress_bar"><span style="width:{PERCENTAGE_PROGRESS_NUM}%" class="bar"></span><span>{PERCENTAGE_PROGRESS}</span></div></td>
+				</tr>
+			<!-- ENDIF -->]]>
+				</action>
+			</edit>
+		</open>
+		<open src="styles/subsilver2/template/viewtopic_body.html">
+			<edit>
+				<find><![CDATA[			<!-- IF postrow.RANK_IMG -->
+				<tr>
+					<td>{postrow.RANK_IMG}</td>
+				</tr>
+			<!-- ENDIF -->]]></find>
+				<action type="after-add"><![CDATA[
+			<!-- IF postrow.PERCENTAGE_PROGRESS_NUM > -1 -->
+				<tr>
+					<td>{L_PROGRESS_TO_NEXT_RANK}<div class="rank_progress_bar"><span style="width:{postrow.PERCENTAGE_PROGRESS_NUM}%" class="bar"></span><span>{postrow.PERCENTAGE_PROGRESS}</span></div></td>
+				</tr>
+			<!-- ENDIF -->]]>
+				</action>
+			</edit>
+		</open>
+		<open src="styles/subsilver2/theme/stylesheet.css">
+			<edit>
+				<find><![CDATA[/* Misc
+ ------------ */]]></find>
+				<action type="after-add"><![CDATA[.rank_progress_bar {
+	border: 1px solid #A9B8C2;
+	margin-right: 1em;
+	position: relative;
+	clear:right
+}
+.rank_progress_bar span {
+	z-index:2;
+	position:relative
+}
+.rank_progress_bar .bar {
+	background-color: #fff;
+	border-right: 1px solid #A9B8C2;
+	display:block;
+	height: 100%;
+	z-index:1;
+	position:absolute;
+	top: 0;
+	left: 0
+}]]></action>
+			</edit>
+		</open>
+	</action-group>
+</mod>

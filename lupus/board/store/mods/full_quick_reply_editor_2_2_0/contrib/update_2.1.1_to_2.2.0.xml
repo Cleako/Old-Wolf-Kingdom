@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl" ?>
+<!-- For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/ -->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+	<header>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		
+		<title lang="en">Update instruction from version 2.1.1 to 2.2.0</title>
+		<title lang="pl">Instrukcja aktualizacji z wersji 2.1.1 do 2.2.0</title>
+		
+		<description lang="en">Extends basic quick reply editor to the full version with post icons, smilies and BBCode buttons. Adds selective quote function (available through default button), allows users to disable quick reply and administrators to restrict it only to the last page of a topic. Besides displays editor for anonymous users if guest posting permissions are set.</description>
+		<description lang="pl">Rozszerza podstawowy edytor szybkiej odpowiedzi o ikony posta, emotikony i znaczniki BBCode. Dodaje funkcję selektywnego cytowania treści (dostępną pod domyślnym przyciskiem), pozwala użytkownikom na wyłączenie szybkiej odpowiedzi oraz administratorom na ograniczenie jej tylko do ostatniej strony tematu. Ponadto wyświetla edytor dla anonimowych użytkowników, jeśli ustawione są odpowiednie uprawnienia dla gości.</description>
+		
+		<author-notes lang="en">Works only with phpBB 3.0.6 and above! Automatic installer does not support Firebird, Oracle and SQLite databases.</author-notes>
+		<author-notes lang="pl">Działa wyłącznie na phpBB 3.0.6 i nowszym! Automatyczny instalator nie obsługuje baz danych Firebird, Oracle i SQLite.</author-notes>
+		
+		<author-group>
+			<author>
+				<realname>Jarosław Pustuła</realname>
+				<username>weeb</username>
+				<homepage>http://weeb.pl</homepage>
+				<email>kontakt@weeb.pl</email>
+				<contributions-group>
+					<contributions status="current" from="2009-11-26" position="Developer"></contributions>
+				</contributions-group>
+			</author>
+		</author-group>
+		
+		<mod-version>2.2.0</mod-version>
+		
+		<installation>
+			<level>easy</level>
+			<time>600</time>
+			<target-version>3.0.9</target-version>
+		</installation>
+		
+		<history>
+			<entry>
+				<date>2009-11-26</date>
+				<rev-version>1.0.0</rev-version>
+				<changelog lang="en">
+					<change>Initial release</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Pierwsze wydanie</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2009-12-24</date>
+				<rev-version>1.0.1</rev-version>
+				<changelog lang="en">
+					<change>Fixed undefined variable notice in debug mode</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Poprawiono komunikat o niezdefiniowanej zmiennej</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2010-03-28</date>
+				<rev-version>2.0.0</rev-version>
+				<changelog lang="en">
+					<change>Quick reply is expanded by default</change>
+					<change>Added selective quoting based on phpBB's feature</change>
+					<change>Added button to save post draft</change>
+					<change>Adjusted to phpBB 3.0.7</change>
+					<change>Updated MODX to version 1.2.5</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Szybka odpowiedź jest domyślnie rozwinięta</change>
+					<change>Dodano funkcję cytowania selektywnego, opartą o wbudowany mechanizm</change>
+					<change>Dodano przycisk do zapisywania szkicu posta</change>
+					<change>Przystosowano do phpBB 3.0.7</change>
+					<change>Zaktualizowano MODX do wersji 1.2.5</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2010-05-04</date>
+				<rev-version>2.0.1</rev-version>
+				<changelog lang="en">
+					<change>Updated instruction to work with newest AutoMOD</change>
+					<change>Changed $user->setup() method to $user->add_lang() in viewtopic.php</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Przystosowano instrukcję dla najnowszego AutoMOD–a</change>
+					<change>Zmieniono metodę $user->setup() na $user->add_lang() w pliku viewtopic.php</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2010-11-04</date>
+				<rev-version>2.1.0</rev-version>
+				<changelog lang="en">
+					<change>Added option in UCP to enable or disable quick reply by user</change>
+					<change>Removed not necessary BBCode status information</change>
+					<change>Quick reply visible for non-registered users if guest posting is enabled</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Dodano opcję w panelu zarządzania kontem, pozwalającą użytkownikowi na włączenie lub wyłącznie szybkiej odpowiedzi</change>
+					<change>Usunięto zbędne informacje o statusie BBCode</change>
+					<change>Szybka odpowiedź widoczna dla niezarejestrowanych użytkowników, jeśli pisanie przez gości jest włączone</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2010-11-22</date>
+				<rev-version>2.1.1</rev-version>
+				<changelog lang="en">
+					<change>Added missing option in ACP to enable or disable quick reply for users</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Dodano brakującą opcję w panelu administracji, pozwalającą na włączenie lub wyłącznie szybkiej odpowiedzi użytkownikom</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-06-08</date>
+				<rev-version>2.2.0</rev-version>
+				<changelog lang="en">
+					<change>Added option in ACP to display quick reply only at the last page of a topic</change>
+					<change>Added UMIL based installator</change>
+					<change>Moved translations into separated files</change>
+					<change>Fixed problem with quoting username containing special characters</change>
+					<change>Fixed problem with uninstalling modification using AutoMOD</change>
+					<change>Fixed some minor bugs</change>
+					<change>Some cleaning up the code</change>
+				</changelog>
+				<changelog lang="pl">
+					<change>Dodano opcję w panelu administracji, pozwalającą na wyświetlanie szybkiej odpowiedzi tylko na ostatniej stronie tematu</change>
+					<change>Dodano instalator bazujący na UMIL</change>
+					<change>Przeniesiono tłumaczenia do osobnych plików</change>
+					<change>Poprawiono błąd związany z cytowaniem użytkowników posiadających znaki specjlane w nazwie</change>
+					<change>Poprawiono błąd związany z dezinstalacją modyfikacji przy użyciu AutoMOD–a</change>
+					<change>Poprawiono kilka mniejszych błędów</change>
+					<change>Drobne porządki w kodzie</change>
+				</changelog>
+			</entry>
+		</history>
+		
+		<link-group>
+			<link type="parent" href="../install.xml" lang="en">install.xml</link>
+			<link type="contrib" href="update_2.0.1_to_2.1.0.xml" lang="en">update_2.0.1_to_2.1.0.xml</link>
+			<link type="contrib" href="update_2.1.0_to_2.1.1.xml" lang="en">update_2.1.0_to_2.1.1.xml</link>
+			<link type="language" href="../languages/pl.xml" lang="en">pl.xml</link>
+		</link-group>
+	</header>
+	
+	<action-group>
+		<copy>
+			<file from="root/language/en/mods/*.*" to="language/en/mods/*.*" />
+		</copy>
+		
+		<open src="adm/style/acp_users_prefs.html">
+			<edit>
+				<find><![CDATA[		<dd><label><input type="radio" class="radio" name="view_quickreply" value="1"<!-- IF VIEW_QUICK_REPLY --> id="view_quickreply" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="view_quickreply" value="0"<!-- IF not VIEW_QUICK_REPLY --> id="view_quickreply" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>]]></find>
+				<action type="replace-with"><![CDATA[		<dd><label><input type="radio" class="radio" name="view_quickreply" value="1"<!-- IF VIEW_QUICKREPLY --> id="view_quickreply" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="view_quickreply" value="0"<!-- IF not VIEW_QUICKREPLY --> id="view_quickreply" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>]]></action>
+			</edit>
+		</open>
+		
+		<open src="includes/acp/acp_board.php">
+			<edit>
+				<find><![CDATA[		$user->add_lang('acp/board');]]></find>
+				<action type="replace-with"><![CDATA[		$user->add_lang(array('acp/board', 'mods/full_quick_reply_editor'));]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[						'allow_birthdays'		=> array('lang' => 'ALLOW_BIRTHDAYS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
+						'allow_quick_reply'		=> array('lang' => 'ALLOW_QUICK_REPLY',		'validate' => 'bool',	'type' => 'custom', 'method' => 'quick_reply', 'explain' => true),]]></find>
+				<action type="after-add"><![CDATA[						'quick_reply_lastpage'	=> array('lang' => 'QUICK_REPLY_LASTPAGE',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[						'enable_post_confirm'	=> array('lang' => 'VISUAL_CONFIRM_POST',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
+						'allow_quick_reply'		=> array('lang' => 'ALLOW_QUICK_REPLY',		'validate' => 'bool',	'type' => 'custom', 'method' => 'quick_reply', 'explain' => true),]]></find>
+				<action type="after-add"><![CDATA[						'quick_reply_lastpage'	=> array('lang' => 'QUICK_REPLY_LASTPAGE',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),]]></action>
+			</edit>
+		</open>
+		
+		<open src="includes/acp/acp_users.php">
+			<edit>
+				<find><![CDATA[			case 'prefs':
+
+				include($phpbb_root_path . 'includes/functions_user.' . $phpEx);]]></find>
+				<action type="after-add"><![CDATA[				$user->add_lang('mods/full_quick_reply_editor');]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[					'VIEW_QUICK_REPLY'	=> $data['view_quickreply'],]]></find>
+				<action type="replace-with"><![CDATA[					'VIEW_QUICKREPLY'	=> $data['view_quickreply'],]]></action>
+			</edit>
+		</open>
+		
+		<open src="includes/ucp/ucp_prefs.php">
+			<edit>
+				<find><![CDATA[				add_form_key('ucp_prefs_view');]]></find>
+				<action type="after-add"><![CDATA[				$user->add_lang('mods/full_quick_reply_editor');]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[					'S_QUICK_REPLY'		=> $config['allow_quick_reply'],
+					'S_USER_QUICK_REPLY' => $data['quickreply'],]]></find>
+				<action type="replace-with"><![CDATA[					'S_QUICK_REPLY'		=> $data['quickreply'],
+					
+					'S_QUICK_REPLY_GLOBAL'	=> $config['allow_quick_reply'],
+]]></action>
+			</edit>
+		</open>
+		
+		<open src="language/en/ucp.php">
+			<edit>
+				<remove><![CDATA[	'VIEW_QUICK_REPLY'			=> 'Display Quick Reply',]]></remove>
+			</edit>
+		</open>
+		
+		<open src="styles/prosilver/template/quickreply_editor.html">
+			<edit>
+				<find><![CDATA[<form id="postform" method="post" action="{U_QR_ACTION}">
+	<div class="panel" id="postingbox">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		
+		<h2>{L_QUICKREPLY}</h2>
+		
+		<fieldset class="fields2">
+			<!-- IF S_SHOW_TOPIC_ICONS -->
+				<dl>
+					<dt><label for="icon">{L_ICON}:</label></dt>
+					<dd>
+						<label for="icon"><input type="radio" name="icon" id="icon" value="0" checked="checked" /> {L_NO_TOPIC_ICON}</label>
+						<!-- BEGIN topic_icon --><label for="icon-{topic_icon.ICON_ID}"><input type="radio" name="icon" id="icon-{topic_icon.ICON_ID}" value="{topic_icon.ICON_ID}" {topic_icon.S_ICON_CHECKED} /><img src="{topic_icon.ICON_IMG}" width="{topic_icon.ICON_WIDTH}" height="{topic_icon.ICON_HEIGHT}" alt="" title="" /></label> <!-- END topic_icon -->
+					</dd>
+				</dl>
+			<!-- ENDIF -->
+
+			<!-- IF S_DISPLAY_USERNAME -->
+				<dl style="clear: left;">
+					<dt><label for="username">{L_USERNAME}:</label></dt>
+					<dd><input type="text" tabindex="1" name="username" id="username" size="25" value="{USERNAME}" class="inputbox autowidth" /></dd>
+				</dl>
+			<!-- ENDIF -->
+	
+			<dl style="clear: left;">
+				<dt><label for="subject">{L_SUBJECT}:</label></dt>
+				<dd><input type="text" name="subject" id="subject" size="45" maxlength="64" tabindex="2" value="{SUBJECT}" class="inputbox autowidth" /></dd>
+			</dl>
+			
+			<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+				<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
+				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+			<!-- ENDIF -->
+			
+			<!-- INCLUDE posting_buttons.html -->
+			
+			<div id="smiley-box">
+				<!-- IF S_SMILIES_ALLOWED and .smiley -->
+					<strong>{L_SMILIES}</strong><br />
+					<!-- BEGIN smiley -->
+						<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
+					<!-- END smiley -->
+				<!-- ENDIF -->
+				<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
+					<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
+				<!-- ENDIF -->
+			</div>
+
+			<div id="message-box">
+				<textarea style="height: 11em;" name="message" rows="7" cols="76" tabindex="4" class="inputbox"></textarea>
+			</div>
+		</fieldset>
+		
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	
+	<div class="panel bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+			<fieldset class="submit-buttons">
+				{S_FORM_TOKEN}
+				{QR_HIDDEN_FIELDS}
+				<!-- IF S_SAVE_ALLOWED --><input type="submit" accesskey="k" tabindex="6" name="save" value="{L_SAVE}" class="button2" />&nbsp; <!-- ENDIF -->
+				<input type="submit" tabindex="7" name="preview" value="{L_PREVIEW}" class="button1" onclick="document.getElementById('postform').action += '#preview';" />&nbsp;
+				<input type="submit" accesskey="s" tabindex="8" name="post" value="{L_SUBMIT}" class="button1" />&nbsp;
+			</fieldset>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+</form>]]></find>
+				<action type="replace-with"><![CDATA[<form id="postform" method="post" action="{U_QR_ACTION}">
+	<div class="panel" id="postingbox">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		
+		<h2>{L_QUICKREPLY}</h2>
+		
+		<fieldset class="fields2">
+			<!-- IF S_SHOW_TOPIC_ICONS -->
+				<dl>
+					<dt><label for="icon">{L_ICON}:</label></dt>
+					<dd>
+						<label for="icon"><input type="radio" name="icon" id="icon" value="0" checked="checked" /> {L_NO_TOPIC_ICON}</label>
+						<!-- BEGIN topic_icon --><label for="icon-{topic_icon.ICON_ID}"><input type="radio" name="icon" id="icon-{topic_icon.ICON_ID}" value="{topic_icon.ICON_ID}" {topic_icon.S_ICON_CHECKED} /><img src="{topic_icon.ICON_IMG}" width="{topic_icon.ICON_WIDTH}" height="{topic_icon.ICON_HEIGHT}" alt="" title="" /></label> <!-- END topic_icon -->
+					</dd>
+				</dl>
+			<!-- ENDIF -->
+			
+			<!-- IF S_DISPLAY_USERNAME -->
+				<dl style="clear: left;">
+					<dt><label for="username">{L_USERNAME}:</label></dt>
+					<dd><input type="text" tabindex="1" name="username" id="username" size="25" value="{USERNAME}" class="inputbox autowidth" /></dd>
+				</dl>
+			<!-- ENDIF -->
+			
+			<dl style="clear: left;">
+				<dt><label for="subject">{L_SUBJECT}:</label></dt>
+				<dd><input type="text" name="subject" id="subject" size="45" maxlength="64" tabindex="2" value="{SUBJECT}" class="inputbox autowidth" /></dd>
+			</dl>
+			
+			<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+				<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
+				<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+			<!-- ENDIF -->
+			
+			<!-- INCLUDE posting_buttons.html -->
+			
+			<!-- IF S_SMILIES_ALLOWED and .smiley -->
+				<div id="smiley-box">
+					<strong>{L_SMILIES}</strong><br />
+					<!-- BEGIN smiley -->
+						<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
+					<!-- END smiley -->
+					
+					<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
+						<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
+					<!-- ENDIF -->
+				</div>
+			<!-- ENDIF -->
+			
+			<div id="message-box" <!-- IF not S_SMILIES_ALLOWED -->style="width: 100%;"<!-- ENDIF -->>
+				<textarea style="height: 9em;" name="message" rows="15" cols="76" tabindex="3" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox"></textarea>
+			</div>
+		</fieldset>
+		
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	
+	<div class="panel bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+		
+		<fieldset class="submit-buttons">
+			{S_FORM_TOKEN}
+			{QR_HIDDEN_FIELDS}
+			<!-- IF S_SAVE_ALLOWED --><input type="submit" accesskey="k" tabindex="6" name="save" value="{L_SAVE_DRAFT}" class="button2" />&nbsp;<!-- ENDIF -->
+			<input type="submit" accesskey="f" tabindex="7" name="preview" value="{L_PREVIEW}" class="button1" onclick="document.getElementById('postform').action += '#preview';" />&nbsp;
+			<input type="submit" accesskey="s" tabindex="8" name="post" value="{L_SUBMIT}" class="button1" />&nbsp;
+		</fieldset>
+		
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+</form>]]></action>
+			</edit>
+		</open>
+		
+		<open src="styles/prosilver/template/ucp_prefs_view.html">
+			<edit>
+				<find><![CDATA[		<!-- IF S_QUICK_REPLY -->
+			<dl>
+				<dt><label for="quickreply1">{L_VIEW_QUICK_REPLY}:</label></dt>
+				<dd>
+					<label for="quickreply1"><input type="radio" name="quickreply" id="quickreply1" value="1"<!-- IF S_USER_QUICK_REPLY --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+					<label for="quickreply0"><input type="radio" name="quickreply" id="quickreply0" value="0"<!-- IF not S_USER_QUICK_REPLY --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+		<!-- ENDIF -->]]></find>
+				<action type="replace-with"><![CDATA[		<!-- IF S_QUICK_REPLY_GLOBAL -->
+			<dl>
+				<dt><label for="quickreply1">{L_VIEW_QUICK_REPLY}:</label></dt>
+				<dd>
+					<label for="quickreply1"><input type="radio" name="quickreply" id="quickreply1" value="1"<!-- IF S_QUICK_REPLY --> checked="checked"<!-- ENDIF --> /> {L_YES}</label> 
+					<label for="quickreply0"><input type="radio" name="quickreply" id="quickreply0" value="0"<!-- IF not S_QUICK_REPLY --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+		<!-- ENDIF -->]]></action>
+			</edit>
+		</open>
+		
+		<open src="styles/prosilver/template/viewtopic_body.html">
+			<edit>
+				<find><![CDATA[					<!-- IF S_QUICK_REPLY and postrow.DECODED_MESSAGE --><li class="quote-icon"><a href="#postingbox" onclick="addquote({postrow.POST_ID}, '{postrow.POST_AUTHOR}');" title="{L_QUOTE} {postrow.POST_AUTHOR}"><span>{L_QUOTE} {postrow.POST_AUTHOR}</span></a></li><!-- ELSEIF postrow.U_QUOTE --><li class="quote-icon"><a href="{postrow.U_QUOTE}" title="{L_REPLY_WITH_QUOTE}"><span>{L_REPLY_WITH_QUOTE}</span></a></li><!-- ENDIF -->]]></find>
+				<action type="replace-with"><![CDATA[					<!-- IF postrow.DECODED_MESSAGE and S_QUICK_REPLY --><li class="quote-icon"><a href="#postingbox" onclick="addquote({postrow.POST_ID}, '{postrow.POSTER_QUOTE}', '{LA_WROTE}');" title="{L_QUOTE} {postrow.POST_AUTHOR}"><span>{L_QUOTE} {postrow.POST_AUTHOR}</span></a></li><!-- ELSEIF postrow.U_QUOTE --><li class="quote-icon"><a href="{postrow.U_QUOTE}" title="{L_REPLY_WITH_QUOTE}"><span>{L_REPLY_WITH_QUOTE}</span></a></li><!-- ENDIF -->]]></action>
+			</edit>
+		</open>
+		
+		<open src="viewtopic.php">
+			<edit>
+				<find><![CDATA[// Check whether quick reply is enabled
+$s_quick_reply = false;
+if ($config['allow_quick_reply'] && (($user->data['is_registered'] && $user->optionget('viewquickreply')) || !$user->data['is_registered']) && ($topic_data['forum_flags'] & FORUM_FLAG_QUICK_REPLY) && $auth->acl_get('f_reply', $forum_id))
+{
+	// Quick reply enabled forum
+	$s_quick_reply = (($topic_data['forum_status'] == ITEM_UNLOCKED && $topic_data['topic_status'] == ITEM_UNLOCKED) || $auth->acl_get('m_edit', $forum_id)) ? true : false;
+}]]></find>
+				<action type="replace-with"><![CDATA[// Check whether quick reply is enabled
+$s_quick_reply = false;
+
+if ($config['allow_quick_reply'] && ($topic_data['forum_flags'] & FORUM_FLAG_QUICK_REPLY) && $auth->acl_get('f_reply', $forum_id) && (!$user->data['is_registered'] || ($user->data['is_registered'] && $user->optionget('viewquickreply'))))
+{
+	// Quick reply enabled forum
+	$s_quick_reply = (($topic_data['forum_status'] == ITEM_UNLOCKED && $topic_data['topic_status'] == ITEM_UNLOCKED) || $auth->acl_get('m_edit', $forum_id)) ? true : false;
+}
+
+if ($config['quick_reply_lastpage'] && (floor($start / $config['posts_per_page']) + 1) != max(ceil($total_posts / $config['posts_per_page']), 1))
+{
+	$s_quick_reply = false;
+}]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[		'POSTER_AGE'		=> $user_cache[$poster_id]['age'],]]></find>
+				<action type="after-add"><![CDATA[		'POSTER_QUOTE'		=> ($s_quick_reply && $auth->acl_get('f_reply', $forum_id)) ? addslashes(get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username'])) : '',]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[		$s_url			= $config['allow_post_links'];
+		$s_img			= $s_bbcode && $auth->acl_get('f_img', $forum_id);
+		$s_flash		= $s_bbcode && $auth->acl_get('f_flash', $forum_id) && $config['allow_post_flash'];]]></find>
+				<action type="replace-with"><![CDATA[		$s_url			= ($config['allow_post_links']) ? true : false;
+		$s_img			= ($s_bbcode && $auth->acl_get('f_img', $forum_id)) ? true : false;
+		$s_flash		= ($s_bbcode && $auth->acl_get('f_flash', $forum_id) && $config['allow_post_flash']) ? true : false;]]></action>
+			</edit>
+			<edit>
+				<remove><![CDATA[			'L_MESSAGE_BODY_EXPLAIN'	=> (intval($config['max_post_chars'])) ? sprintf($user->lang['MESSAGE_BODY_EXPLAIN'], intval($config['max_post_chars'])) : '',]]></remove>
+			</edit>
+			<edit>
+				<remove><![CDATA[			'BBCODE_STATUS'			=> ($s_bbcode) ? sprintf($user->lang['BBCODE_IS_ON'], '<a href="' . append_sid("{$phpbb_root_path}faq.$phpEx", 'mode=bbcode') . '">', '</a>') : sprintf($user->lang['BBCODE_IS_OFF'], '<a href="' . append_sid("{$phpbb_root_path}faq.$phpEx", 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($s_img) ? $user->lang['IMAGES_ARE_ON'] : $user->lang['IMAGES_ARE_OFF'],
+			'FLASH_STATUS'			=> ($s_flash) ? $user->lang['FLASH_IS_ON'] : $user->lang['FLASH_IS_OFF'],
+			'SMILIES_STATUS'		=> ($s_smilies) ? $user->lang['SMILIES_ARE_ON'] : $user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'			=> ($s_bbcode && $s_url) ? $user->lang['URL_IS_ON'] : $user->lang['URL_IS_OFF'],]]></remove>
+			</edit>
+		</open>
+		
+		<php-installer>install.php</php-installer>
+	</action-group>
+</mod>

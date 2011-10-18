@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+	<header>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[Auto Backup]]></title>
+		<description lang="en"><![CDATA[Automatically backup your database using the phpBB3 Cron. 
+Features:
+-enable/disable Auto Backup,
+-Auto Backup frequency,
+-the quantity of stored backups,
+-file type for backups.]]></description>
+		<author-group>
+			<author>
+				<username><![CDATA[Pico88]]></username>
+			</author>
+		</author-group>
+		<mod-version>1.0.2.1</mod-version>
+		<installation>
+			<level>easy</level>
+			<time>300</time>
+			<target-version>3.0.9</target-version>
+		</installation>
+		<history>
+			<entry>
+				<date>2011-02-18</date>
+				<rev-version>1.0.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Initial Release]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-04-10</date>
+				<rev-version>1.0.1</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Fix error message in ACP]]></change>
+					<change><![CDATA[Fix auto_backup function in cron.php]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-04-11</date>
+				<rev-version>1.0.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Add function to choose the file type for backups]]></change>
+					<change><![CDATA[Add function to set the backup time]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2011-07-28</date>
+				<rev-version>1.0.2.1</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[adjustment to phpBB 3.0.9]]></change>
+				</changelog>
+			</entry>
+		</history>
+		<link-group>
+			<link type="contrib" href="./contrib/update_100_101.xml" lang="en">Instructions for upgrading from version 1.0.0 to 1.0.1</link>
+			<link type="contrib" href="./contrib/update_101_102.xml" lang="en">Instructions for upgrading from version 1.0.1 to 1.0.2</link>
+			<link type="contrib" href="./contrib/update_102_1021.xml" lang="en">Instructions for upgrading from version 1.0.2 to 1.0.2.1</link>
+		</link-group>
+	</header>
+	<action-group>
+		<copy>
+			<file from="root/adm/style/acp_auto_backup.html" to="adm/style/acp_auto_backup.html"/>
+			<file from="root/includes/acp/info/acp_auto_backup.php" to="includes/acp/info/acp_auto_backup.php"/>
+			<file from="root/includes/acp/acp_auto_backup.php" to="includes/acp/acp_auto_backup.php"/>
+			<file from="root/includes/auto_backup.php" to="includes/auto_backup.php"/>
+			<file from="root/language/en/mods/info_acp_auto_backup.php" to="language/en/mods/info_acp_auto_backup.php"/>
+			<file from="root/install_auto_backup.php" to="install_auto_backup.php"/>
+			<file from="root/umil/*.*" to="umil/*.*"/>
+		</copy>
+		<open src="cron.php">
+			<edit>
+				<find><![CDATA[}
+
+// Unloading cache and closing db after having done the dirty work.
+unlock_cron();
+garbage_collection();]]></find>
+				<action type="before-add"><![CDATA[	case 'auto_backup':
+		
+		if ((time() - $config['auto_backup_gc'] * 86400) <= $config['auto_backup_last_gc'])
+		{
+			break;
+		}
+
+		include($phpbb_root_path . 'includes/auto_backup.' . $phpEx);
+
+		auto_backup();
+
+	break;]]></action>
+			</edit>
+		</open>
+		<open src="includes/functions.php">
+			<edit>
+				<find><![CDATA[			$cron_type = 'tidy_sessions';
+		}]]></find>
+				<action type="after-add"><![CDATA[		else if (isset($config['auto_backup_enable']) && $config['auto_backup_enable'] && (($time_now - $config['auto_backup_gc'] * 86400) > $config['auto_backup_last_gc']))
+		{
+			$cron_type = 'auto_backup';
+		}]]></action>
+			</edit>
+		</open>
+		<php-installer><![CDATA[install_auto_backup.php]]></php-installer>
+		<diy-instructions lang="en"><![CDATA[Purge cache and delete install_auto_backup.php
+To enable Auto Backup go to ACP -> Maintenance -> Auto Backup and enable the modification.]]></diy-instructions>
+	</action-group>
+</mod>
