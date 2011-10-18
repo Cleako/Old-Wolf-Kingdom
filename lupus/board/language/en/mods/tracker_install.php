@@ -4,7 +4,7 @@
 * install [English]
 *
 * @package language
-* @version $Id: tracker_install.php 190 2008-12-28 19:09:52Z JRSweets $
+* @version $Id$
 * @copyright (c) 2005 phpBB Group
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
