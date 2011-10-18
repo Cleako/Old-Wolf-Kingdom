@@ -1,0 +1,62 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{L_ACP_AUTO_BACKUP_SETTINGS}</h1>
+
+<p>{L_ACP_AUTO_BACKUP_SETTINGS_EXPLAIN}</p>
+
+<!-- IF S_WARNING -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{WARNING_MSG}</p>
+	</div>
+<!-- ENDIF -->
+
+<!-- IF AUTO_BACKUP_ENABLE -->
+<fieldset>
+	<legend></legend>
+<dl>
+	<dt><label>{L_AUTO_BACKUP_NEXT}</label><br /><span>{L_AUTO_BACKUP_NEXT_EXPLAIN}</span></dt>
+	<dd><strong>{AUTO_BACKUP_NEXT}</strong></dd>
+</dl>
+</fieldset>
+<!-- ENDIF -->
+
+<form id="acp_auto_backup" method="post" action="{U_ACTION}">
+
+<fieldset>
+	<legend>{L_ACP_AUTO_BACKUP_SETTINGS}</legend>
+<dl>
+	<dt><label for="auto_backup_enable">{L_AUTO_BACKUP_ENABLE}:</label><br /><span>{L_AUTO_BACKUP_ENABLE_EXPLAIN}</span></dt>
+	<dd><label><input type="radio" class="radio" id="auto_backup_enable" name="auto_backup_enable" value="1"<!-- IF AUTO_BACKUP_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_ENABLED}</label>
+		<label><input type="radio" class="radio" name="auto_backup_enable" value="0"<!-- IF not AUTO_BACKUP_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_DISABLED}</label></dd>
+</dl>
+<dl>
+	<dt><label for="auto_backup_filetype">{L_AUTO_BACKUP_FILETYPE}:</label><br /><span>{L_AUTO_BACKUP_FILETYPE_EXPLAIN}</span></dt>
+	<dd><!-- IF GZIP --><label><input type="radio" class="radio" id="auto_backup_filetype" name="auto_backup_filetype" value="gzip"<!-- IF AB_GZIP --> checked="checked"<!-- ENDIF --> /> {L_AUTO_BACKUP_GZIP}</label><!-- ENDIF -->
+		<!-- IF BZIP2 --><label><input type="radio" class="radio" id="auto_backup_filetype" name="auto_backup_filetype" value="bzip2"<!-- IF AB_BZIP2 --> checked="checked"<!-- ENDIF --> /> {L_AUTO_BACKUP_BZIP2}</label><!-- ENDIF -->
+		<label><input type="radio" class="radio" id="auto_backup_filetype" name="auto_backup_filetype" value="text"<!-- IF AB_TEXT --> checked="checked"<!-- ENDIF --> /> {L_AUTO_BACKUP_TEXT}</label></dd>
+</dl>
+<dl>
+	<dt><label for="auto_backup_gc">{L_AUTO_BACKUP_FREQ}:</label><br /><span>{L_AUTO_BACKUP_FREQ_EXPLAIN}</span></dt>
+	<dd><input type="text" id="auto_backup_gc" name="auto_backup_gc" value="{AUTO_BACKUP_GC}" maxlength="5" size="5" /> <span>{L_DAYS}</span></dd>
+</dl>
+<dl>
+	<dt><label for="auto_backup_copies">{L_AUTO_BACKUP_COPIES}:</label><br /><span>{L_AUTO_BACKUP_COPIES_EXPLAIN}</span></dt>
+	<dd><input type="text" id="auto_backup_copies" name="auto_backup_copies" value="{AUTO_BACKUP_COPIES}" maxlength="3" size="3" /></dd>
+</dl>
+<dl>
+	<dt><label for="auto_backup_last_gc">{L_AUTO_BACKUP_TIME}:</label><br /><span>{L_AUTO_BACKUP_TIME_EXPLAIN}</span></dt>
+	<dd id="auto_backup_last_gc"><label><input type="text" name="auto_backup_last_gc" class="inputbox" value="{AUTO_BACKUP_TIME}" maxlength="16" size="17"/><br /><span>{L_AUTO_BACKUP_DATE_TIME}</span></label></dd>
+</dl>
+</fieldset>
+
+<fieldset class="submit-buttons">
+	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+	<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+	{S_FORM_TOKEN}
+</fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

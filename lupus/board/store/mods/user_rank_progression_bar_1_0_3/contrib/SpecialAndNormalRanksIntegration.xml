@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the
+      latest version of this MOD. Although MODs are checked before being
+      allowed in the MODs Database there is no guarantee that there are no
+      security problems within the MOD. No support will be given for MODs not
+      found within the MODs Database which can be found at
+      http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+	<header>
+		<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
+		<title lang="en-gb">User Rank Progression Bar - Special and Normal Rank MOD Integration</title>
+		<description lang="en-gb">These additional instructions provide integration with the Special and Normal Rank Images MOD v1.2.0 so that users with both a special and normal rank can see their progress towards the next rank.</description>
+		<author-group>
+			<author>
+				<realname>IBBoard</realname>
+				<email>phpbb@ibboard.co.uk</email>
+				<username>IBBoard</username>
+				<homepage>http://www.ibboard.co.uk</homepage>
+			</author>
+		</author-group>
+		<link-group>
+			<link type="parent" href="../install.xml" lang="en-gb">Main install instructions</link>
+		</link-group>
+		<mod-version>1.0.3</mod-version>
+		<installation>
+			<level>intermediate</level>
+			<time>180</time>
+			<target-version>3.0.9</target-version>
+		</installation>
+		<history>
+			<entry>
+				<date>2011-08-27</date>
+				<rev-version>1.0.3</rev-version>
+				<changelog lang="en-gb">
+					<change>Remove unused instructions</change>
+					<change>Fix progress for members with special rank by adding missing "&amp;" to 2nd instruction</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2010-08-01</date>
+				<rev-version>1.0</rev-version>
+				<changelog lang="en-gb">
+					<change>Update to final release</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2009-06-15</date>
+				<rev-version>0.2</rev-version>
+				<changelog lang="en-gb">
+					<change>Update: Replace large "find and replace" with small modifications in functions_display.php</change>
+					<change>Add: Add extra instructions to bring it up to date with v1.1.0 of the Special and Normal Rank Images MOD</change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2009-06-03</date>
+				<rev-version>0.1</rev-version>
+				<changelog lang="en-gb">
+					<change>Initial release</change>
+				</changelog>
+			</entry>
+		</history>
+	</header>
+	<action-group>
+		<open src="includes/functions_display.php">
+			<edit>
+				<find><![CDATA[* @param string &$rank_img_src the rank image source is stored here after execution]]></find>
+				<action type="after-add"><![CDATA[* @param int &$percent_complete the percentage of the way a user is to the next rank will be stored here after execution, where -1 meaning "not applicable"]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[function get_user_additional_rank($user_rank, $user_posts, &$rank_title, &$rank_img, &$rank_img_src)]]></find>
+				<inline-edit>
+					<inline-find>$rank_img_src</inline-find>
+					<inline-action type="after-add"><![CDATA[, &$percentage_progress = 0]]></inline-action>
+				</inline-edit>
+			</edit>
+			<edit>
+				<find><![CDATA[		get_user_rank(0, $user_posts, $rank_title, $rank_img, $rank_img_src);]]></find>
+				<inline-edit>
+					<inline-find>$rank_img_src</inline-find>
+					<inline-action type="after-add"><![CDATA[, $percentage_progress]]></inline-action>
+				</inline-edit>
+			</edit>
+		</open>
+		<open src="includes/ucp/ucp_pm_viewmessage.php">
+			<edit>
+				<find><![CDATA[		get_user_additional_rank($user_row['user_rank'], $user_row['user_posts'], $user_row['rank_title'], $user_row['rank_image'], $user_row['rank_image_src']);]]></find>
+				<inline-edit>
+					<inline-find>$user_row['rank_image_src']</inline-find>
+					<inline-action type="after-add"><![CDATA[, $user_row['percentage_progress']]]></inline-action>
+				</inline-edit>
+			</edit>
+			<edit>
+				<find><![CDATA[		get_user_additional_rank($user_row['user_rank'], $user_row['user_posts'], $user_row['extra_rank_title'], $user_row['extra_rank_img'], $user_row['extra_rank_img_src']);]]></find>
+				<inline-edit>
+					<inline-find>$user_row['extra_rank_img_src']</inline-find>
+					<inline-action type="after-add"><![CDATA[, $user_row['percentage_progress']]]></inline-action>
+				</inline-edit>
+			</edit>
+		</open>
+		<open src="memberlist.php">
+			<edit>
+				<find><![CDATA[get_user_rank($user_rank, (($user_id == ANONYMOUS) ? false : $row['user_posts']), $memberrow['RANK_TITLE'], $memberrow['RANK_IMG'], $memberrow['RANK_IMG_SRC']);]]></find>
+				<inline-edit>
+					<inline-find>$memberrow['RANK_IMG_SRC']</inline-find>
+					<inline-action type="after-add"><![CDATA[, $memberrow['PERCENTAGE_PROGRESS_NUM']]]></inline-action>
+				</inline-edit>
+			</edit>
+			<edit>
+				<find><![CDATA[		get_user_additional_rank($data['user_rank'], $data['user_posts'], $rank_title, $rank_img, $rank_img_src);]]></find>
+				<inline-edit>
+					<inline-find>$rank_img_src</inline-find>
+					<inline-action type="after-add"><![CDATA[, $percentage_progress]]></inline-action>
+				</inline-edit>
+			</edit>
+			<edit>
+				<find><![CDATA[get_user_additional_rank($data['user_rank'], $data['user_posts'], $extra_rank_title, $extra_rank_img, $extra_rank_img_src);]]></find>
+				<inline-edit>
+					<inline-find>$extra_rank_img_src</inline-find>
+					<inline-action type="after-add"><![CDATA[, $percentage_progress]]></inline-action>
+				</inline-edit>
+			</edit>
+		</open>
+		<open src="viewtopic.php">
+			<edit>
+				<find><![CDATA[get_user_additional_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src']);]]></find>
+				<inline-edit>
+					<inline-find>$user_cache[$poster_id]['rank_image_src']</inline-find>
+					<inline-action type="after-add"><![CDATA[, $user_cache[$poster_id]['percentage_progress']]]></inline-action>
+				</inline-edit>
+			</edit>
+			<edit>
+				<find><![CDATA[get_user_additional_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['extra_rank_title'], $user_cache[$poster_id]['extra_rank_image'], $user_cache[$poster_id]['extra_rank_image_src']);]]></find>
+				<inline-edit>
+					<inline-find>$user_cache[$poster_id]['extra_rank_image_src']</inline-find>
+					<inline-action type="after-add"><![CDATA[, $user_cache[$poster_id]['percentage_progress']]]></inline-action>
+				</inline-edit>
+			</edit>
+		</open>
+	</action-group>
+</mod>

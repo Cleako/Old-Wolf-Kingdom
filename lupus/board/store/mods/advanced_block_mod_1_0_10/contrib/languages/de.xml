@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="./modx.prosilver.en.xsl"?>
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phpbb.com/mods/xml/modx-1.2.5.xsd">
+<header>
+	<license>http://opensource.org/licenses/gpl-license.php GNU General Public License v2</license>
+	<title lang="en">Advanced Block Mod - german language</title>
+	<description lang="en">German language support for the Advanced Block Mod.</description>
+
+	<author-notes lang="en"></author-notes>
+
+	<author-group>
+		<author>
+			<realname>Martin Truckenbrodt</realname>
+			<username>Martin Truckenbrodt</username>
+			<homepage>http://www.martin-truckenbrodt.com</homepage>
+		</author>
+	</author-group>
+
+	<mod-version>1.0.9</mod-version>
+
+	<installation>
+		<level>easy</level>
+		<time>300</time>
+		<target-version>3.0.9</target-version>
+	</installation>
+
+	<history>
+		<entry>
+			<date>2009-04-27</date>
+			<rev-version>1.0.0</rev-version>
+			<changelog lang="en">
+				<change>first release candidate for validation at the phpbb.com MODDB</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2009-04-28</date>
+			<rev-version>1.0.1</rev-version>
+			<changelog lang="en">
+				<change>some non UTF-8 characters and not been translated english values fixed</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2009-05-13</date>
+			<rev-version>1.0.2</rev-version>
+			<changelog lang="en">
+				<change>MOD version updated</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2009-12-28</date>
+			<rev-version>1.0.3</rev-version>
+			<changelog lang="en">
+				<change>MODX 1.2.3 support</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2010-01-05</date>
+			<rev-version>1.0.3a</rev-version>
+			<changelog lang="en">
+				<change>unneeded CRs deleted</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2010-06-18</date>
+			<rev-version>1.0.4</rev-version>
+			<changelog lang="en">
+				<change>new language variables added</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2010-07-18</date>
+			<rev-version>1.0.5</rev-version>
+			<changelog lang="en">
+				<change>de instructions moved to contrib folder</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2011-08-01</date>
+			<rev-version>1.0.9</rev-version>
+			<changelog lang="en">
+				<change>some bugs found while MOD validation fixed</change>
+			</changelog>
+		</entry>
+	</history>
+</header>
+
+<action-group>
+	<copy>
+		<file from="root/language/de/mods/dnsbl.php" to="language/de/mods/dnsbl.php" />
+		<file from="root/language/de/mods/umil_auto_dnsbl.php" to="language/de/mods/umil_auto_dnsbl.php" />
+	</copy>
+	<open src="language/de/acp/board.php">
+		<edit>
+			<find><![CDATA[	'CHECK_DNSBL_EXPLAIN'			=> 'Wenn aktiviert, wird die IP-Adresse des Benutzers bei der Registrierung und bei der Beitragserstellung gegen folgende DNSBL-Dienste geprüft: <a href="http://spamcop.net">spamcop.net</a> und <a href="http://www.spamhaus.org">www.spamhaus.org</a>. Diese Prüfung kann, abhängig von der Serverkonfiguration, etwas Zeit in Anspruch nehmen. Wenn Verzögerungen oder zu viele falsche Ablehnungen beobachtet werden, sollte diese Prüfung deaktiviert werden.',]]></find>
+			<inline-edit>
+				<inline-find><![CDATA[folgende DNSBL-Dienste geprüft: <a href="http://spamcop.net">spamcop.net</a> und <a href="http://www.spamhaus.org">www.spamhaus.org</a>]]></inline-find>
+				<inline-action type="replace-with"><![CDATA[DNSBL-Dienste geprüft]]></inline-action>
+			</inline-edit>
+		</edit>
+		<edit>
+			<find><![CDATA[	'CLASS_B'						=> 'A.B',]]></find>
+				<action type="before-add"><![CDATA[	'CHECK_TZ'						=> 'Zeitzone auf ungültige Zone prüfen',
+	'CHECK_TZ_EXPLAIN'				=> 'Wenn aktiviert, wird bei der Registrierung die Zeitzone des Benutzers auf außerirdische Zeitzonen mit den Werten -19 und +19 überprüft. Spammer benutzen oft die ersten oder letzten Optionen aus einem Dropdown-Menü. Ist diese Option aktiviert, werden während der Benutzerregistrierung am Anfang und am Ende des Dropdown-Menüs zwei unsinnige Werte angefügt.',]]></action>
+		</edit>
+		<edit>
+			<find><![CDATA[	'IP_VALID_EXPLAIN'				=> 'Legt fest, welche Teile der IP eines Benutzers zur Validierung einer Sitzung herangezogen werden. <samp>Alle</samp> bedeutet, dass die komplette IP Adresse verglichen wird; <samp>A.B.C</samp> vergleicht die ersten drei Oktetts; <samp>A.B</samp> vergleicht die ersten zwei Oktetts; <samp>Keine</samp> deaktiviert die Prüfung. Bei IPv6-Adressen prüft <samp>A.B.C</samp> die ersten 4 Blöcke und <samp>A.B</samp> die ersten 3.',]]></find>
+				<action type="after-add"><![CDATA[	'LOG_CHECK_DNSBL'				=> 'Aktiviere Blockprotokoll für DNSBL-Überprüfung',
+	'LOG_CHECK_TZ'					=> 'Aktiviere Blockprotokoll für Zeitzonen-Überprüfung',
+	'LOG_EMAIL_CHECK_MX'			=> 'Aktiviere Blockprotokoll für DNS MX-Überprüfung',]]></action>
+		</edit>
+	</open>
+	<open src="language/de/acp/common.php">
+		<edit>
+			<find><![CDATA[?>]]></find>
+			<action type="before-add"><![CDATA[// Advanced Block Mod
+$lang = array_merge($lang, array(
+	'ACP_BLOCK_LOGS'			=> 'Block-Protokoll',
+	'ACP_BLOCK_LOGS_EXPLAIN'	=> 'Diese Liste zeigt alle Vorgänge, die bei der Zeitzonen-Überprüfung oder der DNS-Überprüfung, z.B. während der Benutzerregistrierung, durchgeführt wurden. Mit diesem Protokoll erhältst Du alle Informationen, um die Funktion dieser Überprüfungen kontrollieren zu können. Sofern du ausreichende Rechte hast, kannst du auch einzelne Einträge oder das ganze Protokoll löschen.<br /><strong>Die verschiedenen Protokolle müssen unter <em>SERVER-KONFIGURATION->Sicherheit</em> aktiviert sein!</strong>',
+	'ACP_DNSBL'					=> 'DNSBL-Einstellungen',
+
+	'LOG_CLEAR_BLOCK'			=> '<strong>Block-Protokoll gelöscht</strong>',
+	'LOG_DNSBL'					=> '<strong>Benutzer während der DNSBL-Überprüfung blockiert.</strong><br />Für mehr Informationen schaue nach anderen Einträgen für die gleiche IP-Addresse.',
+	'LOG_DNSBL_ADD'				=> '<strong>Neuer DNS Blacklist Eintrag erstellt</strong><br />» %s',
+	'LOG_DNSBL_DELETE'			=> '<strong>DNS Blacklist Eintrag gelöscht</strong><br />» %s',
+	'LOG_DNSBL_EDIT'			=> '<strong>DNS Blacklist Einstellungen geändert</strong><br />» %s',
+	'LOG_DNSBL_FOUND'			=> '<strong>IP-Addresse eines Spammers während der DNSBL Überprüfung festgestellt.</strong><br />»Blacklist “<em>%s</em>”',
+	'LOG_DNSBL_MOVE_DOWN'		=> '<strong>Moved DNS Blacklist</strong> %1$s <strong>below</strong> %2$s',
+	'LOG_DNSBL_MOVE_UP'			=> '<strong>Moved DNS Blacklist</strong> %1$s <strong>above</strong> %2$s',
+	'LOG_DNSBL_REGISTER'		=> '<strong>Benutzer während der Registrierung durch DNSBL Überprüfung blockiert.</strong><br />Für mehr Informationen schaue nach anderen Einträgen für die gleiche IP-Addresse.',
+	'LOG_DNSMX'					=> '<strong>Emailaddresse auf Grund DNS MX Überprüfung geblockt.</strong><br />»Domäne “<em>%s</em>”',
+	'LOG_WRONG_TZ'				=> '<strong>Benutzer während der Zeitzonen-Überprüfung blockiert.</strong><br />»Zeitzone “<em>%s</em>”',
+));
+]]></action>
+		</edit>
+	</open>
+	<open src="language/de/common.php">
+		<edit>
+			<find><![CDATA[	'IP_BLACKLISTED'			=> 'Deine IP-Adresse %1$s wurde gesperrt, da sie auf der schwarzen Liste steht. Details findest du unter <a href="%2$s">%2$s</a>.',]]></find>
+			<action type="after-add"><![CDATA[	'IP_BLACKLISTED_INFO'		=> 'Ein Eintrag in einer schwarzen Liste kann folgende Urschen haben:<br />1. Du bist ein bekannter Spammer.<br />2. Ein bekannter Spammer verwendete zuletzt deine vom ISP (Internet Service Provider) zugewiesene dynamische IP-Adresse.<br />3. Dein ISP ist dafür bekannt, dass er viele Spammer als Kunden hat und nicht viel dagegen unternimmt.',]]></action>
+		</edit>
+		<edit>
+			<find><![CDATA[	'WRONG_PASSWORD'	=> 'Du hast ein fehlerhaftes Passwort angegeben.',]]></find>
+			<action type="after-add"><![CDATA[	'WRONG_TIMEZONE'	=> 'Du hast eine fehlerhafte Zeitzone angegeben. Nur <a href="http://de.wikipedia.org/wiki/Spambot">Spambots</a> verwenden diese Zeitzone!',]]></action>
+		</edit>
+		<edit>
+			<find><![CDATA[		'-12'	=> '[UTC - 12] Baker Island Time',]]></find>
+			<action type="before-add"><![CDATA[		'-19'	=> '[UTC - 199] Spambot Time',]]></action>
+		</edit>
+		<edit>
+			<find><![CDATA[		'14'	=> '[UTC + 14] Line Island Time',]]></find>
+			<action type="after-add"><![CDATA[		'19'	=> '[UTC + 199] Spambot Time',]]></action>
+		</edit>
+	</open>
+	<open src="language/de/mcp.php">
+		<edit>
+			<find><![CDATA[	'LOGVIEW_VIEWFORUM'			=> 'Forum anzeigen',]]></find>
+			<action type="after-add"><![CDATA[	'LOGVIEW_DNSBLLOOKUP'		=> 'Blacklist-Eintrag überprüfen',]]></action>
+		</edit>
+	</open>
+</action-group>
+</mod>
