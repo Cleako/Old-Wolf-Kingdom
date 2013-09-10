@@ -2,9 +2,7 @@ Subject: Activate user account
 
 Hello,
 
-A new account, owned by "{USERNAME}", has just been created - you should check the details of this user (if required) and handle it appropriately. The justification they gave for their activation is as follows:
-
-{JUSTIFICATION}) and handle it appropriately.
+The account owned by "{USERNAME}" has been deactivated or newly created, you should check the details of this user (if required) and handle it appropriately.
 
 Use this link to view the user's profile:
 {U_USER_DETAILS}

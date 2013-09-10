@@ -211,61 +211,20 @@ function dbms_select($default = '', $only_20x_options = false)
 
 /**
 * Get tables of a database
+*
+* @deprecated
 */
-function get_tables($db)
+function get_tables(&$db)
 {
-	switch ($db->sql_layer)
+	if (!class_exists('phpbb_db_tools'))
 	{
-		case 'mysql':
-		case 'mysql4':
-		case 'mysqli':
-			$sql = 'SHOW TABLES';
-		break;
-
-		case 'sqlite':
-			$sql = 'SELECT name
-				FROM sqlite_master
-				WHERE type = "table"';
-		break;
-
-		case 'mssql':
-		case 'mssql_odbc':
-		case 'mssqlnative':
-			$sql = "SELECT name
-				FROM sysobjects
-				WHERE type='U'";
-		break;
-
-		case 'postgres':
-			$sql = 'SELECT relname
-				FROM pg_stat_user_tables';
-		break;
-
-		case 'firebird':
-			$sql = 'SELECT rdb$relation_name
-				FROM rdb$relations
-				WHERE rdb$view_source is null
-					AND rdb$system_flag = 0';
-		break;
-
-		case 'oracle':
-			$sql = 'SELECT table_name
-				FROM USER_TABLES';
-		break;
+		global $phpbb_root_path, $phpEx;
+		require($phpbb_root_path . 'includes/db/db_tools.' . $phpEx);
 	}
 
-	$result = $db->sql_query($sql);
+	$db_tools = new phpbb_db_tools($db);
 
-	$tables = array();
-
-	while ($row = $db->sql_fetchrow($result))
-	{
-		$tables[] = current($row);
-	}
-
-	$db->sql_freeresult($result);
-
-	return $tables;
+	return $db_tools->sql_list_tables();
 }
 
 /**
@@ -514,11 +473,40 @@ function connect_check_db($error_connect, &$error, $dbms_details, $table_prefix,
 }
 
 /**
-* remove_remarks will strip the sql comment lines out of an uploaded sql file
+* Removes comments from schema files
+*
+* @deprecated		Use phpbb_remove_comments() instead.
 */
 function remove_remarks(&$sql)
 {
+	// Remove # style comments
 	$sql = preg_replace('/\n{2,}/', "\n", preg_replace('/^#.*$/m', "\n", $sql));
+
+	// Return by reference
+}
+
+/**
+* Removes "/* style" as well as "# style" comments from $input.
+*
+* @param string $input		Input string
+*
+* @return string			Input string with comments removed
+*/
+function phpbb_remove_comments($input)
+{
+	if (!function_exists('remove_comments'))
+	{
+		global $phpbb_root_path, $phpEx;
+		require($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
+	}
+
+	// Remove /* */ comments
+	remove_comments($input);
+
+	// Remove # style comments
+	remove_remarks($input);
+
+	return $input;
 }
 
 /**
@@ -554,6 +542,56 @@ function adjust_language_keys_callback($matches)
 
 		return (!empty($lang[$matches[1]])) ? $db->sql_escape($lang[$matches[1]]) : $db->sql_escape($matches[1]);
 	}
+}
+
+/**
+* Creates the output to be stored in a phpBB config.php file
+*
+* @param	array	$data Array containing the database connection information
+* @param	string	$dbms The name of the DBAL class to use
+* @param	array	$load_extensions Array of additional extensions that should be loaded
+* @param	bool	$debug If the debug constants should be enabled by default or not
+*
+* @return	string	The output to write to the file
+*/
+function phpbb_create_config_file_data($data, $dbms, $load_extensions, $debug = false)
+{
+	$load_extensions = implode(',', $load_extensions);
+
+	$config_data = "<?php\n";
+	$config_data .= "// phpBB 3.0.x auto-generated configuration file\n// Do not change anything in this file!\n";
+
+	$config_data_array = array(
+		'dbms'			=> $dbms,
+		'dbhost'		=> $data['dbhost'],
+		'dbport'		=> $data['dbport'],
+		'dbname'		=> $data['dbname'],
+		'dbuser'		=> $data['dbuser'],
+		'dbpasswd'		=> htmlspecialchars_decode($data['dbpasswd']),
+		'table_prefix'	=> $data['table_prefix'],
+		'acm_type'		=> 'file',
+		'load_extensions'	=> $load_extensions,
+	);
+
+	foreach ($config_data_array as $key => $value)
+	{
+		$config_data .= "\${$key} = '" . str_replace("'", "\\'", str_replace('\\', '\\\\', $value)) . "';\n";
+	}
+
+	$config_data .= "\n@define('PHPBB_INSTALLED', true);\n";
+
+	if ($debug)
+	{
+		$config_data .= "@define('DEBUG', true);\n";
+		$config_data .= "@define('DEBUG_EXTRA', true);\n";
+	}
+	else
+	{
+		$config_data .= "// @define('DEBUG', true);\n";
+		$config_data .= "// @define('DEBUG_EXTRA', true);\n";
+	}
+
+	return $config_data;
 }
 
 ?>

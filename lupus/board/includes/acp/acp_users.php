@@ -348,10 +348,7 @@ class acp_users
 
 								$messenger->to($user_row['user_email'], $user_row['username']);
 
-								$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
-								$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
-								$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
-								$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
+								$messenger->anti_abuse_headers($config, $user);
 
 								$messenger->assign_vars(array(
 									'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($user->lang['WELCOME_SUBJECT'], $config['sitename'])),
@@ -406,10 +403,7 @@ class acp_users
 
 									$messenger->to($user_row['user_email'], $user_row['username']);
 
-									$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
-									$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
-									$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
-									$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
+									$messenger->anti_abuse_headers($config, $user);
 
 									$messenger->assign_vars(array(
 										'USERNAME'	=> htmlspecialchars_decode($user_row['username']))
@@ -818,7 +812,7 @@ class acp_users
 
 					// Which updates do we need to do?
 					$update_username = ($user_row['username'] != $data['username']) ? $data['username'] : false;
-					$update_password = ($data['new_password'] && !phpbb_check_hash($user_row['user_password'], $data['new_password'])) ? true : false;
+					$update_password = ($data['new_password'] && !phpbb_check_hash($data['new_password'], $user_row['user_password'])) ? true : false;
 					$update_email = ($data['email'] != $user_row['user_email']) ? $data['email'] : false;
 
 					if (!sizeof($error))
@@ -1015,6 +1009,13 @@ class acp_users
 				$user_row['posts_in_queue'] = (int) $db->sql_fetchfield('posts_in_queue');
 				$db->sql_freeresult($result);
 
+				$sql = 'SELECT post_id
+					FROM ' . POSTS_TABLE . '
+					WHERE poster_id = '. $user_id;
+				$result = $db->sql_query_limit($sql, 1);
+				$user_row['user_has_posts'] = (bool) $db->sql_fetchfield('post_id');
+				$db->sql_freeresult($result);
+
 				$template->assign_vars(array(
 					'L_NAME_CHARS_EXPLAIN'		=> sprintf($user->lang[$config['allow_name_chars'] . '_EXPLAIN'], $config['min_name_chars'], $config['max_name_chars']),
 					'L_CHANGE_PASSWORD_EXPLAIN'	=> sprintf($user->lang[$config['pass_complex'] . '_EXPLAIN'], $config['min_pass_chars'], $config['max_pass_chars']),
@@ -1038,13 +1039,11 @@ class acp_users
 					'USER'				=> $user_row['username'],
 					'USER_REGISTERED'	=> $user->format_date($user_row['user_regdate']),
 					'REGISTERED_IP'		=> ($ip == 'hostname') ? gethostbyaddr($user_row['user_ip']) : $user_row['user_ip'],
-					// BEGIN Activation Justification Mod
-					'USER_JUSTIFICATION'		=> empty($user_row['user_justification']) ? $user->lang['NO_JUSTIFICATION'] : $user_row['user_justification'],
-					// END Activation Justification Mod
 					'USER_LASTACTIVE'	=> ($last_visit) ? $user->format_date($last_visit) : ' - ',
 					'USER_EMAIL'		=> $user_row['user_email'],
 					'USER_WARNINGS'		=> $user_row['user_warnings'],
 					'USER_POSTS'		=> $user_row['user_posts'],
+					'USER_HAS_POSTS'	=> $user_row['user_has_posts'],
 					'USER_INACTIVE_REASON'	=> $inactive_reason,
 				));
 
@@ -1127,7 +1126,7 @@ class acp_users
 				// Grab log data
 				$log_data = array();
 				$log_count = 0;
-				view_log('user', $log_data, $log_count, $config['topics_per_page'], $start, 0, 0, $user_id, $sql_where, $sql_sort);
+				$start = view_log('user', $log_data, $log_count, $config['topics_per_page'], $start, 0, 0, $user_id, $sql_where, $sql_sort);
 
 				$template->assign_vars(array(
 					'S_FEEDBACK'	=> true,
@@ -1463,7 +1462,6 @@ class acp_users
 			case 'prefs':
 
 				include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
-				$user->add_lang('mods/full_quick_reply_editor');
 
 				$data = array(
 					'dateformat'		=> utf8_normalize_nfc(request_var('dateformat', $user_row['user_dateformat'], true)),
@@ -1492,7 +1490,6 @@ class acp_users
 					'view_smilies'		=> request_var('view_smilies', $this->optionget($user_row, 'viewsmilies')),
 					'view_sigs'			=> request_var('view_sigs', $this->optionget($user_row, 'viewsigs')),
 					'view_avatars'		=> request_var('view_avatars', $this->optionget($user_row, 'viewavatars')),
-					'view_quickreply'	=> request_var('view_quickreply', $this->optionget($user_row, 'viewquickreply')),
 					'view_wordcensor'	=> request_var('view_wordcensor', $this->optionget($user_row, 'viewcensors')),
 
 					'bbcode'	=> request_var('bbcode', $this->optionget($user_row, 'bbcode')),
@@ -1527,7 +1524,6 @@ class acp_users
 						$this->optionset($user_row, 'viewsmilies', $data['view_smilies']);
 						$this->optionset($user_row, 'viewsigs', $data['view_sigs']);
 						$this->optionset($user_row, 'viewavatars', $data['view_avatars']);
-						$this->optionset($user_row, 'viewquickreply', $data['view_quickreply']);
 						$this->optionset($user_row, 'viewcensors', $data['view_wordcensor']);
 						$this->optionset($user_row, 'bbcode', $data['bbcode']);
 						$this->optionset($user_row, 'smilies', $data['smilies']);
@@ -1676,7 +1672,6 @@ class acp_users
 					'VIEW_SMILIES'		=> $data['view_smilies'],
 					'VIEW_SIGS'			=> $data['view_sigs'],
 					'VIEW_AVATARS'		=> $data['view_avatars'],
-					'VIEW_QUICKREPLY'	=> $data['view_quickreply'],
 					'VIEW_WORDCENSOR'	=> $data['view_wordcensor'],
 
 					'S_TOPIC_SORT_DAYS'		=> $s_limit_topic_days,
@@ -2352,47 +2347,62 @@ class acp_users
 	}
 
 	/**
-	* Optionset replacement for this module based on $user->optionset
+	* Set option bit field for user options in a user row array.
+	*
+	* Optionset replacement for this module based on $user->optionset.
+	*
+	* @param array $user_row Row from the users table.
+	* @param int $key Option key, as defined in $user->keyoptions property.
+	* @param bool $value True to set the option, false to clear the option.
+	* @param int $data Current bit field value, or false to use $user_row['user_options']
+	* @return int|bool If $data is false, the bit field is modified and
+	*                  written back to $user_row['user_options'], and
+	*                  return value is true if the bit field changed and
+	*                  false otherwise. If $data is not false, the new
+	*                  bitfield value is returned.
 	*/
 	function optionset(&$user_row, $key, $value, $data = false)
 	{
 		global $user;
 
-		$var = ($data) ? $data : $user_row['user_options'];
+		$var = ($data !== false) ? $data : $user_row['user_options'];
 
-		if ($value && !($var & 1 << $user->keyoptions[$key]))
+		$new_var = phpbb_optionset($user->keyoptions[$key], $value, $var);
+
+		if ($data === false)
 		{
-			$var += 1 << $user->keyoptions[$key];
-		}
-		else if (!$value && ($var & 1 << $user->keyoptions[$key]))
-		{
-			$var -= 1 << $user->keyoptions[$key];
+			if ($new_var != $var)
+			{
+				$user_row['user_options'] = $new_var;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
-			return ($data) ? $var : false;
-		}
-
-		if (!$data)
-		{
-			$user_row['user_options'] = $var;
-			return true;
-		}
-		else
-		{
-			return $var;
+			return $new_var;
 		}
 	}
 
 	/**
-	* Optionget replacement for this module based on $user->optionget
+	* Get option bit field from user options in a user row array.
+	*
+	* Optionget replacement for this module based on $user->optionget.
+	*
+	* @param array $user_row Row from the users table.
+	* @param int $key option key, as defined in $user->keyoptions property.
+	* @param int $data bit field value to use, or false to use $user_row['user_options']
+	* @return bool true if the option is set in the bit field, false otherwise
 	*/
 	function optionget(&$user_row, $key, $data = false)
 	{
 		global $user;
 
-		$var = ($data) ? $data : $user_row['user_options'];
-		return ($var & 1 << $user->keyoptions[$key]) ? true : false;
+		$var = ($data !== false) ? $data : $user_row['user_options'];
+		return phpbb_optionget($user->keyoptions[$key], $var);
 	}
 }
 

@@ -135,7 +135,6 @@ $lang = array_merge($lang, array(
 	'LOGVIEW_VIEWTOPIC'			=> 'View topic',
 	'LOGVIEW_VIEWLOGS'			=> 'View topic log',
 	'LOGVIEW_VIEWFORUM'			=> 'View forum',
-	'LOGVIEW_DNSBLLOOKUP'		=> 'Lookup blacklist',
 	'LOOKUP_ALL'				=> 'Look up all IPs',
 	'LOOKUP_IP'					=> 'Look up IP',
 

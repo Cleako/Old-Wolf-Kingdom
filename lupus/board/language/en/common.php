@@ -165,6 +165,7 @@ $lang = array_merge($lang, array(
 	'EMPTY_MESSAGE_SUBJECT'				=> 'You must specify a subject when composing a new message.',
 	'ENABLED'							=> 'Enabled',
 	'ENCLOSURE'							=> 'Enclosure',
+	'ENTER_USERNAME'					=> 'Enter username',
 	'ERR_CHANGING_DIRECTORY'			=> 'Unable to change directory.',
 	'ERR_CONNECTING_SERVER'				=> 'Error connecting to the server.',
 	'ERR_JAB_AUTH'						=> 'Could not authorise on Jabber server.',
@@ -190,7 +191,7 @@ $lang = array_merge($lang, array(
 	'FORM_INVALID'			=> 'The submitted form was invalid. Try submitting again.',
 	'FORUM'					=> 'Forum',
 	'FORUMS'				=> 'Forums',
-	'FORUMS_MARKED'			=> 'The selected forums have been marked read.',
+	'FORUMS_MARKED'			=> 'Forums have been marked read.',
 	'FORUM_CAT'				=> 'Forum category',
 	'FORUM_INDEX'			=> 'Board index',
 	'FORUM_LINK'			=> 'Forum link',
@@ -200,6 +201,7 @@ $lang = array_merge($lang, array(
 	'FORUM_RULES_LINK'		=> 'Please click here to view the forum rules',
 	'FROM'					=> 'from',
 	'FSOCK_DISABLED'		=> 'The operation could not be completed because the <var>fsockopen</var> function has been disabled or the server being queried could not be found.',
+	'FSOCK_TIMEOUT'			=> 'A timeout occurred while reading from the network stream.',
 
 	'FTP_FSOCK_HOST'				=> 'FTP host',
 	'FTP_FSOCK_HOST_EXPLAIN'		=> 'FTP server used to connect your site.',
@@ -280,7 +282,6 @@ $lang = array_merge($lang, array(
 	'INVALID_EMAIL_LOG'			=> '<strong>%s</strong> possibly an invalid e-mail address?',
 	'IP'						=> 'IP',
 	'IP_BLACKLISTED'			=> 'Your IP %1$s has been blocked because it is blacklisted. For details please see <a href="%2$s">%2$s</a>.',
-	'IP_BLACKLISTED_INFO'		=> 'An entry on the blaklist may have several reasons:<br />1. You are a well-known spammer.<br />2. Last time a well-known spammer was using the dynamic IP address which you got from your ISP (Internet Service Provider).<br />3. Your ISP is well-known for a lot of spamming customers and is not fighting against spammers.',
 
 	'JABBER'				=> 'Jabber',
 	'JOINED'				=> 'Joined',
@@ -449,6 +450,7 @@ $lang = array_merge($lang, array(
 	'POST_TIME'				=> 'Post time',
 	'POST_TOPIC'			=> 'Post a new topic',
 	'POST_UNAPPROVED'		=> 'This post is waiting for approval',
+	'POWERED_BY'			=> 'Powered by %s',
 	'PREVIEW'				=> 'Preview',
 	'PREVIOUS'				=> 'Previous',		// Used in pagination
 	'PREVIOUS_STEP'			=> 'Previous',
@@ -458,6 +460,7 @@ $lang = array_merge($lang, array(
 	'PRIVATE_MESSAGING'		=> 'Private messaging',
 	'PROFILE'				=> 'User Control Panel',
 
+	'RANK'						=> 'Rank',
 	'READING_FORUM'				=> 'Viewing topics in %s',
 	'READING_GLOBAL_ANNOUNCE'	=> 'Reading global announcement',
 	'READING_LINK'				=> 'Following forum link %s',
@@ -653,6 +656,10 @@ $lang = array_merge($lang, array(
 	'UNREAD_PMS'			=> '<strong>%d</strong> unread messages',
 	'UNREAD_POST'			=> 'Unread post',
 	'UNREAD_POSTS'			=> 'Unread posts',
+	'UNWATCH_FORUM_CONFIRM'		=> 'Are you sure you wish to unsubscribe from this forum?',
+	'UNWATCH_FORUM_DETAILED'	=> 'Are you sure you wish to unsubscribe from the forum “%s”?',
+	'UNWATCH_TOPIC_CONFIRM'		=> 'Are you sure you wish to unsubscribe from this topic?',
+	'UNWATCH_TOPIC_DETAILED'	=> 'Are you sure you wish to unsubscribe from the topic “%s”?',
 	'UNWATCHED_FORUMS'			=> 'You are no longer subscribed to the selected forums.',
 	'UNWATCHED_TOPICS'			=> 'You are no longer subscribed to the selected topics.',
 	'UNWATCHED_FORUMS_TOPICS'	=> 'You are no longer subscribed to the selected entries.',
@@ -701,12 +708,15 @@ $lang = array_merge($lang, array(
 
 	'WARNINGS'			=> 'Warnings',
 	'WARN_USER'			=> 'Warn user',
+	'WATCH_FORUM_CONFIRM'	=> 'Are you sure you wish to subscribe to this forum?',
+	'WATCH_FORUM_DETAILED'	=> 'Are you sure you wish to subscribe to the forum “%s”?',
+	'WATCH_TOPIC_CONFIRM'	=> 'Are you sure you wish to subscribe to this topic?',
+	'WATCH_TOPIC_DETAILED'	=> 'Are you sure you wish to subscribe to the topic “%s”?',
 	'WELCOME_SUBJECT'	=> 'Welcome to %s forums',
 	'WEBSITE'			=> 'Website',
 	'WHOIS'				=> 'Whois',
 	'WHO_IS_ONLINE'		=> 'Who is online',
 	'WRONG_PASSWORD'	=> 'You entered an incorrect password.',
-	'WRONG_TIMEZONE'	=> 'You entered an incorrect timezone. Only <a href="http://en.wikipedia.org/wiki/Spambot">Spambots</a> are using this timezone!',
 
 	'WRONG_DATA_ICQ'			=> 'The number you entered is not a valid ICQ number.',
 	'WRONG_DATA_JABBER'			=> 'The name you entered is not a valid Jabber account name.',
@@ -822,8 +832,6 @@ $lang = array_merge($lang, array(
 	),
 
 	'tz_zones'	=> array(
-
-		'-19'	=> '[UTC - 199] Spambot Time',
 		'-12'	=> '[UTC - 12] Baker Island Time',
 		'-11'	=> '[UTC - 11] Niue Time, Samoa Standard Time',
 		'-10'	=> '[UTC - 10] Hawaii-Aleutian Standard Time, Cook Island Time',
@@ -864,7 +872,6 @@ $lang = array_merge($lang, array(
 		'12.75'	=> '[UTC + 12:45] Chatham Islands Time',
 		'13'	=> '[UTC + 13] Tonga Time, Phoenix Islands Time',
 		'14'	=> '[UTC + 14] Line Island Time',
-		'19'	=> '[UTC + 199] Spambot Time',
 	),
 
 	// The value is only an example and will get replaced by the current time on view
@@ -884,9 +891,4 @@ $lang = array_merge($lang, array(
 
 ));
 
-
-$lang = array_merge($lang, array(
-	'PERCENTAGE_PROGRESS' => '%s%%',
-	'PROGRESS_TO_NEXT_RANK' => 'Progress to next rank:'
-));
 ?>

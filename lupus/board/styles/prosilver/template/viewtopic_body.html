@@ -4,13 +4,10 @@
 <!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
 <!-- IF FORUM_DESC --><div style="display: none !important;">{FORUM_DESC}<br /></div><!-- ENDIF -->
 
-<!-- IF MODERATORS or U_MCP -->
-	<p>
-		<!-- IF MODERATORS -->
-			<strong><!-- IF S_SINGLE_MODERATOR -->{L_MODERATOR}<!-- ELSE -->{L_MODERATORS}<!-- ENDIF -->:</strong> {MODERATORS}
-		<!-- ENDIF -->
-
-	</p>
+<!-- IF MODERATORS -->
+<p>
+	<strong><!-- IF S_SINGLE_MODERATOR -->{L_MODERATOR}<!-- ELSE -->{L_MODERATORS}<!-- ENDIF -->:</strong> {MODERATORS}
+</p>
 <!-- ENDIF -->
 
 <!-- IF S_FORUM_RULES -->
@@ -129,7 +126,7 @@
 					<!-- IF postrow.U_REPORT --><li class="report-icon"><a href="{postrow.U_REPORT}" title="{L_REPORT_POST}"><span>{L_REPORT_POST}</span></a></li><!-- ENDIF -->
 					<!-- IF postrow.U_WARN --><li class="warn-icon"><a href="{postrow.U_WARN}" title="{L_WARN_USER}"><span>{L_WARN_USER}</span></a></li><!-- ENDIF -->
 					<!-- IF postrow.U_INFO --><li class="info-icon"><a href="{postrow.U_INFO}" title="{L_INFORMATION}"><span>{L_INFORMATION}</span></a></li><!-- ENDIF -->
-					<!-- IF postrow.DECODED_MESSAGE and S_QUICK_REPLY --><li class="quote-icon"><a href="#postingbox" onclick="addquote({postrow.POST_ID}, '{postrow.POSTER_QUOTE}', '{LA_WROTE}');" title="{L_QUOTE} {postrow.POST_AUTHOR}"><span>{L_QUOTE} {postrow.POST_AUTHOR}</span></a></li><!-- ELSEIF postrow.U_QUOTE --><li class="quote-icon"><a href="{postrow.U_QUOTE}" title="{L_REPLY_WITH_QUOTE}"><span>{L_REPLY_WITH_QUOTE}</span></a></li><!-- ENDIF -->
+					<!-- IF postrow.U_QUOTE --><li class="quote-icon"><a href="{postrow.U_QUOTE}" title="{L_REPLY_WITH_QUOTE}"><span>{L_REPLY_WITH_QUOTE}</span></a></li><!-- ENDIF -->
 				</ul>
 			<!-- ENDIF -->
 		<!-- ENDIF -->
@@ -145,9 +142,6 @@
 			<!-- ENDIF -->
 
 			<div class="content">{postrow.MESSAGE}</div>
-			<!-- IF postrow.U_QUOTE and postrow.DECODED_MESSAGE -->
-				<div id="message_{postrow.POST_ID}" style="display: none;">{postrow.DECODED_MESSAGE}</div>
-			<!-- ENDIF -->
 
 			<!-- IF postrow.S_HAS_ATTACHMENTS -->
 				<dl class="attachbox">
@@ -181,7 +175,6 @@
 			</dt>
 
 			<!-- IF postrow.RANK_TITLE or postrow.RANK_IMG --><dd>{postrow.RANK_TITLE}<!-- IF postrow.RANK_TITLE and postrow.RANK_IMG --><br /><!-- ENDIF -->{postrow.RANK_IMG}</dd><!-- ENDIF -->
-			<!-- IF postrow.PERCENTAGE_PROGRESS_NUM > -1 --><dd>{L_PROGRESS_TO_NEXT_RANK}<div class="rank_progress_bar"><span style="width:{postrow.PERCENTAGE_PROGRESS_NUM}%" class="bar"></span><span>{postrow.PERCENTAGE_PROGRESS}</span></div></dd><!-- ENDIF -->
 
 		<dd>&nbsp;</dd>
 

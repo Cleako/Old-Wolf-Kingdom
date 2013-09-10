@@ -35,7 +35,31 @@
 			<h3><?php echo ((isset($this->_rootref['L_WARNING'])) ? $this->_rootref['L_WARNING'] : ((isset($user->lang['WARNING'])) ? $user->lang['WARNING'] : '{ WARNING }')); ?></h3>
 			<p><?php echo ((isset($this->_rootref['L_REMOVE_INSTALL'])) ? $this->_rootref['L_REMOVE_INSTALL'] : ((isset($user->lang['REMOVE_INSTALL'])) ? $user->lang['REMOVE_INSTALL'] : '{ REMOVE_INSTALL }')); ?></p>
 		</div>
-	<?php } if ($this->_rootref['S_WRITABLE_CONFIG']) {  ?>
+	<?php } if ($this->_rootref['S_MBSTRING_LOADED']) {  if ($this->_rootref['S_MBSTRING_FUNC_OVERLOAD_FAIL']) {  ?>
+
+			<div class="errorbox">
+				<h3><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_FUNC_OVERLOAD'])) ? $this->_rootref['L_ERROR_MBSTRING_FUNC_OVERLOAD'] : ((isset($user->lang['ERROR_MBSTRING_FUNC_OVERLOAD'])) ? $user->lang['ERROR_MBSTRING_FUNC_OVERLOAD'] : '{ ERROR_MBSTRING_FUNC_OVERLOAD }')); ?></h3>
+				<p><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_FUNC_OVERLOAD_EXPLAIN'])) ? $this->_rootref['L_ERROR_MBSTRING_FUNC_OVERLOAD_EXPLAIN'] : ((isset($user->lang['ERROR_MBSTRING_FUNC_OVERLOAD_EXPLAIN'])) ? $user->lang['ERROR_MBSTRING_FUNC_OVERLOAD_EXPLAIN'] : '{ ERROR_MBSTRING_FUNC_OVERLOAD_EXPLAIN }')); ?></p>
+			</div>
+		<?php } if ($this->_rootref['S_MBSTRING_ENCODING_TRANSLATION_FAIL']) {  ?>
+
+			<div class="errorbox">
+				<h3><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_ENCODING_TRANSLATION'])) ? $this->_rootref['L_ERROR_MBSTRING_ENCODING_TRANSLATION'] : ((isset($user->lang['ERROR_MBSTRING_ENCODING_TRANSLATION'])) ? $user->lang['ERROR_MBSTRING_ENCODING_TRANSLATION'] : '{ ERROR_MBSTRING_ENCODING_TRANSLATION }')); ?></h3>
+				<p><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_ENCODING_TRANSLATION_EXPLAIN'])) ? $this->_rootref['L_ERROR_MBSTRING_ENCODING_TRANSLATION_EXPLAIN'] : ((isset($user->lang['ERROR_MBSTRING_ENCODING_TRANSLATION_EXPLAIN'])) ? $user->lang['ERROR_MBSTRING_ENCODING_TRANSLATION_EXPLAIN'] : '{ ERROR_MBSTRING_ENCODING_TRANSLATION_EXPLAIN }')); ?></p>
+			</div>
+		<?php } if ($this->_rootref['S_MBSTRING_HTTP_INPUT_FAIL']) {  ?>
+
+			<div class="errorbox">
+				<h3><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_HTTP_INPUT'])) ? $this->_rootref['L_ERROR_MBSTRING_HTTP_INPUT'] : ((isset($user->lang['ERROR_MBSTRING_HTTP_INPUT'])) ? $user->lang['ERROR_MBSTRING_HTTP_INPUT'] : '{ ERROR_MBSTRING_HTTP_INPUT }')); ?></h3>
+				<p><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_HTTP_INPUT_EXPLAIN'])) ? $this->_rootref['L_ERROR_MBSTRING_HTTP_INPUT_EXPLAIN'] : ((isset($user->lang['ERROR_MBSTRING_HTTP_INPUT_EXPLAIN'])) ? $user->lang['ERROR_MBSTRING_HTTP_INPUT_EXPLAIN'] : '{ ERROR_MBSTRING_HTTP_INPUT_EXPLAIN }')); ?></p>
+			</div>
+		<?php } if ($this->_rootref['S_MBSTRING_HTTP_OUTPUT_FAIL']) {  ?>
+
+			<div class="errorbox">
+				<h3><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_HTTP_OUTPUT'])) ? $this->_rootref['L_ERROR_MBSTRING_HTTP_OUTPUT'] : ((isset($user->lang['ERROR_MBSTRING_HTTP_OUTPUT'])) ? $user->lang['ERROR_MBSTRING_HTTP_OUTPUT'] : '{ ERROR_MBSTRING_HTTP_OUTPUT }')); ?></h3>
+				<p><?php echo ((isset($this->_rootref['L_ERROR_MBSTRING_HTTP_OUTPUT_EXPLAIN'])) ? $this->_rootref['L_ERROR_MBSTRING_HTTP_OUTPUT_EXPLAIN'] : ((isset($user->lang['ERROR_MBSTRING_HTTP_OUTPUT_EXPLAIN'])) ? $user->lang['ERROR_MBSTRING_HTTP_OUTPUT_EXPLAIN'] : '{ ERROR_MBSTRING_HTTP_OUTPUT_EXPLAIN }')); ?></p>
+			</div>
+		<?php } } if ($this->_rootref['S_WRITABLE_CONFIG']) {  ?>
 
 		<div class="errorbox notice">
 			<p><?php echo ((isset($this->_rootref['L_WRITABLE_CONFIG'])) ? $this->_rootref['L_WRITABLE_CONFIG'] : ((isset($user->lang['WRITABLE_CONFIG'])) ? $user->lang['WRITABLE_CONFIG'] : '{ WRITABLE_CONFIG }')); ?></p>

@@ -322,8 +322,15 @@ class session
 			}
 		}
 
-		// Is session_id is set or session_id is set and matches the url param if required
-		if (!empty($this->session_id) && (!defined('NEED_SID') || (isset($_GET['sid']) && $this->session_id === $_GET['sid'])))
+		// if no session id is set, redirect to index.php
+		if (defined('NEED_SID') && (!isset($_GET['sid']) || $this->session_id !== $_GET['sid']))
+		{
+			send_status_line(401, 'Not authorized');
+			redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
+		}
+
+		// if session id is set
+		if (!empty($this->session_id))
 		{
 			$sql = 'SELECT u.*, s.*
 				FROM ' . SESSIONS_TABLE . ' s, ' . USERS_TABLE . " u
@@ -1243,7 +1250,6 @@ class session
 	*/
 	function check_dnsbl($mode, $ip = false)
 	{
-		global $db, $config;
 		if ($ip === false)
 		{
 			$ip = $this->ip;
@@ -1255,51 +1261,38 @@ class session
 			return false;
 		}
 
+		$dnsbl_check = array(
+			'sbl.spamhaus.org'	=> 'http://www.spamhaus.org/query/bl?ip=',
+		);
+
+		if ($mode == 'register')
+		{
+			$dnsbl_check['bl.spamcop.net'] = 'http://spamcop.net/bl.shtml?';
+		}
+
 		if ($ip)
 		{
 			$quads = explode('.', $ip);
 			$reverse_ip = $quads[3] . '.' . $quads[2] . '.' . $quads[1] . '.' . $quads[0];
 
 			// Need to be listed on all servers...
-			$weight = 0;
+			$listed = true;
 			$info = array();
 
-			$sql = 'SELECT dnsbl_id, dnsbl_fqdn, dnsbl_lookup, dnsbl_weight FROM ' . DNSBL_TABLE . "
-				WHERE dnsbl_weight > '0'
-				ORDER BY dnsbl_weight DESC, dnsbl_count DESC";
-
-			$result = $db->sql_query($sql);
-
-			while ($row = $db->sql_fetchrow($result))
+			foreach ($dnsbl_check as $dnsbl => $lookup)
 			{
-				if (phpbb_checkdnsrr($reverse_ip . '.' . $row['dnsbl_fqdn'] . '.', 'A') === true)
+				if (phpbb_checkdnsrr($reverse_ip . '.' . $dnsbl . '.', 'A') === true)
 				{
-					$info = array($row['dnsbl_fqdn'], $row['dnsbl_lookup'] . $ip);
-					if ($config['log_check_dnsbl'])
-					{
-						add_log('block', $row['dnsbl_id'], 'LOG_DNSBL_FOUND', $row['dnsbl_fqdn']);
-					}
-					$weight += $row['dnsbl_weight'];
-
-					$sql = 'UPDATE ' . DNSBL_TABLE . '
-						SET dnsbl_count = dnsbl_count + 1 
-						WHERE dnsbl_id = ' . $row['dnsbl_id'];
-					$db->sql_query($sql);
+					$info = array($dnsbl, $lookup . $ip);
 				}
-				if ($weight > 4)
+				else
 				{
-					break;
+					$listed = false;
 				}
 			}
 
-			$db->sql_freeresult($result);
-
-			if ($weight > 4)
+			if ($listed)
 			{
-				if ($config['log_check_dnsbl'])
-				{
-					add_log('block', 0, ($mode == 'register') ? 'LOG_DNSBL_REGISTER' : 'LOG_DNSBL');
-				}
 				return $info;
 			}
 		}
@@ -1520,8 +1513,7 @@ class user extends session
 	var $img_array = array();
 
 	// Able to add new options (up to id 31)
-	var $keyoptions = array('viewimg' => 0, 'viewflash' => 1, 'viewsmilies' => 2, 'viewsigs' => 3, 'viewavatars' => 4, 'viewcensors' => 5, 'attachsig' => 6, 'bbcode' => 8, 'smilies' => 9, 'popuppm' => 10, 'viewquickreply' => 11, 'sig_bbcode' => 15, 'sig_smilies' => 16, 'sig_links' => 17);
-	var $keyvalues = array();
+	var $keyoptions = array('viewimg' => 0, 'viewflash' => 1, 'viewsmilies' => 2, 'viewsigs' => 3, 'viewavatars' => 4, 'viewcensors' => 5, 'attachsig' => 6, 'bbcode' => 8, 'smilies' => 9, 'popuppm' => 10, 'sig_bbcode' => 15, 'sig_smilies' => 16, 'sig_links' => 17);
 
 	/**
 	* Constructor to set the lang path
@@ -2351,47 +2343,51 @@ class user extends session
 	}
 
 	/**
-	* Get option bit field from user options
+	* Get option bit field from user options.
+	*
+	* @param int $key option key, as defined in $keyoptions property.
+	* @param int $data bit field value to use, or false to use $this->data['user_options']
+	* @return bool true if the option is set in the bit field, false otherwise
 	*/
 	function optionget($key, $data = false)
 	{
-		if (!isset($this->keyvalues[$key]))
-		{
-			$var = ($data) ? $data : $this->data['user_options'];
-			$this->keyvalues[$key] = ($var & 1 << $this->keyoptions[$key]) ? true : false;
-		}
-
-		return $this->keyvalues[$key];
+		$var = ($data !== false) ? $data : $this->data['user_options'];
+		return phpbb_optionget($this->keyoptions[$key], $var);
 	}
 
 	/**
-	* Set option bit field for user options
+	* Set option bit field for user options.
+	*
+	* @param int $key Option key, as defined in $keyoptions property.
+	* @param bool $value True to set the option, false to clear the option.
+	* @param int $data Current bit field value, or false to use $this->data['user_options']
+	* @return int|bool If $data is false, the bit field is modified and
+	*                  written back to $this->data['user_options'], and
+	*                  return value is true if the bit field changed and
+	*                  false otherwise. If $data is not false, the new
+	*                  bitfield value is returned.
 	*/
 	function optionset($key, $value, $data = false)
 	{
-		$var = ($data) ? $data : $this->data['user_options'];
+		$var = ($data !== false) ? $data : $this->data['user_options'];
 
-		if ($value && !($var & 1 << $this->keyoptions[$key]))
+		$new_var = phpbb_optionset($this->keyoptions[$key], $value, $var);
+
+		if ($data === false)
 		{
-			$var += 1 << $this->keyoptions[$key];
-		}
-		else if (!$value && ($var & 1 << $this->keyoptions[$key]))
-		{
-			$var -= 1 << $this->keyoptions[$key];
+			if ($new_var != $var)
+			{
+				$this->data['user_options'] = $new_var;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
-			return ($data) ? $var : false;
-		}
-
-		if (!$data)
-		{
-			$this->data['user_options'] = $var;
-			return true;
-		}
-		else
-		{
-			return $var;
+			return $new_var;
 		}
 	}
 
@@ -2423,6 +2419,39 @@ class user extends session
 		$this->data['user_new'] = 0;
 
 		return true;
+	}
+
+	/**
+	* Returns all password protected forum ids the user is currently NOT authenticated for.
+	*
+	* @return array		Array of forum ids
+	* @access public
+	*/
+	function get_passworded_forums()
+	{
+		global $db;
+
+		$sql = 'SELECT f.forum_id, fa.user_id
+			FROM ' . FORUMS_TABLE . ' f
+			LEFT JOIN ' . FORUMS_ACCESS_TABLE . " fa
+				ON (fa.forum_id = f.forum_id
+					AND fa.session_id = '" . $db->sql_escape($this->session_id) . "')
+			WHERE f.forum_password <> ''";
+		$result = $db->sql_query($sql);
+
+		$forum_ids = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$forum_id = (int) $row['forum_id'];
+
+			if ($row['user_id'] != $this->data['user_id'])
+			{
+				$forum_ids[$forum_id] = $forum_id;
+			}
+		}
+		$db->sql_freeresult($result);
+
+		return $forum_ids;
 	}
 }
 

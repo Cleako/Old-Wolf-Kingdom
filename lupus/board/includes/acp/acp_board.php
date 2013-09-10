@@ -31,7 +31,7 @@ class acp_board
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
 		global $cache;
 
-		$user->add_lang(array('acp/board', 'mods/full_quick_reply_editor'));
+		$user->add_lang('acp/board');
 
 		$action	= request_var('action', '');
 		$submit = (isset($_POST['submit']) || isset($_POST['allow_quick_reply_enable'])) ? true : false;
@@ -90,7 +90,6 @@ class acp_board
 						'allow_bookmarks'		=> array('lang' => 'ALLOW_BOOKMARKS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'allow_birthdays'		=> array('lang' => 'ALLOW_BIRTHDAYS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'allow_quick_reply'		=> array('lang' => 'ALLOW_QUICK_REPLY',		'validate' => 'bool',	'type' => 'custom', 'method' => 'quick_reply', 'explain' => true),
-						'quick_reply_lastpage'	=> array('lang' => 'QUICK_REPLY_LASTPAGE',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 
 						'legend2'				=> 'ACP_LOAD_SETTINGS',
 						'load_birthdays'		=> array('lang' => 'YES_BIRTHDAYS',			'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
@@ -175,7 +174,6 @@ class acp_board
 						'allow_bookmarks'		=> array('lang' => 'ALLOW_BOOKMARKS',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'enable_post_confirm'	=> array('lang' => 'VISUAL_CONFIRM_POST',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'allow_quick_reply'		=> array('lang' => 'ALLOW_QUICK_REPLY',		'validate' => 'bool',	'type' => 'custom', 'method' => 'quick_reply', 'explain' => true),
-						'quick_reply_lastpage'	=> array('lang' => 'QUICK_REPLY_LASTPAGE',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 
 						'legend2'				=> 'POSTING',
 						'bump_type'				=> false,
@@ -190,7 +188,7 @@ class acp_board
 						'hot_threshold'			=> array('lang' => 'HOT_THRESHOLD',			'validate' => 'int:0',		'type' => 'text:3:4', 'explain' => true),
 						'max_poll_options'		=> array('lang' => 'MAX_POLL_OPTIONS',		'validate' => 'int:2:127',	'type' => 'text:4:4', 'explain' => false),
 						'max_post_chars'		=> array('lang' => 'CHAR_LIMIT',			'validate' => 'int:0',		'type' => 'text:4:6', 'explain' => true),
-						'min_post_chars'		=> array('lang' => 'MIN_CHAR_LIMIT',		'validate' => 'int:0',		'type' => 'text:4:6', 'explain' => true),
+						'min_post_chars'		=> array('lang' => 'MIN_CHAR_LIMIT',		'validate' => 'int:1',		'type' => 'text:4:6', 'explain' => true),
 						'max_post_smilies'		=> array('lang' => 'SMILIES_LIMIT',			'validate' => 'int:0',		'type' => 'text:4:4', 'explain' => true),
 						'max_post_urls'			=> array('lang' => 'MAX_POST_URLS',			'validate' => 'int:0',		'type' => 'text:5:4', 'explain' => true),
 						'max_post_font_size'	=> array('lang' => 'MAX_POST_FONT_SIZE',	'validate' => 'int:0',		'type' => 'text:5:4', 'explain' => true, 'append' => ' %'),
@@ -236,7 +234,7 @@ class acp_board
 						'max_name_chars'		=> array('lang' => 'USERNAME_LENGTH', 'validate' => 'int:8:180', 'type' => false, 'method' => false, 'explain' => false,),
 						'max_pass_chars'		=> array('lang' => 'PASSWORD_LENGTH', 'validate' => 'int:8:255', 'type' => false, 'method' => false, 'explain' => false,),
 
-						'require_activation'	=> array('lang' => 'ACC_ACTIVATION',	'validate' => 'int',	'type' => 'custom', 'method' => 'select_acc_activation', 'explain' => true),
+						'require_activation'	=> array('lang' => 'ACC_ACTIVATION',	'validate' => 'int',	'type' => 'select', 'method' => 'select_acc_activation', 'explain' => true),
 						'new_member_post_limit'	=> array('lang' => 'NEW_MEMBER_POST_LIMIT', 'validate' => 'int:0:255', 'type' => 'text:4:4', 'explain' => true, 'append' => ' ' . $user->lang['POSTS']),
 						'new_member_group_default'=> array('lang' => 'NEW_MEMBER_GROUP_DEFAULT', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true),
 						'min_name_chars'		=> array('lang' => 'USERNAME_LENGTH',	'validate' => 'int:1',	'type' => 'custom:5:180', 'method' => 'username_length', 'explain' => true),
@@ -384,11 +382,9 @@ class acp_board
 						'forwarded_for_check'	=> array('lang' => 'FORWARDED_FOR_VALID',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
 						'referer_validation'	=> array('lang' => 'REFERER_VALID',		'validate' => 'int:0:3','type' => 'custom', 'method' => 'select_ref_check', 'explain' => true),
 						'check_dnsbl'			=> array('lang' => 'CHECK_DNSBL',			'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
-						'log_check_dnsbl'		=> array('lang' => 'LOG_CHECK_DNSBL',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => false),
 						'email_check_mx'		=> array('lang' => 'EMAIL_CHECK_MX',		'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
-						'log_email_check_mx'	=> array('lang' => 'LOG_EMAIL_CHECK_MX',	'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => false),
-						'check_tz'				=> array('lang' => 'CHECK_TZ',				'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => true),
-						'log_check_tz'			=> array('lang' => 'LOG_CHECK_TZ',			'validate' => 'bool',	'type' => 'radio:yes_no', 'explain' => false),
+						'max_pass_chars'		=> array('lang' => 'PASSWORD_LENGTH', 'validate' => 'int:8:255', 'type' => false, 'method' => false, 'explain' => false,),
+						'min_pass_chars'		=> array('lang' => 'PASSWORD_LENGTH',	'validate' => 'int:1',	'type' => 'custom', 'method' => 'password_length', 'explain' => true),
 						'pass_complex'			=> array('lang' => 'PASSWORD_TYPE',			'validate' => 'string',	'type' => 'select', 'method' => 'select_password_chars', 'explain' => true),
 						'chg_passforce'			=> array('lang' => 'FORCE_PASS_CHANGE',		'validate' => 'int:0',	'type' => 'text:3:3', 'explain' => true, 'append' => ' ' . $user->lang['DAYS']),
 						'max_login_attempts'	=> array('lang' => 'MAX_LOGIN_ATTEMPTS',	'validate' => 'int:0',	'type' => 'text:3:3', 'explain' => true),
@@ -774,24 +770,28 @@ class acp_board
 	/**
 	* Select account activation method
 	*/
-	function select_acc_activation($value, $key = '')
+	function select_acc_activation($selected_value, $value)
 	{
 		global $user, $config;
 
-		$radio_ary = array(
-			USER_ACTIVATION_DISABLE => 'ACC_DISABLE',
-			USER_ACTIVATION_NONE => 'ACC_NONE',
+		$act_ary = array(
+		  'ACC_DISABLE' => USER_ACTIVATION_DISABLE,
+		  'ACC_NONE' => USER_ACTIVATION_NONE,
 		);
-
 		if ($config['email_enable'])
 		{
-			$radio_ary[USER_ACTIVATION_SELF] = 'ACC_USER';
-			$radio_ary[USER_ACTIVATION_ADMIN] = 'ACC_ADMIN';
+			$act_ary['ACC_USER'] = USER_ACTIVATION_SELF;
+			$act_ary['ACC_ADMIN'] = USER_ACTIVATION_ADMIN;
+		}		
+		$act_options = '';
+
+		foreach ($act_ary as $key => $value)
+		{
+			$selected = ($selected_value == $value) ? ' selected="selected"' : '';
+			$act_options .= '<option value="' . $value . '"' . $selected . '>' . $user->lang[$key] . '</option>';
 		}
 
-		$radio_text = h_radio('config[require_activation]', $radio_ary, $value, 'require_activation', $key, '<br />');
-
-		return $radio_text;
+		return $act_options;
 	}
 
 	/**

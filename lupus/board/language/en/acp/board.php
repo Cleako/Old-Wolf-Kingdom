@@ -53,7 +53,7 @@ $lang = array_merge($lang, array(
 	'SYSTEM_TIMEZONE'				=> 'Guest timezone',
 	'SYSTEM_TIMEZONE_EXPLAIN'			=> 'Timezone to use for displaying times to users who are not logged in (guests, bots). Logged in users set their timezone during registration and can change it in their user control panel.',
 	'WARNINGS_EXPIRE'				=> 'Warning duration',
-	'WARNINGS_EXPIRE_EXPLAIN'		=> 'Number of days that will elapse before the warning will automatically expire from a user’s record.',
+	'WARNINGS_EXPIRE_EXPLAIN'		=> 'Number of days that will elapse before the warning will automatically expire from a user’s record. Set this value to 0 to make warnings permanent.',
 ));
 
 // Board Features
@@ -108,7 +108,7 @@ $lang = array_merge($lang, array(
 	'MAX_AVATAR_SIZE'				=> 'Maximum avatar dimensions',
 	'MAX_AVATAR_SIZE_EXPLAIN'		=> 'Width x Height in pixels.',
 	'MAX_FILESIZE'					=> 'Maximum avatar file size',
-	'MAX_FILESIZE_EXPLAIN'			=> 'For uploaded avatar files.',
+	'MAX_FILESIZE_EXPLAIN'			=> 'For uploaded avatar files. If this value is 0, the uploaded filesize is only limited by your PHP configuration.',
 	'MIN_AVATAR_SIZE'				=> 'Minimum avatar dimensions',
 	'MIN_AVATAR_SIZE_EXPLAIN'		=> 'Width x Height in pixels.',
 ));
@@ -174,7 +174,7 @@ $lang = array_merge($lang, array(
 	'MAX_POST_URLS'					=> 'Maximum links per post',
 	'MAX_POST_URLS_EXPLAIN'			=> 'Maximum number of URLs in a post. Set to 0 for unlimited links.',
 	'MIN_CHAR_LIMIT'				=> 'Minimum characters per post/message',
-	'MIN_CHAR_LIMIT_EXPLAIN'		=> 'The minimum number of characters the user need to enter within a post/private message.',
+	'MIN_CHAR_LIMIT_EXPLAIN'		=> 'The minimum number of characters the user need to enter within a post/private message. The minimum for this setting is 1.',
 	'POSTING'						=> 'Posting',
 	'POSTS_PER_PAGE'				=> 'Posts per page',
 	'QUOTE_DEPTH_LIMIT'				=> 'Maximum nesting depth for quotes',
@@ -447,10 +447,7 @@ $lang = array_merge($lang, array(
 	'BROWSER_VALID'					=> 'Validate browser',
 	'BROWSER_VALID_EXPLAIN'			=> 'Enables browser validation for each session improving security.',
 	'CHECK_DNSBL'					=> 'Check IP against DNS Blackhole List',
-	'CHECK_DNSBL_EXPLAIN'			=> 'If enabled the user’s IP address is checked against DNSBL services on registration and posting. This lookup may take a while, depending on the server’s configuration. If slowdowns are experienced or too many false positives reported it is recommended to disable this check.',
-
-	'CHECK_TZ'						=> 'Check timezone setting',
-	'CHECK_TZ_EXPLAIN'				=> 'If enabled the user’s timezone is checked against non-terrestrial values of -19 and +19 on registration. Spammer often are using the first or the last entry of the drop down menu. If this option is enabled two strange values are added to the begin and the end of the dropdown menue only on registration.',
+	'CHECK_DNSBL_EXPLAIN'			=> 'If enabled the user’s IP address is checked against the following DNSBL services on registration and posting: <a href="http://spamcop.net">spamcop.net</a> and <a href="http://www.spamhaus.org">www.spamhaus.org</a>. This lookup may take a while, depending on the server’s configuration. If slowdowns are experienced or too many false positives reported it is recommended to disable this check.',
 	'CLASS_B'						=> 'A.B',
 	'CLASS_C'						=> 'A.B.C',
 	'EMAIL_CHECK_MX'				=> 'Check e-mail domain for valid MX record',
@@ -465,9 +462,6 @@ $lang = array_merge($lang, array(
 	'FORWARDED_FOR_VALID_EXPLAIN'	=> 'Sessions will only be continued if the sent <var>X_FORWARDED_FOR</var> header equals the one sent with the previous request. Bans will be checked against IPs in <var>X_FORWARDED_FOR</var> too.',
 	'IP_VALID'						=> 'Session IP validation',
 	'IP_VALID_EXPLAIN'				=> 'Determines how much of the users IP is used to validate a session; <samp>All</samp> compares the complete address, <samp>A.B.C</samp> the first x.x.x, <samp>A.B</samp> the first x.x, <samp>None</samp> disables checking. On IPv6 addresses <samp>A.B.C</samp> compares the first 4 blocks and <samp>A.B</samp> the first 3 blocks.',
-	'LOG_CHECK_DNSBL'				=> 'Enable block log for DNSBL check',
-	'LOG_CHECK_TZ'					=> 'Enable block log for timezone setting check',
-	'LOG_EMAIL_CHECK_MX'			=> 'Enable block log for e-mail domain valid MX record check',
 	'IP_LOGIN_LIMIT_MAX'			=> 'Maximum number of login attempts per IP address',
 	'IP_LOGIN_LIMIT_MAX_EXPLAIN'	=> 'The threshold of login attempts allowed from a single IP address before an anti-spambot task is triggered. Enter 0 to prevent the anti-spambot task from being triggered by IP addresses.',
 	'IP_LOGIN_LIMIT_TIME'			=> 'IP address login attempt expiration time',

@@ -61,7 +61,14 @@ class ucp_prefs
 
 				if ($submit)
 				{
-					$data['style'] = ($config['override_user_style']) ? $config['default_style'] : $data['style'];
+					if ($config['override_user_style'])
+					{
+						$data['style'] = (int) $config['default_style'];
+					}
+					else if (!phpbb_style_is_active($data['style']))
+					{
+						$data['style'] = (int) $user->data['user_style'];
+					}
 
 					$error = validate_data($data, array(
 						'dateformat'	=> array('string', false, 1, 30),
@@ -160,7 +167,6 @@ class ucp_prefs
 			case 'view':
 
 				add_form_key('ucp_prefs_view');
-				$user->add_lang('mods/full_quick_reply_editor');
 
 				$data = array(
 					'topic_sk'		=> request_var('topic_sk', (!empty($user->data['user_topic_sortby_type'])) ? $user->data['user_topic_sortby_type'] : 't'),
@@ -176,7 +182,6 @@ class ucp_prefs
 					'smilies'		=> request_var('smilies', (bool) $user->optionget('viewsmilies')),
 					'sigs'			=> request_var('sigs', (bool) $user->optionget('viewsigs')),
 					'avatars'		=> request_var('avatars', (bool) $user->optionget('viewavatars')),
-					'quickreply'	=> request_var('quickreply', (bool) $user->optionget('viewquickreply')),
 					'wordcensor'	=> request_var('wordcensor', (bool) $user->optionget('viewcensors')),
 				);
 
@@ -201,7 +206,6 @@ class ucp_prefs
 						$user->optionset('viewsmilies', $data['smilies']);
 						$user->optionset('viewsigs', $data['sigs']);
 						$user->optionset('viewavatars', $data['avatars']);
-						$user->optionset('viewquickreply', $data['quickreply']);
 
 						if ($auth->acl_get('u_chgcensors'))
 						{
@@ -283,11 +287,8 @@ class ucp_prefs
 					'S_SMILIES'			=> $data['smilies'],
 					'S_SIGS'			=> $data['sigs'],
 					'S_AVATARS'			=> $data['avatars'],
-					'S_QUICK_REPLY'		=> $data['quickreply'],
 					'S_DISABLE_CENSORS'	=> $data['wordcensor'],
 
-
-					'S_QUICK_REPLY_GLOBAL'	=> $config['allow_quick_reply'],
 					'S_CHANGE_CENSORS'		=> ($auth->acl_get('u_chgcensors') && $config['allow_nocensors']) ? true : false,
 
 					'S_TOPIC_SORT_DAYS'		=> $s_limit_topic_days,

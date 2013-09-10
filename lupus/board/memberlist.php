@@ -62,11 +62,6 @@ $default_key = 'c';
 $sort_key = request_var('sk', $default_key);
 $sort_dir = request_var('sd', 'a');
 
-
-// Grab rank information for later
-$ranks = $cache->obtain_ranks();
-
-
 // What do you want to do today? ... oops, I think that line is taken ...
 switch ($mode)
 {
@@ -238,7 +233,7 @@ switch ($mode)
 			}
 
 			$rank_title = $rank_img = '';
-			get_user_rank($row['user_rank'], (($row['user_id'] == ANONYMOUS) ? false : $row['user_posts']), $rank_title, $rank_img, $rank_img_src, $percentage_progress);
+			get_user_rank($row['user_rank'], (($row['user_id'] == ANONYMOUS) ? false : $row['user_posts']), $rank_title, $rank_img, $rank_img_src);
 
 			$template->assign_block_vars($which_row, array(
 				'USER_ID'		=> $row['user_id'],
@@ -899,10 +894,7 @@ switch ($mode)
 						$notify_type = NOTIFY_EMAIL;
 					}
 
-					$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
-					$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
-					$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
-					$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
+					$messenger->anti_abuse_headers($config, $user);
 
 					$messenger->assign_vars(array(
 						'BOARD_CONTACT'	=> $config['board_contact'],
@@ -1224,21 +1216,16 @@ switch ($mode)
 			// Misusing the avatar function for displaying group avatars...
 			$avatar_img = get_user_avatar($group_row['group_avatar'], $group_row['group_avatar_type'], $group_row['group_avatar_width'], $group_row['group_avatar_height'], 'GROUP_AVATAR');
 
+			// ... same for group rank
 			$rank_title = $rank_img = $rank_img_src = '';
 			if ($group_row['group_rank'])
 			{
-				if (isset($ranks['special'][$group_row['group_rank']]))
+				get_user_rank($group_row['group_rank'], false, $rank_title, $rank_img, $rank_img_src);
+
+				if ($rank_img)
 				{
-					$rank_title = $ranks['special'][$group_row['group_rank']]['rank_title'];
+					$rank_img .= '<br />';
 				}
-				$rank_img = (!empty($ranks['special'][$group_row['group_rank']]['rank_image'])) ? '<img src="' . $config['ranks_path'] . '/' . $ranks['special'][$group_row['group_rank']]['rank_image'] . '" alt="' . $ranks['special'][$group_row['group_rank']]['rank_title'] . '" title="' . $ranks['special'][$group_row['group_rank']]['rank_title'] . '" /><br />' : '';
-				$rank_img_src = (!empty($ranks['special'][$group_row['group_rank']]['rank_image'])) ? $config['ranks_path'] . '/' . $ranks['special'][$group_row['group_rank']]['rank_image'] : '';
-			}
-			else
-			{
-				$rank_title = '';
-				$rank_img = '';
-				$rank_img_src = '';
 			}
 
 			$template->assign_vars(array(
@@ -1293,13 +1280,6 @@ switch ($mode)
 			$total_users = $config['num_users'];
 		}
 
-		$s_char_options = '<option value=""' . ((!$first_char) ? ' selected="selected"' : '') . '>&nbsp; &nbsp;</option>';
-		for ($i = 97; $i < 123; $i++)
-		{
-			$s_char_options .= '<option value="' . chr($i) . '"' . (($first_char == chr($i)) ? ' selected="selected"' : '') . '>' . chr($i-32) . '</option>';
-		}
-		$s_char_options .= '<option value="other"' . (($first_char == 'other') ? ' selected="selected"' : '') . '>' . $user->lang['OTHER'] . '</option>';
-
 		// Build a relevant pagination_url
 		$params = $sort_params = array();
 
@@ -1329,6 +1309,7 @@ switch ($mode)
 			'first_char'	=> array('first_char', ''),
 		);
 
+		$u_first_char_params = array();
 		foreach ($check_params as $key => $call)
 		{
 			if (!isset($_REQUEST[$key]))
@@ -1340,6 +1321,10 @@ switch ($mode)
 			$param = urlencode($key) . '=' . ((is_string($param)) ? urlencode($param) : $param);
 			$params[] = $param;
 
+			if ($key != 'first_char')
+			{
+				$u_first_char_params[] = $param;
+			}
 			if ($key != 'sk' && $key != 'sd')
 			{
 				$sort_params[] = $param;
@@ -1351,6 +1336,7 @@ switch ($mode)
 		if ($mode)
 		{
 			$params[] = "mode=$mode";
+			$u_first_char_params[] = "mode=$mode";
 		}
 		$sort_params[] = "mode=$mode";
 
@@ -1358,6 +1344,27 @@ switch ($mode)
 		$sort_url = append_sid("{$phpbb_root_path}memberlist.$phpEx", implode('&amp;', $sort_params));
 
 		unset($search_params, $sort_params);
+
+		$u_first_char_params = implode('&amp;', $u_first_char_params);
+		$u_first_char_params .= ($u_first_char_params) ? '&amp;' : '';
+
+		$first_characters = array();
+		$first_characters[''] = $user->lang['ALL'];
+		for ($i = 97; $i < 123; $i++)
+		{
+			$first_characters[chr($i)] = chr($i - 32);
+		}
+		$first_characters['other'] = $user->lang['OTHER'];
+
+		foreach ($first_characters as $char => $desc)
+		{
+			$template->assign_block_vars('first_char', array(
+				'DESC'			=> $desc,
+				'VALUE'			=> $char,
+				'S_SELECTED'	=> ($first_char == $char) ? true : false,
+				'U_SORT'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", $u_first_char_params . 'first_char=' . $char) . '#memberlist',
+			));
+		}
 
 		// Some search user specific data
 		if ($mode == 'searchuser' && ($config['load_search'] || $auth->acl_get('a_')))
@@ -1603,7 +1610,6 @@ switch ($mode)
 			'S_LEADERS_SET'		=> $leaders_set,
 			'S_MODE_SELECT'		=> $s_sort_key,
 			'S_ORDER_SELECT'	=> $s_sort_dir,
-			'S_CHAR_OPTIONS'	=> $s_char_options,
 			'S_MODE_ACTION'		=> $pagination_url)
 		);
 }
@@ -1629,7 +1635,7 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 	$user_id = $data['user_id'];
 
 	$rank_title = $rank_img = $rank_img_src = '';
-	get_user_rank($data['user_rank'], (($user_id == ANONYMOUS) ? false : $data['user_posts']), $rank_title, $rank_img, $rank_img_src, $percentage_progress);
+	get_user_rank($data['user_rank'], (($user_id == ANONYMOUS) ? false : $data['user_posts']), $rank_title, $rank_img, $rank_img_src);
 
 	if ((!empty($data['user_allow_viewemail']) && $auth->acl_get('u_sendemail')) || $auth->acl_get('a_user'))
 	{
@@ -1667,7 +1673,7 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 
 		if ($bday_year)
 		{
-			$now = getdate(time() + $user->timezone + $user->dst - date('Z'));
+			$now = phpbb_gmgetdate(time() + $user->timezone + $user->dst);
 
 			$diff = $now['mon'] - $bday_month;
 			if ($diff == 0)
@@ -1679,7 +1685,7 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 				$diff = ($diff < 0) ? 1 : 0;
 			}
 
-			$age = (int) ($now['year'] - $bday_year - $diff);
+			$age = max(0, (int) ($now['year'] - $bday_year - $diff));
 		}
 	}
 
@@ -1704,8 +1710,6 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 		'S_ONLINE'			=> ($config['load_onlinetrack'] && $online) ? true : false,
 		'RANK_IMG'			=> $rank_img,
 		'RANK_IMG_SRC'		=> $rank_img_src,
-		'PERCENTAGE_PROGRESS_NUM'	=> $percentage_progress,
-		'PERCENTAGE_PROGRESS'		=> sprintf($user->lang['PERCENTAGE_PROGRESS'], $percentage_progress),
 		'ICQ_STATUS_IMG'	=> (!empty($data['user_icq'])) ? '<img src="http://web.icq.com/whitepages/online?icq=' . $data['user_icq'] . '&amp;img=5" width="18" height="18" />' : '',
 		'S_JABBER_ENABLED'	=> ($config['jab_enable']) ? true : false,
 

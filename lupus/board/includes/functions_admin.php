@@ -2296,35 +2296,15 @@ function auto_prune($forum_id, $prune_mode, $prune_flags, $prune_days, $prune_fr
 /**
 * remove_comments will strip the sql comment lines out of an uploaded sql file
 * specifically for mssql and postgres type files in the install....
+*
+* @deprecated		Use phpbb_remove_comments() instead.
 */
 function remove_comments(&$output)
 {
-	$lines = explode("\n", $output);
-	$output = '';
+	// Remove /* */ comments (http://ostermiller.org/findcomment.html)
+	$output = preg_replace('#/\*(.|[\r\n])*?\*/#', "\n", $output);
 
-	// try to keep mem. use down
-	$linecount = sizeof($lines);
-
-	$in_comment = false;
-	for ($i = 0; $i < $linecount; $i++)
-	{
-		if (trim($lines[$i]) == '/*')
-		{
-			$in_comment = true;
-		}
-
-		if (!$in_comment)
-		{
-			$output .= $lines[$i] . "\n";
-		}
-
-		if (trim($lines[$i]) == '*/')
-		{
-			$in_comment = false;
-		}
-	}
-
-	unset($lines);
+	// Return by reference and value.
 	return $output;
 }
 
@@ -2512,7 +2492,7 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 {
 	global $db, $user, $auth, $phpEx, $phpbb_root_path, $phpbb_admin_path;
 
-	$topic_id_list = $reportee_id_list = $dnsbl_id_list = $is_auth = $is_mod = array();
+	$topic_id_list = $reportee_id_list = $is_auth = $is_mod = array();
 
 	$profile_url = (defined('IN_ADMIN')) ? append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview') : append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=viewprofile');
 
@@ -2555,10 +2535,6 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 			$log_type = LOG_CRITICAL;
 			$sql_forum = '';
 		break;
-		case 'block':
-			$log_type = LOG_BLOCK;
-			$sql_forum = '';
-		break;
 
 		default:
 			return;
@@ -2596,7 +2572,37 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 		{
 			$sql_keywords .= $db->sql_in_set('l.log_operation', $operations) . ' OR ';
 		}
-		$sql_keywords .= 'LOWER(l.log_data) ' . implode(' OR LOWER(l.log_data) ', $keywords) . ')';
+		$sql_lower = $db->sql_lower_text('l.log_data');
+		$sql_keywords .= "$sql_lower " . implode(" OR $sql_lower ", $keywords) . ')';
+	}
+
+	if ($log_count !== false)
+	{
+		$sql = 'SELECT COUNT(l.log_id) AS total_entries
+			FROM ' . LOG_TABLE . ' l, ' . USERS_TABLE . " u
+			WHERE l.log_type = $log_type
+				AND l.user_id = u.user_id
+				AND l.log_time >= $limit_days
+				$sql_keywords
+				$sql_forum";
+		$result = $db->sql_query($sql);
+		$log_count = (int) $db->sql_fetchfield('total_entries');
+		$db->sql_freeresult($result);
+	}
+
+	// $log_count may be false here if false was passed in for it,
+	// because in this case we did not run the COUNT() query above.
+	// If we ran the COUNT() query and it returned zero rows, return;
+	// otherwise query for logs below.
+	if ($log_count === 0)
+	{
+		// Save the queries, because there are no logs to display
+		return 0;
+	}
+
+	if ($offset >= $log_count)
+	{
+		$offset = ($offset - $limit < 0) ? 0 : $offset - $limit;
 	}
 
 	$sql = "SELECT l.*, u.username, u.username_clean, u.user_colour
@@ -2622,10 +2628,6 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 		{
 			$reportee_id_list[] = $row['reportee_id'];
 		}
-		if ($row['dnsbl_id'])
-		{
-			$dnsbl_id_list[] = $row['dnsbl_id'];
-		}
 
 		$log[$i] = array(
 			'id'				=> $row['log_id'],
@@ -2633,7 +2635,6 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 			'reportee_id'			=> $row['reportee_id'],
 			'reportee_username'		=> '',
 			'reportee_username_full'=> '',
-			'dnsbl_id'				=> $row['dnsbl_id'],
 
 			'user_id'			=> $row['user_id'],
 			'username'			=> $row['username'],
@@ -2771,56 +2772,7 @@ function view_log($mode, &$log, &$log_count, $limit = 0, $offset = 0, $forum_id 
 		}
 	}
 
-
-	if (sizeof($dnsbl_id_list))
-	{
-		$dnsbl_id_list = array_unique($dnsbl_id_list);
-		$dnsbl_lookup_list = array();
-
-		$sql = 'SELECT dnsbl_id, dnsbl_fqdn, dnsbl_lookup
-			FROM ' . DNSBL_TABLE . '
-			WHERE ' . $db->sql_in_set('dnsbl_id', $dnsbl_id_list);
-		$result = $db->sql_query($sql);
-
-		while ($row = $db->sql_fetchrow($result))
-		{
-			$dnsbl_lookup_list[$row['dnsbl_id']] = $row;
-		}
-		$db->sql_freeresult($result);
-
-		foreach ($log as $key => $row)
-		{
-
-			if (!isset($dnsbl_lookup_list[$row['dnsbl_id']]))
-			{
-				continue;
-			}
-
-			if (!$dnsbl_lookup_list[$row['dnsbl_id']]['dnsbl_lookup'])
-			{
-				$log[$key]['dnsbllookup'] = '';
-			}
-			else
-			{
-				$log[$key]['dnsbllookup'] = $dnsbl_lookup_list[$row['dnsbl_id']]['dnsbl_lookup'] . $log[$key]['ip'];
-			}
-		}
-	}
-	if ($log_count !== false)
-	{
-		$sql = 'SELECT COUNT(l.log_id) AS total_entries
-			FROM ' . LOG_TABLE . ' l, ' . USERS_TABLE . " u
-			WHERE l.log_type = $log_type
-				AND l.user_id = u.user_id
-				AND l.log_time >= $limit_days
-				$sql_keywords
-				$sql_forum";
-		$result = $db->sql_query($sql);
-		$log_count = (int) $db->sql_fetchfield('total_entries');
-		$db->sql_freeresult($result);
-	}
-
-	return;
+	return $offset;
 }
 
 /**
@@ -2951,6 +2903,12 @@ function view_inactive_users(&$users, &$user_count, $limit = 0, $offset = 0, $li
 	$result = $db->sql_query($sql);
 	$user_count = (int) $db->sql_fetchfield('user_count');
 	$db->sql_freeresult($result);
+
+	if ($user_count == 0)
+	{
+		// Save the queries, because there are no users to display
+		return 0;
+	}
 
 	if ($offset >= $user_count)
 	{
@@ -3157,7 +3115,7 @@ function get_database_size()
 /**
 * Retrieve contents from remotely stored file
 */
-function get_remote_file($host, $directory, $filename, &$errstr, &$errno, $port = 80, $timeout = 10)
+function get_remote_file($host, $directory, $filename, &$errstr, &$errno, $port = 80, $timeout = 6)
 {
 	global $user;
 
@@ -3166,6 +3124,9 @@ function get_remote_file($host, $directory, $filename, &$errstr, &$errno, $port 
 		@fputs($fsock, "GET $directory/$filename HTTP/1.1\r\n");
 		@fputs($fsock, "HOST: $host\r\n");
 		@fputs($fsock, "Connection: close\r\n\r\n");
+
+		$timer_stop = time() + $timeout;
+		stream_set_timeout($fsock, $timeout);
 
 		$file_info = '';
 		$get_info = false;
@@ -3188,6 +3149,14 @@ function get_remote_file($host, $directory, $filename, &$errstr, &$errno, $port 
 					$errstr = $user->lang['FILE_NOT_FOUND'] . ': ' . $filename;
 					return false;
 				}
+			}
+
+			$stream_meta_data = stream_get_meta_data($fsock);
+
+			if (!empty($stream_meta_data['timed_out']) || time() >= $timer_stop)
+			{
+				$errstr = $user->lang['FSOCK_TIMEOUT'];
+				return false;
 			}
 		}
 		@fclose($fsock);
