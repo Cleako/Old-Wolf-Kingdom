@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.lupus_regnum.client.mudclient;
 
 public class Config {
-	public static String SERVER_IP = "marwood.servegame.com", CONF_DIR = System.getProperty("user.home") + File.separator + "LR", MEDIA_DIR = System.getProperty("user.home") + File.separator + "LR";
+	public static String SERVER_IP = "localhost", CONF_DIR = System.getProperty("user.home") + File.separator + "LR", MEDIA_DIR = System.getProperty("user.home") + File.separator + "LR";
 	
 	public static int SERVER_PORT = 55550, MOVIE_FPS = 5;
 	public static long START_TIME = System.currentTimeMillis();
