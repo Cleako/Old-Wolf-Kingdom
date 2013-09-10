@@ -16,8 +16,8 @@ $settings['siteDir'] = $site;
 
 // Database variables
 $settings['dbhost'] = 'localhost';
-$settings['dbusername'] = 'lupus';
-$settings['dbpassword'] = 'Wolfbite5';
+$settings['dbusername'] = 'root';
+$settings['dbpassword'] = 'password';
 $settings['dbname'] = 'lupus_regnum';
 
 return $settings;
