@@ -82,7 +82,6 @@ class ucp_register
 		$cp = new custom_profile();
 
 		$error = $cp_data = $cp_error = array();
-		$dnsbl_positive = '';
 
 		if (!$agreed || ($coppa === false && $config['coppa_enable']) || ($coppa && !$config['coppa_enable']))
 		{
@@ -156,8 +155,8 @@ class ucp_register
 			$this->tpl_name = 'ucp_agreement';
 			return;
 		}
-		
-		
+
+
 		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change. 
 		if ($config['enable_confirm'])
 		{
@@ -166,24 +165,8 @@ class ucp_register
 			$captcha->init(CONFIRM_REG);
 		}
 
-		// Try to manually determine the timezone and adjust the dst if the server date/time complies with the default setting +/- 1
-		$timezone = date('Z') / 3600;
-		$is_dst = date('I');
-
-		if ($config['board_timezone'] == $timezone || $config['board_timezone'] == ($timezone - 1))
-		{
-			$timezone = ($is_dst) ? $timezone - 1 : $timezone;
-
-			if (!isset($user->lang['tz_zones'][(string) $timezone]))
-			{
-				$timezone = $config['board_timezone'];
-			}
-		}
-		else
-		{
-			$is_dst = $config['board_dst'];
-			$timezone = $config['board_timezone'];
-		}
+		$is_dst = $config['board_dst'];
+		$timezone = $config['board_timezone'];
 
 		$data = array(
 			'username'			=> utf8_normalize_nfc(request_var('username', '', true)),
@@ -210,7 +193,7 @@ class ucp_register
 					array('string', false, 6, 60),
 					array('email')),
 				'email_confirm'		=> array('string', false, 6, 60),
-				'tz'				=> array('num', false, -19, 19),
+				'tz'				=> array('num', false, -14, 14),
 				'lang'				=> array('language_iso_name'),
 			));
 
@@ -236,27 +219,12 @@ class ucp_register
 				}
 			}
 
-
-			// non terrestrial timezone check
-			// anti spam check for the former UTC -12 trick
-			if ($config['check_tz'])
-			{
-				if ((float) $data['tz'] == -19 || (float) $data['tz'] == 19)
-				{
-					if ($config['log_check_tz'])
-					{
-						add_log('block', 0, 'LOG_WRONG_TZ', (float) $data['tz']);
-					}
-					$error[] = $user->lang['WRONG_TIMEZONE'];
-				}
-			}
 			// DNSBL check
 			if ($config['check_dnsbl'])
 			{
 				if (($dnsbl = $user->check_dnsbl('register')) !== false)
 				{
 					$error[] = sprintf($user->lang['IP_BLACKLISTED'], $user->ip, $dnsbl[1]);
-					$dnsbl_positive = true;
 				}
 			}
 
@@ -382,10 +350,7 @@ class ucp_register
 
 					$messenger->to($data['email'], $data['username']);
 
-					$messenger->headers('X-AntiAbuse: Board servername - ' . $config['server_name']);
-					$messenger->headers('X-AntiAbuse: User_id - ' . $user->data['user_id']);
-					$messenger->headers('X-AntiAbuse: Username - ' . $user->data['username']);
-					$messenger->headers('X-AntiAbuse: User IP - ' . $user->ip);
+					$messenger->anti_abuse_headers($config, $user);
 
 					$messenger->assign_vars(array(
 						'WELCOME_MSG'	=> htmlspecialchars_decode(sprintf($user->lang['WELCOME_SUBJECT'], $config['sitename'])),
@@ -487,7 +452,6 @@ class ucp_register
 
 		$template->assign_vars(array(
 			'ERROR'				=> (sizeof($error)) ? implode('<br />', $error) : '',
-			'DNSBL_POSITIVE'	=> $dnsbl_positive,
 			'USERNAME'			=> $data['username'],
 			'PASSWORD'			=> $data['new_password'],
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
@@ -499,7 +463,7 @@ class ucp_register
 			'L_PASSWORD_EXPLAIN'		=> sprintf($user->lang[$config['pass_complex'] . '_EXPLAIN'], $config['min_pass_chars'], $config['max_pass_chars']),
 
 			'S_LANG_OPTIONS'	=> language_select($data['lang']),
-			'S_TZ_OPTIONS'		=> tz_select($data['tz'], false, 'register'),
+			'S_TZ_OPTIONS'		=> tz_select($data['tz']),
 			'S_CONFIRM_REFRESH'	=> ($config['enable_confirm'] && $config['confirm_refresh']) ? true : false,
 			'S_REGISTRATION'	=> true,
 			'S_COPPA'			=> $coppa,

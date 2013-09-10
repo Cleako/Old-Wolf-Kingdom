@@ -52,7 +52,7 @@ class acp_ranks
 				}
 				$rank_title = utf8_normalize_nfc(request_var('title', '', true));
 				$special_rank = request_var('special_rank', 0);
-				$min_posts = ($special_rank) ? 0 : request_var('min_posts', 0);
+				$min_posts = ($special_rank) ? 0 : max(0, request_var('min_posts', 0));
 				$rank_image = request_var('rank_image', '');
 
 				// The rank image has to be a jpg, gif or png
@@ -199,7 +199,7 @@ class acp_ranks
 					'RANK_TITLE'		=> (isset($ranks['rank_title'])) ? $ranks['rank_title'] : '',
 					'S_FILENAME_LIST'	=> $filename_list,
 					'RANK_IMAGE'		=> ($edit_img) ? $phpbb_root_path . $config['ranks_path'] . '/' . $edit_img : $phpbb_admin_path . 'images/spacer.gif',
-					'S_SPECIAL_RANK'	=> (!isset($ranks['rank_special']) || $ranks['rank_special']) ? true : false,
+					'S_SPECIAL_RANK'	=> (isset($ranks['rank_special']) && $ranks['rank_special']) ? true : false,
 					'MIN_POSTS'			=> (isset($ranks['rank_min']) && !$ranks['rank_special']) ? $ranks['rank_min'] : 0)
 				);
 						

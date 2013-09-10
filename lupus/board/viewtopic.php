@@ -16,7 +16,6 @@ $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 include($phpbb_root_path . 'common.' . $phpEx);
 include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
-include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
 
 // Start session management
@@ -197,7 +196,7 @@ if ($db->sql_layer === 'firebird')
 // The FROM-Order is quite important here, else t.* columns can not be correctly bound.
 if ($post_id)
 {
-	$sql_array['SELECT'] .= ', p.post_approved';
+	$sql_array['SELECT'] .= ', p.post_approved, p.post_time, p.post_id';
 	$sql_array['FROM'][POSTS_TABLE] = 'p';
 }
 
@@ -315,12 +314,19 @@ if ($post_id)
 	}
 	else
 	{
-		$sql = 'SELECT COUNT(p1.post_id) AS prev_posts
-			FROM ' . POSTS_TABLE . ' p1, ' . POSTS_TABLE . " p2
-			WHERE p1.topic_id = {$topic_data['topic_id']}
-				AND p2.post_id = {$post_id}
-				" . ((!$auth->acl_get('m_approve', $forum_id)) ? 'AND p1.post_approved = 1' : '') . '
-				AND ' . (($sort_dir == 'd') ? 'p1.post_time >= p2.post_time' : 'p1.post_time <= p2.post_time');
+		$sql = 'SELECT COUNT(p.post_id) AS prev_posts
+			FROM ' . POSTS_TABLE . " p
+			WHERE p.topic_id = {$topic_data['topic_id']}
+				" . ((!$auth->acl_get('m_approve', $forum_id)) ? 'AND p.post_approved = 1' : '');
+
+		if ($sort_dir == 'd')
+		{
+			$sql .= " AND (p.post_time > {$topic_data['post_time']} OR (p.post_time = {$topic_data['post_time']} AND p.post_id >= {$topic_data['post_id']}))";
+		}
+		else
+		{
+			$sql .= " AND (p.post_time < {$topic_data['post_time']} OR (p.post_time = {$topic_data['post_time']} AND p.post_id <= {$topic_data['post_id']}))";
+		}
 
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
@@ -487,9 +493,10 @@ $s_watching_topic = array(
 	'is_watching'	=> false,
 );
 
-if (($config['email_enable'] || $config['jab_enable']) && $config['allow_topic_notify'] && $user->data['is_registered'])
+if (($config['email_enable'] || $config['jab_enable']) && $config['allow_topic_notify'])
 {
-	watch_topic_forum('topic', $s_watching_topic, $user->data['user_id'], $forum_id, $topic_id, $topic_data['notify_status'], $start);
+	$notify_status = (isset($topic_data['notify_status'])) ? $topic_data['notify_status'] : null;
+	watch_topic_forum('topic', $s_watching_topic, $user->data['user_id'], $forum_id, $topic_id, $notify_status, $start, $topic_data['topic_title']);
 
 	// Reset forum notification if forum notify is set
 	if ($config['allow_forum_notify'] && $auth->acl_get('f_subscribe', $forum_id))
@@ -593,6 +600,15 @@ $s_search_hidden_fields = array(
 if ($_SID)
 {
 	$s_search_hidden_fields['sid'] = $_SID;
+}
+
+if (!empty($_EXTRA_URL))
+{
+	foreach ($_EXTRA_URL as $url_param)
+	{
+		$url_param = explode('=', $url_param, 2);
+		$s_search_hidden_fields[$url_param[0]] = $url_param[1];
+	}
 }
 
 // Send vars to template
@@ -996,7 +1012,7 @@ $sql = $db->sql_build_query('SELECT', array(
 
 $result = $db->sql_query($sql);
 
-$now = getdate(time() + $user->timezone + $user->dst - date('Z'));
+$now = phpbb_gmgetdate(time() + $user->timezone + $user->dst);
 
 // Posts are stored in the $rowset array while $attach_list, $user_cache
 // and the global bbcode_bitfield are built
@@ -1069,7 +1085,6 @@ while ($row = $db->sql_fetchrow($result))
 		if ($poster_id == ANONYMOUS)
 		{
 			$user_cache[$poster_id] = array(
-				'percentage_progress'		=> -1,
 				'joined'		=> '',
 				'posts'			=> '',
 				'from'			=> '',
@@ -1104,7 +1119,7 @@ while ($row = $db->sql_fetchrow($result))
 				'allow_pm'			=> 0,
 			);
 
-			get_user_rank($row['user_rank'], false, $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src'], $user_cache[$poster_id]['percentage_progress']);
+			get_user_rank($row['user_rank'], false, $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src']);
 		}
 		else
 		{
@@ -1119,7 +1134,6 @@ while ($row = $db->sql_fetchrow($result))
 			$id_cache[] = $poster_id;
 
 			$user_cache[$poster_id] = array(
-				'percentage_progress'		=> -1,
 				'joined'		=> $user->format_date($row['user_regdate']),
 				'posts'			=> $row['user_posts'],
 				'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
@@ -1157,7 +1171,7 @@ while ($row = $db->sql_fetchrow($result))
 				'author_profile'	=> get_username_string('profile', $poster_id, $row['username'], $row['user_colour']),
 			);
 
-			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src'], $user_cache[$poster_id]['percentage_progress']);
+			get_user_rank($row['user_rank'], $row['user_posts'], $user_cache[$poster_id]['rank_title'], $user_cache[$poster_id]['rank_image'], $user_cache[$poster_id]['rank_image_src']);
 
 			if ((!empty($row['user_allow_viewemail']) && $auth->acl_get('u_sendemail')) || $auth->acl_get('a_email'))
 			{
@@ -1334,20 +1348,6 @@ $template->assign_vars(array(
 	'S_NUM_POSTS' => sizeof($post_list))
 );
 
-
-// Check whether quick reply is enabled
-$s_quick_reply = false;
-
-if ($config['allow_quick_reply'] && ($topic_data['forum_flags'] & FORUM_FLAG_QUICK_REPLY) && $auth->acl_get('f_reply', $forum_id) && (!$user->data['is_registered'] || ($user->data['is_registered'] && $user->optionget('viewquickreply'))))
-{
-	// Quick reply enabled forum
-	$s_quick_reply = (($topic_data['forum_status'] == ITEM_UNLOCKED && $topic_data['topic_status'] == ITEM_UNLOCKED) || $auth->acl_get('m_edit', $forum_id)) ? true : false;
-}
-
-if ($config['quick_reply_lastpage'] && (floor($start / $config['posts_per_page']) + 1) != max(ceil($total_posts / $config['posts_per_page']), 1))
-{
-	$s_quick_reply = false;
-}
 // Output the posts
 $first_unread = $post_unread = false;
 for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
@@ -1379,15 +1379,6 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 
 	// Parse the message and subject
 	$message = censor_text($row['post_text']);
-	$decoded_message = false;
-
-	if ($s_quick_reply)
-	{
-		$decoded_message = $message;
-		decode_message($decoded_message, $row['bbcode_uid']);
-
-		$decoded_message = bbcode_nl2br($decoded_message);
-	}
 
 	// Second parse bbcode here
 	if ($row['bbcode_bitfield'])
@@ -1534,20 +1525,16 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'RANK_TITLE'		=> $user_cache[$poster_id]['rank_title'],
 		'RANK_IMG'			=> $user_cache[$poster_id]['rank_image'],
 		'RANK_IMG_SRC'		=> $user_cache[$poster_id]['rank_image_src'],
-		'PERCENTAGE_PROGRESS_NUM'	=> $user_cache[$poster_id]['percentage_progress'],
-		'PERCENTAGE_PROGRESS'		=> sprintf($user->lang['PERCENTAGE_PROGRESS'], $user_cache[$poster_id]['percentage_progress']),
 		'POSTER_JOINED'		=> $user_cache[$poster_id]['joined'],
 		'POSTER_POSTS'		=> $user_cache[$poster_id]['posts'],
 		'POSTER_FROM'		=> $user_cache[$poster_id]['from'],
 		'POSTER_AVATAR'		=> $user_cache[$poster_id]['avatar'],
 		'POSTER_WARNINGS'	=> $user_cache[$poster_id]['warnings'],
 		'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
-		'POSTER_QUOTE'		=> ($s_quick_reply && $auth->acl_get('f_reply', $forum_id)) ? addslashes(get_username_string('username', $poster_id, $row['username'], $row['user_colour'], $row['post_username'])) : '',
 
 		'POST_DATE'			=> $user->format_date($row['post_time'], false, ($view == 'print') ? true : false),
 		'POST_SUBJECT'		=> $row['post_subject'],
 		'MESSAGE'			=> $message,
-		'DECODED_MESSAGE'   => $decoded_message,
 		'SIGNATURE'			=> ($row['enable_sig']) ? $user_cache[$poster_id]['sig'] : '',
 		'EDITED_MESSAGE'	=> $l_edited_by,
 		'EDIT_REASON'		=> $row['post_edit_reason'],
@@ -1726,27 +1713,23 @@ else if (!$all_marked_read)
 }
 
 // let's set up quick_reply
+$s_quick_reply = false;
+if ($user->data['is_registered'] && $config['allow_quick_reply'] && ($topic_data['forum_flags'] & FORUM_FLAG_QUICK_REPLY) && $auth->acl_get('f_reply', $forum_id))
+{
+	// Quick reply enabled forum
+	$s_quick_reply = (($topic_data['forum_status'] == ITEM_UNLOCKED && $topic_data['topic_status'] == ITEM_UNLOCKED) || $auth->acl_get('m_edit', $forum_id)) ? true : false;
+}
+
 if ($s_can_vote || $s_quick_reply)
 {
 	add_form_key('posting');
 
 	if ($s_quick_reply)
 	{
-
-		$user->add_lang(array('posting', 'mcp'));
 		$s_attach_sig	= $config['allow_sig'] && $user->optionget('attachsig') && $auth->acl_get('f_sigs', $forum_id) && $auth->acl_get('u_sig');
 		$s_smilies		= $config['allow_smilies'] && $user->optionget('smilies') && $auth->acl_get('f_smilies', $forum_id);
 		$s_bbcode		= $config['allow_bbcode'] && $user->optionget('bbcode') && $auth->acl_get('f_bbcode', $forum_id);
 		$s_notify		= $config['allow_topic_notify'] && ($user->data['user_notify'] || $s_watching_topic['is_watching']);
-		$s_url			= ($config['allow_post_links']) ? true : false;
-		$s_img			= ($s_bbcode && $auth->acl_get('f_img', $forum_id)) ? true : false;
-		$s_flash		= ($s_bbcode && $auth->acl_get('f_flash', $forum_id) && $config['allow_post_flash']) ? true : false;
-		$s_topic_icons	= false;
-
-		if ($topic_data['enable_icons'] && $auth->acl_get('f_icons', $forum_id))
-		{
-			$s_topic_icons = posting_gen_topic_icons('reply', $topic_data['icon_id']);
-		}
 
 		$qr_hidden_fields = array(
 			'topic_cur_post_id'		=> (int) $topic_data['topic_last_post_id'],
@@ -1764,47 +1747,11 @@ if ($s_can_vote || $s_quick_reply)
 		($topic_data['topic_status'] == ITEM_LOCKED) ? $qr_hidden_fields['lock_topic'] = 1 : true;
 
 		$template->assign_vars(array(
-			'L_ICON'				=> $user->lang['POST_ICON'],
-
-			'SUBJECT'				=> 'Re: ' . censor_text($topic_data['topic_title']),
+			'S_QUICK_REPLY'			=> true,
 			'U_QR_ACTION'			=> append_sid("{$phpbb_root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
 			'QR_HIDDEN_FIELDS'		=> build_hidden_fields($qr_hidden_fields),
-
-			'S_QUICK_REPLY'			=> true,
-			'S_DISPLAY_USERNAME'	=> (!$user->data['is_registered']) ? true : false,
-			'S_SHOW_TOPIC_ICONS'	=> $s_topic_icons,
-			'S_BBCODE_ALLOWED'		=> $s_bbcode,
-			'S_SMILIES_ALLOWED'		=> $s_smilies,
-			'S_LINKS_ALLOWED'		=> $s_url,
-			'S_SAVE_ALLOWED'		=> ($auth->acl_get('u_savedrafts') && $user->data['is_registered']) ? true : false,
-			
-			'S_BBCODE_IMG'			=> $s_img,
-			'S_BBCODE_URL'			=> $s_url,
-			'S_BBCODE_FLASH'		=> $s_flash,
-			'S_BBCODE_QUOTE'		=> true,
+			'SUBJECT'				=> 'Re: ' . censor_text($topic_data['topic_title']),
 		));
-
-		// Build custom bbcodes array
-		display_custom_bbcodes();
-
-		// Generate smiley listing
-		generate_smilies('inline', $forum_id);
-		
-		if ($config['enable_post_confirm'] && !$user->data['is_registered'])
-		{
-			include($phpbb_root_path . 'includes/captcha/captcha_factory.' . $phpEx);
-			$captcha =& phpbb_captcha_factory::get_instance($config['captcha_plugin']);
-			$captcha->init(CONFIRM_POST);
-		}
-
-		// Posting uses is_solved for legacy reasons. Plugins have to use is_solved to force themselves to be displayed.
-		if ($config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === false))
-		{
-			$template->assign_vars(array(
-				'S_CONFIRM_CODE'			=> true,
-				'CAPTCHA_TEMPLATE'			=> $captcha->get_template(),
-			));
-		}
 	}
 }
 // now I have the urge to wash my hands :(

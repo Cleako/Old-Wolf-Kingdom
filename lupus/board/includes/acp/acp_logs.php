@@ -38,7 +38,6 @@ class acp_logs
 		$deletemark = (!empty($_POST['delmarked'])) ? true : false;
 		$deleteall	= (!empty($_POST['delall'])) ? true : false;
 		$marked		= request_var('mark', array(0));
-		$ip			= request_var('ip', 'ip');
 
 		// Sort keys
 		$sort_days	= request_var('st', 0);
@@ -47,27 +46,6 @@ class acp_logs
 
 		$this->tpl_name = 'acp_logs';
 		$this->log_type = constant('LOG_' . strtoupper($mode));
-		// Whois (special case)
-		if ($action == 'whois')
-		{
-			include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
-
-			$user->add_lang('acp/users');
-
-			$this->page_title = 'WHOIS';
-			$this->tpl_name = 'simple_body';
-
-			$user_ip = request_var('user_ip', '');
-			$domain = gethostbyaddr($user_ip);
-			$ipwhois = user_ipwhois($user_ip);
-
-			$template->assign_vars(array(
-				'MESSAGE_TITLE'		=> sprintf($user->lang['IP_WHOIS_FOR'], $domain),
-				'MESSAGE_TEXT'		=> nl2br($ipwhois))
-			);
-
-			return;
-		}
 
 		// Delete entries if requested and able
 		if (($deletemark || $deleteall) && $auth->acl_get('a_clearlogs'))
@@ -149,12 +127,12 @@ class acp_logs
 		// Grab log data
 		$log_data = array();
 		$log_count = 0;
-		view_log($mode, $log_data, $log_count, $config['topics_per_page'], $start, $forum_id, 0, 0, $sql_where, $sql_sort, $keywords);
+		$start = view_log($mode, $log_data, $log_count, $config['topics_per_page'], $start, $forum_id, 0, 0, $sql_where, $sql_sort, $keywords);
 
 		$template->assign_vars(array(
 			'L_TITLE'		=> $l_title,
 			'L_EXPLAIN'		=> $l_title_explain,
-			'U_ACTION'		=> $this->u_action,
+			'U_ACTION'		=> $this->u_action . "&amp;$u_sort_param$keywords_param&amp;start=$start",
 
 			'S_ON_PAGE'		=> on_page($log_count, $config['topics_per_page'], $start),
 			'PAGINATION'	=> generate_pagination($this->u_action . "&amp;$u_sort_param$keywords_param", $log_count, $config['topics_per_page'], $start, true),
@@ -171,7 +149,7 @@ class acp_logs
 		{
 			$data = array();
 				
-			$checks = array('viewtopic', 'viewlogs', 'viewforum', 'dnsbllookup');
+			$checks = array('viewtopic', 'viewlogs', 'viewforum');
 			foreach ($checks as $check)
 			{
 				if (isset($row[$check]) && $row[$check])
@@ -184,36 +162,15 @@ class acp_logs
 				'USERNAME'			=> $row['username_full'],
 				'REPORTEE_USERNAME'	=> ($row['reportee_username'] && $row['user_id'] != $row['reportee_id']) ? $row['reportee_username_full'] : '',
 
-				'IP'				=> ($ip == 'hostname') ? gethostbyaddr_with_cache($row['ip']) : $row['ip'],
+				'IP'				=> $row['ip'],
 				'DATE'				=> $user->format_date($row['time']),
 				'ACTION'			=> $row['action'],
 				'DATA'				=> (sizeof($data)) ? implode(' | ', $data) : '',
 				'ID'				=> $row['id'],
-				'U_SHOW_IP'			=> $this->u_action . "&amp;start=$start&amp;ip=" . (($ip == 'ip') ? 'hostname' : 'ip'),
-				'U_WHOIS'			=> $this->u_action . "&amp;action=whois&amp;user_ip={$row['ip']}",
 				)
 			);
 		}
 	}
 }
 
-
-/**
-* performance increasing with using cache for DNS queries
-* took idea from http://www.php.net/manual/en/function.gethostbyaddr.php#25091
-**/
-function gethostbyaddr_with_cache($address)
-{
-	global $dns_cache;
-
-	if (isset($dns_cache[$address]))
-	{
-		return $dns_cache[$address];
-	}
-	else
-	{
-		$dns_cache[$address] = gethostbyaddr($address);
-		return $dns_cache[$address];
-	}
-}
 ?>

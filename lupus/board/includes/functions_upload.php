@@ -426,179 +426,14 @@ class filespec
 		}
 
 		if (!$this->upload->valid_dimensions($this))
-      {
-         $valid = $this->create_thumb();
-         
-         if (!$valid)
-         {
-            $this->error[] = sprintf($user->lang[$this->upload->error_prefix . 'WRONG_SIZE'], $this->upload->min_width, $this->upload->min_height, $this->upload->max_width, $this->upload->max_height, $this->width, $this->height);
+		{
+			$this->error[] = sprintf($user->lang[$this->upload->error_prefix . 'WRONG_SIZE'], $this->upload->min_width, $this->upload->min_height, $this->upload->max_width, $this->upload->max_height, $this->width, $this->height);
 
-            return false;
-         }
-      }
+			return false;
+		}
 
-      return true;
-   }
-
-   /**
-   * Create a thumb if uploaded image is too big.
-   * This function was based mainly on MediaWiki's thumbnail creating process
-   * and create_thumbnail function in functions_posting.php
-   * @source MediaWiki
-   */
-   function create_thumb()
-   {
-      global $config;
-
-      if ($this->width > $this->height) 
-      {
-         $thumb_width = $this->upload->max_width;
-         $thumb_height = $this->height*($this->upload->max_height/$this->width);
-      }
-      else if ($this->width < $this->height) 
-      {
-         $thumb_width = $this->width*($this->upload->max_width/$this->height);
-         $thumb_height = $this->upload->max_height;
-      }
-      else /* $this->width == $this->height */
-      {
-         $thumb_width = $this->upload->max_width;
-         $thumb_height = $this->upload->max_height;
-      }
-
-      // Only use imagemagick if defined and the passthru function not disabled
-      if ($config['img_imagick'] && function_exists('passthru'))
-      {
-         $quality = '';
-         $sharpen = '';
-         $frame = '';
-         $animation = '';
-         if ( $this->mimetype == 'image/jpeg' )
-         {
-            $quality = '-quality 80'; // 80%
-            /** Reduction in linear dimensions below which sharpening will be enabled */
-            if ( ( $thumb_width + $thumb_height ) / ( $this->width + $this->height ) < 0.85 )
-            {
-               $sharpen = '-sharpen 0x0.4';
-            }
-         }
-         elseif ($this->mimetype == 'image/png')
-         {
-            $quality = '-quality 95'; // zlib 9, adaptive filtering
-         }
-         elseif ($this->mimetype == 'image/gif')
-         {
-            /**
-             * Force thumbnailing of animated GIFs above this size to a single
-             * frame instead of an animated thumbnail. ImageMagick seems to
-             * get real unhappy and doesn't play well with resource limits. :P
-             * Defaulting to 1 megapixel (1000x1000)
-             */
-            if($this->width * $this->height > 1.0e6)
-            {
-               // Extract initial frame only
-               $frame = '[0]';
-            }
-            else
-            {
-               // Coalesce is needed to scale animated GIFs properly (MediaWiki bug 1017).
-               $animation = ' -coalesce ';
-            }
-         }
-         # Specify white background color, will be used for transparent images
-         # in Internet Explorer/Windows instead of default black.
-
-         # Note, we specify "-size {$this->width}" and NOT "-size {$this->width}x{$this->height}".
-         # It seems that ImageMagick has a bug wherein it produces thumbnails of
-         # the wrong size in the second case.
-
-         if (substr($config['img_imagick'], -1) !== '/')
-         {
-            $config['img_imagick'] .= '/';
-         }
-         $cmd  = 
-            escapeshellcmd($config['img_imagick']) . 'convert' . ((defined('PHP_OS') && preg_match('#^win#i', PHP_OS)) ? '.exe' : '') .
-            " {$quality} -background white -size {$this->width} ".
-            escapeshellarg($this->destination_file . $frame) .
-            $animation .
-            // For the -resize option a "!" is needed to force exact size,
-            // or ImageMagick may decide your ratio is wrong and slice off
-            // a pixel.
-            ' -thumbnail ' . escapeshellarg( "{$thumb_width}x{$thumb_height}!" ) .
-            " -depth 8 $sharpen " .
-            escapeshellarg($this->destination_file) . ' 2>&1';
-
-         @passthru($cmd);
-
-         // after converting let's check the file dimensions again
-         if (($this->image_info = @getimagesize($this->destination_file)) !== false)
-         {
-            $this->width = $this->image_info[0]; // the _real_ width
-            $this->height = $this->image_info[1]; // the _real_ height
-            if ($this->upload->valid_dimensions($this)) 
-            {
-               return true;
-            }
-         }
-      }
-      if (extension_loaded('gd'))
-      {
-         /* This code is greatly based on MediaWiki's thumbnail generation process */
-         $typemap = array(
-            'image/gif'          => array( 'imagecreatefromgif',  'palette',   'imagegif'  ),
-            'image/jpeg'         => array( 'imagecreatefromjpeg', 'truecolor', array( __CLASS__, 'imagejpegwrapper' ) ),
-            'image/png'          => array( 'imagecreatefrompng',  'bits',      'imagepng'  ),
-            'image/vnd.wap.wbmp' => array( 'imagecreatefromwbmp', 'palette',   'imagewbmp'  ),
-            'image/xbm'          => array( 'imagecreatefromxbm',  'palette',   'imagexbm'  ),
-         );
-         if (!isset( $typemap[$this->mimetype] ))
-         {
-            return false;
-         }
-
-         list($loader, $color_style, $save_type) = $typemap[$this->mimetype];
-      
-         if (!function_exists($loader))
-         {
-            return false;
-         }
-         $src_image = call_user_func( $loader, $this->destination_file );
-         $thumb = imagecreatetruecolor($thumb_width, $thumb_height);
-
-         // Initialise the destination image to transparent instead of
-         // the default solid black, to support PNG and GIF transparency nicely
-         $background = imagecolorallocate( $thumb, 0, 0, 0 );
-         imagecolortransparent( $thumb, $background );
-         imagealphablending( $thumb, false );
-      
-         if( $color_style == 'palette' ) {
-            // Don't resample for paletted GIF images.
-            // It may just uglify them, and completely breaks transparency.
-            imagecopyresized( $thumb, $src_image,
-               0,0,0,0,
-               $thumb_width, $thumb_height, $this->width, $this->height );
-         } else {
-            imagecopyresampled( $thumb, $src_image,
-               0,0,0,0,
-               $thumb_width, $thumb_height, $this->width, $this->height );
-         }
-
-         imagesavealpha( $thumb, true );
-
-         call_user_func( $save_type, $thumb, $this->destination_file );
-         imagedestroy($thumb);
-         imagedestroy($src_image);
-         $this->width = $thumb_width;
-         $this->height = $thumb_height;
-         return true;
-      }
-      return false;
-   }
-
-   static function imagejpegwrapper( $dst_image, $thumb_path ) {
-      imageinterlace( $dst_image );
-      imagejpeg( $dst_image, $thumb_path, 95 );
-   }
+		return true;
+	}
 }
 
 /**
@@ -916,6 +751,31 @@ class fileupload
 		$filename = $url['path'];
 		$filesize = 0;
 
+		$remote_max_filesize = $this->max_filesize;
+		if (!$remote_max_filesize)
+		{
+			$max_filesize = @ini_get('upload_max_filesize');
+
+			if (!empty($max_filesize))
+			{
+				$unit = strtolower(substr($max_filesize, -1, 1));
+				$remote_max_filesize = (int) $max_filesize;
+
+				switch ($unit)
+				{
+					case 'g':
+						$remote_max_filesize *= 1024;
+					// no break
+					case 'm':
+						$remote_max_filesize *= 1024;
+					// no break
+					case 'k':
+						$remote_max_filesize *= 1024;
+					// no break
+				}
+			}
+		}
+
 		$errno = 0;
 		$errstr = '';
 
@@ -944,9 +804,9 @@ class fileupload
 				$block = @fread($fsock, 1024);
 				$filesize += strlen($block);
 
-				if ($this->max_filesize && $filesize > $this->max_filesize)
+				if ($remote_max_filesize && $filesize > $remote_max_filesize)
 				{
-					$max_filesize = get_formatted_filesize($this->max_filesize, false);
+					$max_filesize = get_formatted_filesize($remote_max_filesize, false);
 
 					$file = new fileerror(sprintf($user->lang[$this->error_prefix . 'WRONG_FILESIZE'], $max_filesize['value'], $max_filesize['unit']));
 					return $file;
@@ -972,9 +832,9 @@ class fileupload
 					{
 						$length = (int) str_replace('content-length: ', '', strtolower($line));
 
-						if ($length && $length > $this->max_filesize)
+						if ($remote_max_filesize && $length && $length > $remote_max_filesize)
 						{
-							$max_filesize = get_formatted_filesize($this->max_filesize, false);
+							$max_filesize = get_formatted_filesize($remote_max_filesize, false);
 
 							$file = new fileerror(sprintf($user->lang[$this->error_prefix . 'WRONG_FILESIZE'], $max_filesize['value'], $max_filesize['unit']));
 							return $file;

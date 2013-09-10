@@ -1,0 +1,1 @@
+<?php if (!defined('IN_PHPBB')) exit; ?><img src="<?php echo (isset($this->_rootref['T_THEME_PATH'])) ? $this->_rootref['T_THEME_PATH'] : ''; ?>/images/160x600.gif" width="160" height="600" alt="" />

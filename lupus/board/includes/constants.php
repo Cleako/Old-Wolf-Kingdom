@@ -25,7 +25,7 @@ if (!defined('IN_PHPBB'))
 */
 
 // phpBB Version
-define('PHPBB_VERSION', '3.0.9');
+define('PHPBB_VERSION', '3.0.11');
 
 // QA-related
 // define('PHPBB_QA', 1);
@@ -209,13 +209,6 @@ define('CAPTCHA_MIN_CHARS', 4);
 define('CAPTCHA_MAX_CHARS', 7);
 
 // Additional constants
-define('LOG_BLOCK', 4);
-define('WEIGHT_ZERO', 0);
-define('WEIGHT_ONE', 1);
-define('WEIGHT_TWO', 2);
-define('WEIGHT_THREE', 3);
-define('WEIGHT_FOUR', 4);
-define('WEIGHT_FIVE', 5);
 define('VOTE_CONVERTED', 127);
 
 // Table names
@@ -284,7 +277,6 @@ define('WORDS_TABLE',				$table_prefix . 'words');
 define('ZEBRA_TABLE',				$table_prefix . 'zebra');
 
 // Additional tables
-define('DNSBL_TABLE',				$table_prefix . 'dnsbl');
 
 
 ?>

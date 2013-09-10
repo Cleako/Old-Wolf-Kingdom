@@ -190,19 +190,6 @@ switch ($cron_type)
 		}
 
 	break;
-
-	case 'auto_backup':
-		
-		if ((time() - $config['auto_backup_gc'] * 86400) <= $config['auto_backup_last_gc'])
-		{
-			break;
-		}
-
-		include($phpbb_root_path . 'includes/auto_backup.' . $phpEx);
-
-		auto_backup();
-
-	break;
 }
 
 // Unloading cache and closing db after having done the dirty work.
