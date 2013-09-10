@@ -14,8 +14,8 @@
 <all-permissions/>
 </security>
     <resources>
-        <j2se version="1.6+"/>
-        <jar href="Applet.jar" main="true"/>
+        <j2se version="1.7+"/>
+        <jar href="Client_Launcher.jar" main="true"/>
         
         
     </resources>
