@@ -46,6 +46,7 @@ import org.lupus_regnum.client.util.DataConversions;
 
 import defs.ItemDef;
 import defs.NPCDef;
+import java.awt.event.KeyEvent;
 
 public final class mudclient extends GameWindowMiddleMan {
 	
@@ -4777,9 +4778,10 @@ public final class mudclient extends GameWindowMiddleMan {
 			mouseButtonClick = 0;
 		}
 	}
-	protected final void handleMenuKeyDown(int key) {
+	protected final void handleMenuKeyDown(boolean shift, boolean ctrl, boolean action, int key, char keyChar) {
 		if (!menusLoaded)
 			return;
+                System.out.println(key);
 		switch (key) {
 			case 1009: 
 				Config.storeConfig("width", "" + Display.displaymodes.get(0).getWidth());
@@ -4788,15 +4790,15 @@ public final class mudclient extends GameWindowMiddleMan {
 				Config.storeConfig("bitDepth", "" + Display.displaymodes.get(0).getBitDepth());
 				displayMessage("@gre@Client size reset to default, please restart!", 3, 0);
 				break;
-			case 1003:  // page down
+			case 34:  // page down
 				if (cameraHeight < 3000)
 					cameraHeight += 16;	
 				break;
-			case 1002: //page up 
+			case 33: //page up 
 				if (cameraHeight > 400)
 					cameraHeight -= 16;
 				break;
-			case 1000: // home
+			case KeyEvent.VK_HOME: // home
 				cameraHeight = 750;
 				cameraVertical = 920;
 				fogVar = 0;
@@ -4805,7 +4807,7 @@ public final class mudclient extends GameWindowMiddleMan {
 				gameMenu.updateText(chatHandle, "");
 				break;
 									
-			case 1004: // arrow up
+			case 39: // arrow up
 				currentChat--;
 				if(currentChat < 0) {
 					currentChat = 0;
@@ -4813,7 +4815,7 @@ public final class mudclient extends GameWindowMiddleMan {
 				}
 				gameMenu.updateText(chatHandle, messages.get(currentChat));
 				break;
-			case 1005: // arrow down 
+			case 41: // arrow down 
 				currentChat++;
 				if(currentChat >= messages.size()) {
 					currentChat = messages.size()-1;
@@ -4821,7 +4823,7 @@ public final class mudclient extends GameWindowMiddleMan {
 				}
 				gameMenu.updateText(chatHandle, messages.get(currentChat));
 				break;
-			case 1018: // F11
+			case 122: // F11
 				recording = !recording;
 				if (recording) {
 					try {
@@ -4849,19 +4851,19 @@ public final class mudclient extends GameWindowMiddleMan {
 		
 		if (loggedIn == 0) {
 			if (loginScreenNumber == 0)
-				menuWelcome.keyDown(key);
+				menuWelcome.keyDown(key, keyChar);
 			if (loginScreenNumber == 1)
-				menuNewUser.keyDown(key);
+				menuNewUser.keyDown(key, keyChar);
 			if (loginScreenNumber == 2)
-				menuLogin.keyDown(key);
+				menuLogin.keyDown(key, keyChar);
 		}
 		if (loggedIn == 1) {
 			if (showCharacterLookScreen) {
-				characterDesignMenu.keyDown(key);
+				characterDesignMenu.keyDown(key, keyChar);
 				return;
 			}
 			if (inputBoxType == 0 && showAbuseWindow == 0)
-				gameMenu.keyDown(key);
+				gameMenu.keyDown(key, keyChar);
 		}
 	}
 
@@ -9478,7 +9480,7 @@ public final class mudclient extends GameWindowMiddleMan {
 	private int newBankItemCount;
 	private int npcCombatModelArray2[] = { 0, 0, 0, 0, 0, 1, 2, 1 };
 	private Mob lastPlayerArray[];
-	int inputBoxType;
+	public static int inputBoxType;
 	private int combatStyle;
 	private Model gameDataModels[];
 	private boolean configMouseButtons;
@@ -9804,5 +9806,25 @@ public final class mudclient extends GameWindowMiddleMan {
 		super.streamClass.addByte(clickId);
 		super.streamClass.formatPacket();
 	}
+        
+    protected synchronized void onMouseWheel(int speed) {
+        if (speed > 1)
+            speed += speed;
+        else if (speed < -1)
+            speed -= (speed);
+        if (mouseOverMenu == 5)  
+            friendsMenu.scroll(friendsMenuHandle ,speed);
+        else if (mouseOverMenu == 4)
+            spellMenu.scroll(spellMenuHandle, speed);
+	else if (mouseOverMenu == 3)
+            questMenu.scroll(questMenuHandle, speed);
+        else if (messagesTab == 1)                                                   
+            gameMenu.scroll(messagesHandleType2, speed);
+        else if (messagesTab == 2)
+            gameMenu.scroll(messagesHandleType5, speed);
+        else if (messagesTab == 3)
+            gameMenu.scroll(messagesHandleType6, speed);
+    }
+
 }
 

@@ -83,7 +83,16 @@ public class InvUseOnGroundItem implements PacketHandler {
 				return;
 			    owner.getActionSender().sendMessage("You put the flour in the pot.");
 			    Bubble bubble = new Bubble(owner, 135);
-			    for (Player p : owner.getViewArea().getPlayersInView()) {
+			    for (Player p : owner.getViewArea().getPlayersSectorA()) {
+				p.informOfBubble(bubble);
+			    }
+                            for (Player p : owner.getViewArea().getPlayersSectorB()) {
+				p.informOfBubble(bubble);
+			    }
+                            for (Player p : owner.getViewArea().getPlayersSectorC()) {
+				p.informOfBubble(bubble);
+			    }
+                            for (Player p : owner.getViewArea().getPlayersSectorD()) {
 				p.informOfBubble(bubble);
 			    }
 			    world.unregisterItem(item);
@@ -122,7 +131,16 @@ public class InvUseOnGroundItem implements PacketHandler {
 			}
 			owner.setBusy(true);
 			Bubble bubble = new Bubble(owner, 166);
-			for (Player p : owner.getViewArea().getPlayersInView()) {
+			for (Player p : owner.getViewArea().getPlayersSectorA()) {
+			    p.informOfBubble(bubble);
+			}
+                        for (Player p : owner.getViewArea().getPlayersSectorB()) {
+			    p.informOfBubble(bubble);
+			}
+                        for (Player p : owner.getViewArea().getPlayersSectorC()) {
+			    p.informOfBubble(bubble);
+			}
+                        for (Player p : owner.getViewArea().getPlayersSectorD()) {
 			    p.informOfBubble(bubble);
 			}
 			owner.getActionSender().sendMessage("You attempt to light the logs...");

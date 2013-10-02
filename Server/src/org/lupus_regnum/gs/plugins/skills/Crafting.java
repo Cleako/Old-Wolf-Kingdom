@@ -372,7 +372,16 @@ public class Crafting implements InvUseOnItemListener, InvUseOnObjectListener {
     
     private void showBubble(Player owner, InvItem item) {
 		Bubble bubble = new Bubble(owner, item.getID());
-		for (Player p : owner.getViewArea().getPlayersInView()) {
+		for (Player p : owner.getViewArea().getPlayersSectorA()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorB()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorC()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorD()) {
 		    p.informOfBubble(bubble);
 		}
     }

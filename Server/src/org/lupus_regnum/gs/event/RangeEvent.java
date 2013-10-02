@@ -182,8 +182,14 @@ public class RangeEvent extends DelayedEvent {
 	Projectile projectile = new Projectile(owner, affectedMob, 2);
 
 	ArrayList<Player> playersToInform = new ArrayList<Player>();
-	playersToInform.addAll(owner.getViewArea().getPlayersInView());
-	playersToInform.addAll(affectedMob.getViewArea().getPlayersInView());
+	playersToInform.addAll(owner.getViewArea().getPlayersSectorA());
+        playersToInform.addAll(owner.getViewArea().getPlayersSectorB());
+        playersToInform.addAll(owner.getViewArea().getPlayersSectorC());
+        playersToInform.addAll(owner.getViewArea().getPlayersSectorD());
+	playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorA());
+        playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorB());
+        playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorC());
+        playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorD());
 	for (Player p : playersToInform) {
 	    p.informOfProjectile(projectile);
 	}
@@ -246,7 +252,13 @@ public class RangeEvent extends DelayedEvent {
 			    player.getActionSender().sendMessage("You are under attack!");
 
 			    npc.setLocation(player.getLocation(), true);
-			    for (Player p : npc.getViewArea().getPlayersInView())
+			    for (Player p : npc.getViewArea().getPlayersSectorA())
+				p.removeWatchedNpc(npc);
+                            for (Player p : npc.getViewArea().getPlayersSectorB())
+				p.removeWatchedNpc(npc);
+                            for (Player p : npc.getViewArea().getPlayersSectorC())
+				p.removeWatchedNpc(npc);
+                            for (Player p : npc.getViewArea().getPlayersSectorD())
 				p.removeWatchedNpc(npc);
 
 			    player.setBusy(true);

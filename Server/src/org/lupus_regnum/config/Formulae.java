@@ -842,7 +842,7 @@ public class Formulae {
 	return 0;
     }
 
-     public static int getPrice(InvItem i, Shop shop, boolean buy) {
+    public static int getPrice(InvItem i, Shop shop, boolean buy) {
     	 if(i.getDef().getBasePrice() == 0)
     		 return 0;
     	 

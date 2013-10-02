@@ -548,7 +548,16 @@ public class InvActionHandler implements PacketHandler {
 
     public static void showBubble(Player player, InvItem item) {
 		Bubble bubble = new Bubble(player, item.getID());
-		for (Player p1 : player.getViewArea().getPlayersInView()) {
+		for (Player p1 : player.getViewArea().getPlayersSectorA()) {
+		    p1.informOfBubble(bubble);
+		}
+                for (Player p1 : player.getViewArea().getPlayersSectorB()) {
+		    p1.informOfBubble(bubble);
+		}
+                for (Player p1 : player.getViewArea().getPlayersSectorC()) {
+		    p1.informOfBubble(bubble);
+		}
+                for (Player p1 : player.getViewArea().getPlayersSectorD()) {
 		    p1.informOfBubble(bubble);
 		}
     }

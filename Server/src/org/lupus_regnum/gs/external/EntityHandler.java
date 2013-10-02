@@ -50,6 +50,9 @@ public class EntityHandler {
     private static HashMap<Integer, Integer> spellAggressiveLvl;
     private static SpellDef[] spells;
     private static TileDef[] tiles;
+    public  static int getNpcCount() {
+      return npcs.length;
+    }
 
     static {
 		doors = (DoorDef[]) PersistenceManager.load("defs/DoorDef.xml.gz");

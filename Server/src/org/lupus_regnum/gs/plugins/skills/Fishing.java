@@ -54,7 +54,16 @@ public class Fishing implements ObjectActionListener {
 		owner.setBusy(true);
 		owner.getActionSender().sendSound("fish");
 		Bubble bubble = new Bubble(owner, netId);
-		for (Player p : owner.getViewArea().getPlayersInView()) {
+		for (Player p : owner.getViewArea().getPlayersSectorA()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorB()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorC()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorD()) {
 		    p.informOfBubble(bubble);
 		}
 

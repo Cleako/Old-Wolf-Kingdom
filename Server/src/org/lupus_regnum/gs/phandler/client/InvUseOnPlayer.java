@@ -55,7 +55,16 @@ public class InvUseOnPlayer implements PacketHandler {
 					    owner.resetPath();
 					    affectedPlayer.resetPath();
 					    Bubble crackerBubble = new Bubble(owner, 575);
-					    for (Player p : owner.getViewArea().getPlayersInView()) {
+					    for (Player p : owner.getViewArea().getPlayersSectorA()) {
+					    	p.informOfBubble(crackerBubble);
+					    }
+                                            for (Player p : owner.getViewArea().getPlayersSectorB()) {
+					    	p.informOfBubble(crackerBubble);
+					    }
+                                            for (Player p : owner.getViewArea().getPlayersSectorC()) {
+					    	p.informOfBubble(crackerBubble);
+					    }
+                                            for (Player p : owner.getViewArea().getPlayersSectorD()) {
 					    	p.informOfBubble(crackerBubble);
 					    }
 					    owner.getActionSender().sendMessage("You pull the cracker with " + affectedPlayer.getUsername() + "...");

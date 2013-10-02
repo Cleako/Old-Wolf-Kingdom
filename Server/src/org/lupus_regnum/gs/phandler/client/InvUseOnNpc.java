@@ -83,6 +83,10 @@ public class InvUseOnNpc implements PacketHandler {
 			owner.getActionSender().sendMessage("Nothing interesting happens.");
 			return;
 		    }
+                    if (!affectedNpc.isFollowing(owner)) {
+			owner.getActionSender().sendMessage("That's someone elses pet!");
+                        return;
+                    }
 		    owner.setBusy(true);
 		    affectedNpc.blockedBy(owner);
 		    affectedNpc.resetPath();
@@ -91,7 +95,7 @@ public class InvUseOnNpc implements PacketHandler {
 		    World.getWorld().getDelayedEventHandler().add(new ShortEvent(owner) {
 			public void action() {
 			    if (DataConversions.random(0, 4) != 0) {
-				owner.getActionSender().sendMessage("You catch the dragon in the crystal.");
+				owner.getActionSender().sendMessage("You catch the baby blue dragon in the crystal.");
 				owner.getInventory().remove(new InvItem(1231, 1));
 				owner.getInventory().add(new InvItem(1222, 1));
 				owner.getActionSender().sendInventory();
@@ -101,7 +105,7 @@ public class InvUseOnNpc implements PacketHandler {
 				affectedNpc.remove();
 				} else {
 				owner.getActionSender().sendMessage("The baby blue dragon manages to get away from you!");
-			    owner.setBusy(false);
+                                owner.setBusy(false);
 				affectedNpc.unblock();
 				}
 			}
@@ -117,7 +121,16 @@ public class InvUseOnNpc implements PacketHandler {
 		    affectedNpc.blockedBy(owner);
 		    affectedNpc.resetPath();
 		    Bubble bubble = new Bubble(owner, 21);
-		    for (Player p : owner.getViewArea().getPlayersInView()) {
+		    for (Player p : owner.getViewArea().getPlayersSectorA()) {
+			p.informOfBubble(bubble);
+		    }
+                    for (Player p : owner.getViewArea().getPlayersSectorB()) {
+			p.informOfBubble(bubble);
+		    }
+                    for (Player p : owner.getViewArea().getPlayersSectorC()) {
+			p.informOfBubble(bubble);
+		    }
+                    for (Player p : owner.getViewArea().getPlayersSectorD()) {
 			p.informOfBubble(bubble);
 		    }
 		    owner.getActionSender().sendMessage("You try to milk the cow.");
@@ -253,7 +266,16 @@ public class InvUseOnNpc implements PacketHandler {
 
 	    private void showBubble() {
 		Bubble bubble = new Bubble(owner, item.getID());
-		for (Player p : owner.getViewArea().getPlayersInView()) {
+		for (Player p : owner.getViewArea().getPlayersSectorA()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorB()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorC()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorD()) {
 		    p.informOfBubble(bubble);
 		}
 	    }

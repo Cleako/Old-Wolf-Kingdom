@@ -204,7 +204,16 @@ public class InvUseOnObject implements PacketHandler {
 			}
 			if (owner.getInventory().remove(item) > -1) {
 			    Bubble bubble = new Bubble(player, 29);
-			    for (Player p : player.getViewArea().getPlayersInView()) {
+			    for (Player p : player.getViewArea().getPlayersSectorA()) {
+				p.informOfBubble(bubble);
+			    }
+                            for (Player p : player.getViewArea().getPlayersSectorB()) {
+				p.informOfBubble(bubble);
+			    }
+                            for (Player p : player.getViewArea().getPlayersSectorC()) {
+				p.informOfBubble(bubble);
+			    }
+                            for (Player p : player.getViewArea().getPlayersSectorD()) {
 				p.informOfBubble(bubble);
 			    }
 			    owner.getActionSender().sendMessage("You put the grain in the hopper");
@@ -492,7 +501,16 @@ public class InvUseOnObject implements PacketHandler {
 	  
 	    private void showBubble() {
 			Bubble bubble = new Bubble(owner, item.getID());
-			for (Player p : owner.getViewArea().getPlayersInView()) {
+			for (Player p : owner.getViewArea().getPlayersSectorA()) {
+			    p.informOfBubble(bubble);
+			}
+                        for (Player p : owner.getViewArea().getPlayersSectorB()) {
+			    p.informOfBubble(bubble);
+			}
+                        for (Player p : owner.getViewArea().getPlayersSectorC()) {
+			    p.informOfBubble(bubble);
+			}
+                        for (Player p : owner.getViewArea().getPlayersSectorD()) {
 			    p.informOfBubble(bubble);
 			}
 	    }

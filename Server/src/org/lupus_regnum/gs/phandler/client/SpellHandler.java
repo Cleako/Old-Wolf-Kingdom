@@ -311,7 +311,13 @@ public class SpellHandler implements PacketHandler {
 		    player.getActionSender().sendSound("underattack");
 		    player.getActionSender().sendMessage("You are under attack!");
                     npc.setLocation(player.getLocation(), true);
-		    for (Player p : npc.getViewArea().getPlayersInView())
+		    for (Player p : npc.getViewArea().getPlayersSectorA())
+		    	p.removeWatchedNpc(npc);
+                    for (Player p : npc.getViewArea().getPlayersSectorB())
+		    	p.removeWatchedNpc(npc);
+                    for (Player p : npc.getViewArea().getPlayersSectorC())
+		    	p.removeWatchedNpc(npc);
+                    for (Player p : npc.getViewArea().getPlayersSectorD())
 		    	p.removeWatchedNpc(npc);
                         player.setSprite(9);
                         player.setOpponent(npc);
@@ -325,6 +331,7 @@ public class SpellHandler implements PacketHandler {
 			fighting.setLastRun(0);
 			world.getDelayedEventHandler().add(fighting);
                 }
+                
 	
 		public void failed() {
 		    npc.setChasing(null);
@@ -725,8 +732,14 @@ public class SpellHandler implements PacketHandler {
 			    	
 			    Projectile projectilez = new Projectile(owner, affectedMob, 1);
 			    ArrayList<Player> playersToInformm = new ArrayList<Player>();
-			    playersToInformm.addAll(owner.getViewArea().getPlayersInView());
-			    playersToInformm.addAll(affectedMob.getViewArea().getPlayersInView());
+			    playersToInformm.addAll(owner.getViewArea().getPlayersSectorA());
+                            playersToInformm.addAll(owner.getViewArea().getPlayersSectorB());
+                            playersToInformm.addAll(owner.getViewArea().getPlayersSectorC());
+                            playersToInformm.addAll(owner.getViewArea().getPlayersSectorD());
+			    playersToInformm.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                            playersToInformm.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                            playersToInformm.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                            playersToInformm.addAll(affectedMob.getViewArea().getPlayersSectorD());
 			    for (Player p : playersToInformm) {
 				p.informOfProjectile(projectilez);
 				p.informOfModifiedHits(affectedMob);
@@ -768,8 +781,14 @@ public class SpellHandler implements PacketHandler {
 			    affectedMob.setHits(newp);
 			    
 			    ArrayList<Player> playersToInforms = new ArrayList<Player>();
-			    playersToInforms.addAll(owner.getViewArea().getPlayersInView());
-			    playersToInforms.addAll(affectedMob.getViewArea().getPlayersInView());
+			    playersToInforms.addAll(owner.getViewArea().getPlayersSectorA());
+                            playersToInforms.addAll(owner.getViewArea().getPlayersSectorB());
+                            playersToInforms.addAll(owner.getViewArea().getPlayersSectorC());
+                            playersToInforms.addAll(owner.getViewArea().getPlayersSectorD());
+			    playersToInforms.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                            playersToInforms.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                            playersToInforms.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                            playersToInforms.addAll(affectedMob.getViewArea().getPlayersSectorD());
 			    
 			    for (Player p : playersToInforms) {
 				p.informOfProjectile(projectilee);
@@ -807,8 +826,14 @@ public class SpellHandler implements PacketHandler {
                                 affectedPlayer.getActionSender().sendMessage(owner.getUsername() + " has inhibited your spell casting ability temporarily.");
                                 owner.getActionSender().sendMessage("The spell has inhibited your own spell casting ability temporarily.");
                                 ArrayList<Player> playersToInform =  new ArrayList<Player>();
-                                playersToInform.addAll(owner.getViewArea().getPlayersInView());
-                                playersToInform.addAll(affectedMob.getViewArea().getPlayersInView());
+                                playersToInform.addAll(owner.getViewArea().getPlayersSectorA());
+                                playersToInform.addAll(owner.getViewArea().getPlayersSectorB());
+                                playersToInform.addAll(owner.getViewArea().getPlayersSectorC());
+                                playersToInform.addAll(owner.getViewArea().getPlayersSectorD());
+                                playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                                playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                                playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                                playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorD());
                                 for(Player p : playersToInform) {
                                     p.informOfProjectile(projectile);
                                 }
@@ -862,8 +887,14 @@ public class SpellHandler implements PacketHandler {
 				int newhp = affectedMob.getHits() - damag;
 				affectedMob.setHits(newhp);
 				ArrayList<Player> playersToInfor = new ArrayList<Player>();
-				playersToInfor.addAll(owner.getViewArea().getPlayersInView());
-				playersToInfor.addAll(affectedMob.getViewArea().getPlayersInView());
+				playersToInfor.addAll(owner.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorD());
+				playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorD());
 				for(Player p : playersToInfor) {
 				    p.informOfProjectile(projectil);
 				    p.informOfModifiedHits(affectedMob);
@@ -925,8 +956,14 @@ public class SpellHandler implements PacketHandler {
 				int newhp = affectedMob.getHits() - damag;
 				affectedMob.setHits(newhp);
 				ArrayList<Player> playersToInfor = new ArrayList<Player>();
-				playersToInfor.addAll(owner.getViewArea().getPlayersInView());
-				playersToInfor.addAll(affectedMob.getViewArea().getPlayersInView());
+				playersToInfor.addAll(owner.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorD());
+				playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorD());
 				for(Player p : playersToInfor) {
 				    p.informOfProjectile(projectil);
 				    p.informOfModifiedHits(affectedMob);
@@ -984,8 +1021,14 @@ public class SpellHandler implements PacketHandler {
 				int newhp = affectedMob.getHits() - damag;
 				affectedMob.setHits(newhp);
 				ArrayList<Player> playersToInfor = new ArrayList<Player>();
-				playersToInfor.addAll(owner.getViewArea().getPlayersInView());
-				playersToInfor.addAll(affectedMob.getViewArea().getPlayersInView());
+				playersToInfor.addAll(owner.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorD());
+				playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorD());
 				for(Player p : playersToInfor) {
 				    p.informOfProjectile(projectil);
 				    p.informOfModifiedHits(affectedMob);
@@ -1043,8 +1086,14 @@ public class SpellHandler implements PacketHandler {
                                 int newhp = affectedMob.getHits() - damag;
                                 affectedMob.setHits(newhp);
 				ArrayList<Player> playersToInfor = new ArrayList<Player>();
-				playersToInfor.addAll(owner.getViewArea().getPlayersInView());
-				playersToInfor.addAll(affectedMob.getViewArea().getPlayersInView());
+				playersToInfor.addAll(owner.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(owner.getViewArea().getPlayersSectorD());
+				playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                                playersToInfor.addAll(affectedMob.getViewArea().getPlayersSectorD());
 				for(Player p : playersToInfor) {
 				    p.informOfProjectile(projectil);
 				    p.informOfModifiedHits(affectedMob);
@@ -1102,8 +1151,14 @@ public class SpellHandler implements PacketHandler {
 			    affectedMob.setHits(newHp);
 	
 			    ArrayList<Player> playersToInform = new ArrayList<Player>();
-			    playersToInform.addAll(owner.getViewArea().getPlayersInView());
-			    playersToInform.addAll(affectedMob.getViewArea().getPlayersInView());
+			    playersToInform.addAll(owner.getViewArea().getPlayersSectorA());
+                            playersToInform.addAll(owner.getViewArea().getPlayersSectorB());
+                            playersToInform.addAll(owner.getViewArea().getPlayersSectorC());
+                            playersToInform.addAll(owner.getViewArea().getPlayersSectorD());
+			    playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorA());
+                            playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorB());
+                            playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorC());
+                            playersToInform.addAll(affectedMob.getViewArea().getPlayersSectorD());
 			    for (Player p : playersToInform) {
 				p.informOfProjectile(projectile);
 				p.informOfModifiedHits(affectedMob);

@@ -38,7 +38,22 @@ public class NpcUpdatePacketBuilder {
 					    updatez.addShort(-1);
 					    updatez.addByte((byte) cm.getLength());
 					    updatez.addBytes(cm.getMessage());
-					    for (Player pl : playerToUpdate.getViewArea().getPlayersInView()) {
+					    for (Player pl : playerToUpdate.getViewArea().getPlayersSectorA()) {
+						if (pl.equals(playerToUpdate) || pl == playerToUpdate)
+						    continue;
+						pl.getSession().write(updatez.toPacket());
+					    }
+                                            for (Player pl : playerToUpdate.getViewArea().getPlayersSectorB()) {
+						if (pl.equals(playerToUpdate) || pl == playerToUpdate)
+						    continue;
+						pl.getSession().write(updatez.toPacket());
+					    }
+                                            for (Player pl : playerToUpdate.getViewArea().getPlayersSectorC()) {
+						if (pl.equals(playerToUpdate) || pl == playerToUpdate)
+						    continue;
+						pl.getSession().write(updatez.toPacket());
+					    }
+                                            for (Player pl : playerToUpdate.getViewArea().getPlayersSectorD()) {
 						if (pl.equals(playerToUpdate) || pl == playerToUpdate)
 						    continue;
 						pl.getSession().write(updatez.toPacket());

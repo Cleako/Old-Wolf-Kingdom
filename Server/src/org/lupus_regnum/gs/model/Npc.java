@@ -160,12 +160,17 @@ public class Npc extends Mob {
         /**
 	 * Who we are currently following (if anyone)
 	 */
-	private Mob following;
+	private Player following;
         
         
         public boolean isFollowing() {
 		return npcFollowEvent != null && following != null;
 	}
+        
+        public boolean isFollowing(Player player) {
+            if (!isFollowing()) return false;
+            return following.equals(player);
+        }
         
         public void resetFollowing() {
 		following = null;
@@ -176,40 +181,29 @@ public class Npc extends Mob {
 		resetPath();
 	}
         
-        public void setFollowing(final Mob mob, final int radius) {
+        public void setFollowing(final Player player, final int radius) {
 		if (isFollowing()) {
 			resetFollowing();
 		}
-		following = mob;
+		following = player;
 		npcFollowEvent = new DelayedEvent(null, 500) {
-
 			public void run() {
-				if (!owner.withinRange(mob) || mob.isRemoved()
-						|| (owner.isBusy() && !owner.isDueling())) {
+				if (!Npc.this.withinRange(player) || player.isRemoved() || Npc.this.isBusy()) {
 					resetFollowing();
-				} else if (!owner.finishedPath()
-						&& owner.withinRange(mob, radius)) {
-					owner.resetPath();
-				} else if (owner.finishedPath()
-						&& !owner.withinRange(mob, radius + 1)) {
-					owner.setPath(new Path(owner.getX(), owner.getY(), mob
-							.getX(), mob.getY()));
+				} else if (!Npc.this.finishedPath() && Npc.this.withinRange(player, radius)) {
+					Npc.this.resetPath();
+				} else if (Npc.this.finishedPath() && !Npc.this.withinRange(player, radius + 1)) {
+					Npc.this.setPath(new Path(Npc.this.getX(), Npc.this.getY(), player.getX(), player.getY()));
 				}
 			}
 		};
 		World.getWorld().getDelayedEventHandler().add(npcFollowEvent);
 	}
         
-        public void setFollowing(Mob mob) {
-		setFollowing(mob, 0);
-	}
-        
-        public DelayedEvent getNpcFollowEvent() {
-		return npcFollowEvent;
-	}
-
-	public void setFollowEvent(DelayedEvent npcFollowEvent) {
-		this.npcFollowEvent = npcFollowEvent;
+        public boolean withinRange(Entity e) {
+		int xDiff = location.getX() - e.getLocation().getX();
+		int yDiff = location.getY() - e.getLocation().getY();
+		return xDiff <= 16 && xDiff >= -15 && yDiff <= 16 && yDiff >= -15;
 	}
         
         public boolean isShouldRespawn() {
@@ -416,7 +410,7 @@ public class Npc extends Mob {
 	public int getWeaponPowerPoints() {
 		return 1;
 	}
-
+        
 	public void killedBy(Mob mob, boolean stake) {
 		if (mob instanceof Player) {
 			Player player = (Player) mob;
@@ -547,6 +541,10 @@ public class Npc extends Mob {
 	}
 
 	public void updatePosition() {
+            if (following != null) {
+                super.updatePosition();
+                return;
+            }
 		long now = System.currentTimeMillis();
 		Player victim = findVictim();
 		if (!isBusy() && def.isAggressive() && now - getCombatTimer() > 3000 && victim != null) {
@@ -559,7 +557,16 @@ public class Npc extends Mob {
 
 
 			setLocation(victim.getLocation(), true);
-			for (Player p : getViewArea().getPlayersInView()) {
+			for (Player p : getViewArea().getPlayersSectorA()) {
+				p.removeWatchedNpc(this);
+			}
+                        for (Player p : getViewArea().getPlayersSectorB()) {
+				p.removeWatchedNpc(this);
+			}
+                        for (Player p : getViewArea().getPlayersSectorC()) {
+				p.removeWatchedNpc(this);
+			}
+                        for (Player p : getViewArea().getPlayersSectorD()) {
 				p.removeWatchedNpc(this);
 			}
 
