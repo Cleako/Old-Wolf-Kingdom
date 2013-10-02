@@ -203,7 +203,16 @@ public class DuelHandler implements PacketHandler {
 					affectedPlayer.resetAllExceptDueling();
 	
 					owner.setLocation(affectedPlayer.getLocation(), true);
-					for (Player p : owner.getViewArea().getPlayersInView()) {
+					for (Player p : owner.getViewArea().getPlayersSectorA()) {
+					    p.removeWatchedPlayer(owner);
+					}
+                                        for (Player p : owner.getViewArea().getPlayersSectorB()) {
+					    p.removeWatchedPlayer(owner);
+					}
+                                        for (Player p : owner.getViewArea().getPlayersSectorC()) {
+					    p.removeWatchedPlayer(owner);
+					}
+                                        for (Player p : owner.getViewArea().getPlayersSectorD()) {
 					    p.removeWatchedPlayer(owner);
 					}
 	

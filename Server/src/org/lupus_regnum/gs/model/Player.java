@@ -186,7 +186,10 @@ public final class Player extends Mob {
       setCurStat(3, getCurStat(3) - damage);
       amount++;
       ArrayList<Player> playersToInform = new ArrayList<Player>();
-      playersToInform.addAll(getViewArea().getPlayersInView());
+      playersToInform.addAll(getViewArea().getPlayersSectorA());
+      playersToInform.addAll(getViewArea().getPlayersSectorB());
+      playersToInform.addAll(getViewArea().getPlayersSectorC());
+      playersToInform.addAll(getViewArea().getPlayersSectorD());
          
       for(Player p : playersToInform) {
          p.informOfModifiedHits(owner);
@@ -2454,8 +2457,50 @@ public final class Player extends Mob {
 	}
 
 	public void updateViewedPlayers() {
-		List<Player> playersInView = viewArea.getPlayersInView();
-		for (Player p : playersInView) {
+		List<Player> playersInViewA = viewArea.getPlayersSectorA();
+		for (Player p : playersInViewA) {
+			if (p.getIndex() != getIndex() && p.loggedIn()) {
+				if (!p.isInvis()) {
+					this.informOfPlayer(p);
+				}
+				if (p.isInvis() && isMod()) {
+					this.informOfPlayer(p);
+				}
+				if (!this.isInvis()) {
+					p.informOfPlayer(this);
+				}
+			}
+		}
+                List<Player> playersInViewB = viewArea.getPlayersSectorB();
+		for (Player p : playersInViewB) {
+			if (p.getIndex() != getIndex() && p.loggedIn()) {
+				if (!p.isInvis()) {
+					this.informOfPlayer(p);
+				}
+				if (p.isInvis() && isMod()) {
+					this.informOfPlayer(p);
+				}
+				if (!this.isInvis()) {
+					p.informOfPlayer(this);
+				}
+			}
+		}
+                List<Player> playersInViewC = viewArea.getPlayersSectorC();
+		for (Player p : playersInViewC) {
+			if (p.getIndex() != getIndex() && p.loggedIn()) {
+				if (!p.isInvis()) {
+					this.informOfPlayer(p);
+				}
+				if (p.isInvis() && isMod()) {
+					this.informOfPlayer(p);
+				}
+				if (!this.isInvis()) {
+					p.informOfPlayer(this);
+				}
+			}
+		}
+                List<Player> playersInViewD = viewArea.getPlayersSectorD();
+		for (Player p : playersInViewD) {
 			if (p.getIndex() != getIndex() && p.loggedIn()) {
 				if (!p.isInvis()) {
 					this.informOfPlayer(p);

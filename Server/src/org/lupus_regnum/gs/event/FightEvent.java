@@ -178,8 +178,14 @@ public class FightEvent extends DelayedEvent {
 		} 
 		else {
 			ArrayList<Player> playersToInform = new ArrayList<Player>();
-			playersToInform.addAll(opponent.getViewArea().getPlayersInView());
-			playersToInform.addAll(attacker.getViewArea().getPlayersInView());
+			playersToInform.addAll(opponent.getViewArea().getPlayersSectorA());
+                        playersToInform.addAll(opponent.getViewArea().getPlayersSectorB());
+                        playersToInform.addAll(opponent.getViewArea().getPlayersSectorC());
+                        playersToInform.addAll(opponent.getViewArea().getPlayersSectorD());
+			playersToInform.addAll(attacker.getViewArea().getPlayersSectorA());
+                        playersToInform.addAll(attacker.getViewArea().getPlayersSectorB());
+                        playersToInform.addAll(attacker.getViewArea().getPlayersSectorC());
+                        playersToInform.addAll(attacker.getViewArea().getPlayersSectorD());
 			for (Player p : playersToInform) {
 				p.informOfModifiedHits(opponent);
 			}

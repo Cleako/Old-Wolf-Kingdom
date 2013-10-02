@@ -58,21 +58,69 @@ public class ViewArea {
 	return npcs;
     }
 
-    public List<Player> getPlayersInView() {
-	List<Player> players = new ArrayList<Player>();
-	ActiveTile[][] viewArea = getViewedArea(15, 15, 16, 16);
-	for (int x = 0; x < viewArea.length; x++)
-	    for (int y = 0; y < viewArea[x].length; y++) {
-		ActiveTile t = viewArea[x][y];
-		if (t != null) {
-		    List<Player> temp = t.getPlayers();
-		    if (temp != null) {
-			players.addAll(temp);
-		    }
-		}
-	    }
-	return players;
-    }
+    public List<Player> getPlayersSectorA() {
+                List<Player> players = new ArrayList<Player>();
+                ActiveTile[][] viewArea = getViewedArea(15, 0, 0, 16);
+                for (int x = 0; x < viewArea.length; x++)
+                        for (int y = 0; y < viewArea[x].length; y++) {
+                                ActiveTile t = viewArea[x][y];
+                                if (t != null) {
+                                        List<Player> temp = t.getPlayers();
+                                        if (temp != null) {
+                                                players.addAll(temp);
+                                        }
+                                }
+                        }
+                return players;
+        }
+
+        public List<Player> getPlayersSectorB() {
+                List<Player> players = new ArrayList<Player>();
+                ActiveTile[][] viewArea = getViewedArea(0, 0, 16, 16);
+                for (int x = 0; x < viewArea.length; x++)
+                        for (int y = 0; y < viewArea[x].length; y++) {
+                                ActiveTile t = viewArea[x][y];
+                                if (t != null) {
+                                        List<Player> temp = t.getPlayers();
+                                        if (temp != null) {
+                                                players.addAll(temp);
+                                        }
+                                }
+                        }
+                return players;
+        }
+
+        public List<Player> getPlayersSectorC() {
+                List<Player> players = new ArrayList<Player>();
+                ActiveTile[][] viewArea = getViewedArea(0, 15, 16, 0);
+                for (int x = 0; x < viewArea.length; x++)
+                        for (int y = 0; y < viewArea[x].length; y++) {
+                                ActiveTile t = viewArea[x][y];
+                                if (t != null) {
+                                        List<Player> temp = t.getPlayers();
+                                        if (temp != null) {
+                                                players.addAll(temp);
+                                        }
+                                }
+                        }
+                return players;
+        }
+
+        public List<Player> getPlayersSectorD() {
+                List<Player> players = new ArrayList<Player>();
+                ActiveTile[][] viewArea = getViewedArea(15, 15, 0, 0);
+                for (int x = 0; x < viewArea.length; x++)
+                        for (int y = 0; y < viewArea[x].length; y++) {
+                                ActiveTile t = viewArea[x][y];
+                                if (t != null) {
+                                        List<Player> temp = t.getPlayers();
+                                        if (temp != null) {
+                                                players.addAll(temp);
+                                        }
+                                }
+                        }
+                return players;
+        }
 
     public ActiveTile[][] getViewedArea(int x1, int y1, int x2, int y2) {
 	int mobX = mob.getX();

@@ -122,7 +122,16 @@ public class PickupItem implements PacketHandler {
 		owner.getActionSender().sendMessage("You are under attack!");
 	
 		n.setLocation(owner.getLocation(), true);
-		for (Player p : n.getViewArea().getPlayersInView()) {
+		for (Player p : n.getViewArea().getPlayersSectorA()) {
+		    p.removeWatchedNpc(n);
+		}
+                for (Player p : n.getViewArea().getPlayersSectorB()) {
+		    p.removeWatchedNpc(n);
+		}
+                for (Player p : n.getViewArea().getPlayersSectorC()) {
+		    p.removeWatchedNpc(n);
+		}
+                for (Player p : n.getViewArea().getPlayersSectorD()) {
 		    p.removeWatchedNpc(n);
 		}
 	

@@ -134,6 +134,29 @@ public class Menu {
 	                while (menuObjectType[currentFocusHandle] != 5 && menuObjectType[currentFocusHandle] != 6);
 	        }
 	    }
+         
+    public void keyDown(int key, char keyChar) {
+        if (key == 0)
+            return;
+        if (currentFocusHandle != -1 && menuObjectText[currentFocusHandle] != null && menuObjectCanAcceptActions[currentFocusHandle]) {
+            int textLength = menuObjectText[currentFocusHandle].length();
+            if (key == 8 && textLength > 0) // backspace
+                menuObjectText[currentFocusHandle] = menuObjectText[currentFocusHandle].substring(0, textLength - 1);
+            if ((key == 10 || key == 13) && textLength > 0) // enter/return
+                menuObjectHasAction[currentFocusHandle] = true;
+            String validCharSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"\243$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+            if (textLength < handleMaxTextLength[currentFocusHandle]) {
+                for (int k = 0; k < validCharSet.length(); k++)
+                    if (keyChar == validCharSet.charAt(k))
+                        menuObjectText[currentFocusHandle] += (char) keyChar;
+
+            }
+            if (key == 9)
+                do currentFocusHandle = (currentFocusHandle + 1) % menuObjectCount;
+                while (menuObjectType[currentFocusHandle] != 5 && menuObjectType[currentFocusHandle] != 6);
+        }
+    }
+             
 	public void drawMenu() {
 		for (int menuObject = 0; menuObject < menuObjectCount; menuObject++)
 			if (menuObjectCanAcceptActions[menuObject])
@@ -710,6 +733,22 @@ public class Menu {
 
 	public int getMenuIndex(int i) {
 		return anIntArray187[i];
+	}
+        
+	public void scroll(int handle, int i) {
+		int limit = menuListTextCount[handle] - (menuObjectHeight[handle] / gameImage.messageFontHeight(menuObjectTextType[handle]));
+		int diff = Math.abs(limit - anIntArray187[handle]);
+		if (i > 0)
+			if(diff < i)
+				anIntArray187[handle] += diff;
+			else
+				anIntArray187[handle] += i;
+		else if(i < 0 && anIntArray187[handle] > 0)
+			if (anIntArray187[handle] < -i)
+				anIntArray187[handle] -= anIntArray187[handle];
+			else
+				anIntArray187[handle] += i;
+		return;
 	}
 
 	protected GameImage gameImage;

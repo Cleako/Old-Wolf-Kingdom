@@ -35,14 +35,14 @@ public class Moderator implements CommandListener {
 				player.getActionSender().sendMessage("Invalid args. Syntax: NPC id");
 				return;
 		    }
-		    boolean percist = (args.length > 1 ? args[1].equalsIgnoreCase("true") : false);
+		    boolean persist = (args.length > 1 ? args[1].equalsIgnoreCase("true") : false);
 	    	
 		    int id = Integer.parseInt(args[0]);
 		    if (EntityHandler.getNpcDef(id) != null) {
 				final Npc n = new Npc(id, player.getX(), player.getY(), player.getX() - 2, player.getX() + 2, player.getY() - 2, player.getY() + 2);
-				n.setRespawn(percist);
+				n.setRespawn(persist);
 				world.registerNpc(n);
-				if(!percist) {
+				if(!persist) {
 					World.getWorld().getDelayedEventHandler().add(new SingleEvent(null, 60000) {
 					    public void action() {
 						Mob opponent = n.getOpponent();

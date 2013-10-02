@@ -51,7 +51,16 @@ public class Woodcutting implements ObjectActionListener {
 		}
 		owner.setBusy(true);
 		Bubble bubble = new Bubble(owner, axeId);
-		for (Player p : owner.getViewArea().getPlayersInView()) {
+		for (Player p : owner.getViewArea().getPlayersSectorA()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorB()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorC()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorD()) {
 		    p.informOfBubble(bubble);
 		}
 		owner.getActionSender().sendMessage("You swing your " + EntityHandler.getItemDef(axeId).getName() + " at the tree...");

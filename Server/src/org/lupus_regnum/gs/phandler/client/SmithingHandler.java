@@ -64,7 +64,16 @@ public class SmithingHandler implements PacketHandler {
 					player.getInventory().remove(new InvItem(barID, 1));
 				}
 				Bubble bubble = new Bubble(player, barID);
-				for (Player x : player.getViewArea().getPlayersInView()) {
+				for (Player x : player.getViewArea().getPlayersSectorA()) {
+				    x.informOfBubble(bubble);
+				}
+                                for (Player x : player.getViewArea().getPlayersSectorB()) {
+				    x.informOfBubble(bubble);
+				}
+                                for (Player x : player.getViewArea().getPlayersSectorC()) {
+				    x.informOfBubble(bubble);
+				}
+                                for (Player x : player.getViewArea().getPlayersSectorD()) {
 				    x.informOfBubble(bubble);
 				}
 				if (EntityHandler.getItemDef(def.getItemID()).isStackable()) {

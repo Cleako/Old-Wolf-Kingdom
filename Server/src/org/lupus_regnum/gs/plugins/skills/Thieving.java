@@ -221,9 +221,18 @@ public class Thieving {
 
                 owner.getActionSender().sendMessage("You find a trap on the chest..");
                 Bubble bubble = new Bubble(player, 549);
-                for(Player p : owner.getViewArea().getPlayersInView()) {
-                    p.informOfBubble(bubble);
-                }
+                for (Player p : owner.getViewArea().getPlayersSectorA()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorB()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorC()) {
+		    p.informOfBubble(bubble);
+		}
+                for (Player p : owner.getViewArea().getPlayersSectorD()) {
+		    p.informOfBubble(bubble);
+		}
 
                 world.getDelayedEventHandler().add(new MiniEvent(player, 1000){
                     public void action(){    
@@ -269,7 +278,10 @@ public class Thieving {
         player.setLastDamage(damage);
         player.setCurStat(3, player.getCurStat(3) - damage);
         ArrayList<Player> playersToInform = new ArrayList<Player>();
-        playersToInform.addAll(player.getViewArea().getPlayersInView());
+        playersToInform.addAll(player.getViewArea().getPlayersSectorA());
+        playersToInform.addAll(player.getViewArea().getPlayersSectorB());
+        playersToInform.addAll(player.getViewArea().getPlayersSectorC());
+        playersToInform.addAll(player.getViewArea().getPlayersSectorD());
         player.getActionSender().sendStat(3);
 
         for(Player p : playersToInform) {
@@ -311,7 +323,16 @@ public class Thieving {
                 return;
             }
             Bubble bubble = new Bubble(player, 609);
-            for(Player p : player.getViewArea().getPlayersInView()) {
+            for(Player p : player.getViewArea().getPlayersSectorA()) {
+                p.informOfBubble(bubble);
+            }
+            for(Player p : player.getViewArea().getPlayersSectorB()) {
+                p.informOfBubble(bubble);
+            }
+            for(Player p : player.getViewArea().getPlayersSectorC()) {
+                p.informOfBubble(bubble);
+            }
+            for(Player p : player.getViewArea().getPlayersSectorD()) {
                 p.informOfBubble(bubble);
             }
             player.getActionSender().sendMessage("You attempt to steal from the " + object.getGameObjectDef().name);    
@@ -437,7 +458,16 @@ public class Thieving {
                 return;
             }
             Bubble bubble = new Bubble(player, 714);
-            for(Player p : player.getViewArea().getPlayersInView()) {
+            for(Player p : player.getViewArea().getPlayersSectorA()) {
+                p.informOfBubble(bubble);
+            }
+            for(Player p : player.getViewArea().getPlayersSectorB()) {
+                p.informOfBubble(bubble);
+            }
+            for(Player p : player.getViewArea().getPlayersSectorC()) {
+                p.informOfBubble(bubble);
+            }
+            for(Player p : player.getViewArea().getPlayersSectorD()) {
                 p.informOfBubble(bubble);
             }
             player.getActionSender().sendMessage("You attempt to pick the lock on the " + object.getDoorDef().name);
@@ -822,7 +852,16 @@ public class Thieving {
                         }                    
 
                         Bubble bubble = new Bubble(player, 16);
-                        for(Player p : owner.getViewArea().getPlayersInView()) {
+                        for(Player p : owner.getViewArea().getPlayersSectorA()) {
+                            p.informOfBubble(bubble);
+                        }
+                        for(Player p : owner.getViewArea().getPlayersSectorB()) {
+                            p.informOfBubble(bubble);
+                        }
+                        for(Player p : owner.getViewArea().getPlayersSectorC()) {
+                            p.informOfBubble(bubble);
+                        }
+                        for(Player p : owner.getViewArea().getPlayersSectorD()) {
                             p.informOfBubble(bubble);
                         }
                         owner.getActionSender().sendMessage("You attempt to pick the "+affectedNpc.getDef().name+"'s pocket...");
@@ -894,7 +933,16 @@ public class Thieving {
                                             affectedNpc.resetPath();
                                             affectedNpc.setBusy(true);
 
-                                            for(Player p : affectedNpc.getViewArea().getPlayersInView()) {
+                                            for(Player p : affectedNpc.getViewArea().getPlayersSectorA()) {
+                                                p.removeWatchedNpc(affectedNpc);
+                                            }
+                                            for(Player p : affectedNpc.getViewArea().getPlayersSectorB()) {
+                                                p.removeWatchedNpc(affectedNpc);
+                                            }
+                                            for(Player p : affectedNpc.getViewArea().getPlayersSectorC()) {
+                                                p.removeWatchedNpc(affectedNpc);
+                                            }
+                                            for(Player p : affectedNpc.getViewArea().getPlayersSectorD()) {
                                                 p.removeWatchedNpc(affectedNpc);
                                             }
                                             if(affectedNpc.inCombat()) {

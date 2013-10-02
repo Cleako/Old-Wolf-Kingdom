@@ -54,8 +54,14 @@ public class CannonFiring {
                      int newHP = n.getHits() - cannonBallDamage;
                      n.setHits(newHP);
                      ArrayList<Player> playersToInform = new ArrayList<Player>();
-                     playersToInform.addAll(player.getViewArea().getPlayersInView());
-                     playersToInform.addAll(n.getViewArea().getPlayersInView());
+                     playersToInform.addAll(player.getViewArea().getPlayersSectorA());
+                     playersToInform.addAll(player.getViewArea().getPlayersSectorB());
+                     playersToInform.addAll(player.getViewArea().getPlayersSectorC());
+                     playersToInform.addAll(player.getViewArea().getPlayersSectorD());
+                     playersToInform.addAll(n.getViewArea().getPlayersSectorA());
+                     playersToInform.addAll(n.getViewArea().getPlayersSectorB());
+                     playersToInform.addAll(n.getViewArea().getPlayersSectorC());
+                     playersToInform.addAll(n.getViewArea().getPlayersSectorD());
                      for(Player p : playersToInform) {
                         p.informOfProjectile(projectile);
                         p.informOfModifiedHits(n);

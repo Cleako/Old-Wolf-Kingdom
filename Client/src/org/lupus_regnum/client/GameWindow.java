@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -36,6 +37,8 @@ public class GameWindow extends Applet implements Runnable
 
 	protected synchronized void method4() {
 	}
+        
+        protected synchronized void onMouseWheel(int speed) { /* empty */ }
 
 	protected final void createWindow(int width, int height, String title,
 			boolean resizable) {
@@ -97,52 +100,175 @@ public class GameWindow extends Applet implements Runnable
 		mouseDownButton = event.metaDown() ? 2 : 1;
 		return true;
 	}
+        
+        private boolean actionDown;
+	private boolean shiftDown;
+        private boolean controlDown;
+	public boolean keyLeftBraceDown;
+	public boolean keyRightBraceDown;
+	public boolean keyLeftDown;
+	public boolean keyRightDown;
+	public boolean keyUpDown;
+	public boolean keyDownDown;
+	public boolean keySpaceDown;
+	public boolean keyNMDown;
 
-    public final synchronized boolean keyDown(Event event, int key) {
-        handleMenuKeyDown(key);
-        keyDown = key;
-        keyDown2 = key;
-        lastActionTimeout = 0;
-        if (key == 1006)
-            keyLeftDown = true;
-        if (key == 1007)
-            keyRightDown = true;
-      
-        if ((char) key == '\u03F0') // 1008 or F1
-            keyF1Toggle = !keyF1Toggle;
-        boolean validKeyDown = false;
-        for (int j = 0; j < charSet.length(); j++) {
-            if (key != charSet.charAt(j))
-                continue;
-            validKeyDown = true;
-            break;
-        }
+        protected void handleMenuKeyDown(boolean shift, boolean ctrl, boolean action, int key, char keyChar) {
+	}
+        
+	public final synchronized boolean keyDown(boolean shift, boolean ctrl,
+			boolean action, int key, char keyChar, KeyEvent e) {
+		actionDown = action;
+		shiftDown = shift;
+		controlDown = ctrl;
+		keyDown = key;
+		keyDown2 = key;
 
-        if (validKeyDown && inputText.length() < 20)
-            inputText += (char) key;
-        if (validKeyDown && inputMessage.length() < 80)
-            inputMessage += (char) key;
-        if (key == 8 && inputText.length() > 0) // backspace
-            inputText = inputText.substring(0, inputText.length() - 1);
-        if (key == 8 && inputMessage.length() > 0) // backspace
-            inputMessage = inputMessage.substring(0, inputMessage.length() - 1);
-        if (key == 10 || key == 13) { // enter/return
-            enteredText = inputText;
-            enteredMessage = inputMessage;
-        }
-        return true;
-    }
+		handleMenuKeyDown(shift, ctrl, action, key, keyChar);
 
-	protected void handleMenuKeyDown(int key) { }
+		lastActionTimeout = 0;
+		if (controlDown && key == 86) {
+			return true;
+		}
+		
+		if (key == 37)
+			keyLeftDown = true;
+		if (key == 39)
+			keyRightDown = true;
+		if (key == 38)
+			keyUpDown = true;
+		if (key == 40)
+			keyDownDown = true;
+		if ((char) key == ' ')
+			keySpaceDown = true;
+		if ((char) key == 'n' || (char) key == 'm')
+			keyNMDown = true;
+		if ((char) key == 'N' || (char) key == 'M')
+			keyNMDown = true;
+		if ((char) key == '{')
+			keyLeftBraceDown = true;
+		if ((char) key == '}')
+			keyRightBraceDown = true;
+		if (key == 112) // F1
+			keyF1Toggle = !keyF1Toggle;
+		if (actionDown)
+			return true;
+		if (actionDown && shiftDown)
+			return true;
+		if(controlDown) // Add other ctrl + w/e above this
+			return true;
+		boolean validKeyDown = isKeyValid(key);
+		if (key == 8 && inputText.length() > 0) // backspace
+			inputText = inputText.substring(0, inputText.length() - 1);
+		if (key == 8 && inputMessage.length() > 0) // backspace
+			inputMessage = inputMessage.substring(0, inputMessage.length() - 1);
+		if (key == 10 || key == 13) { // enter/return
+			enteredText = inputText;
+			enteredMessage = inputMessage;
+		}
+		if (mudclient.inputBoxType > 3 && mudclient.inputBoxType < 10) {
+			if (!Character.isDigit(keyChar))
+				return false;
+			if (inputText.length() > 9)
+				return false;
+			inputText += keyChar;
+			if (inputText.length() == 10)
+				parseInt(inputText);
+			return true;
+		}
+		if(key == 222 && !e.isShiftDown()) 
+			inputText += "'";
+		if(key == 222 && e.isShiftDown()) 
+			inputText += "@";
+		if (validKeyDown && inputText.length() < 20)
+			inputText += keyChar;
+		if (validKeyDown && inputMessage.length() < 80)
+			inputMessage += keyChar;
+		return true;
+	}
+        
+        	public int parseInt(final String s) {
+		/**
+		 * Make sure that the string is not null before we carry on this god
+		 * damn stupid test
+		 */
+		if (s == null)
+			throw new NumberFormatException("Null string");
+		/**
+		 * Checks for a sign
+		 */
+		int num = 0;
+		int sign = -1;
+		final int len = s.length();
+		final char ch = s.charAt(0);
+		if (ch == '-') {
+			if (len == 1)
+				throw new NumberFormatException("Missing digits:  " + s);
+			sign = 1;
+		} else {
+			final int d = ch - '0';
+			if (d < 0 || d > 9)
+				throw new NumberFormatException("Malformed:  " + s);
+			num = -d;
+		}
+		/**
+		 * Starts Building the number
+		 */
+		final int max = (sign == -1) ? -Integer.MAX_VALUE : Integer.MIN_VALUE;
+		final int multmax = max / 10;
+		int i = 1;
+		while (i < len) {
+			int d = s.charAt(i++) - '0';
+			if (d < 0 || d > 9)
+				throw new NumberFormatException("Malformed:  " + s);
+			if (num < multmax)
+				/**
+				 * So we do not go over the max int value we will return the max
+				 * int :( sad face
+				 */
+				return Integer.MAX_VALUE;
+			num *= 10;
+			if (num < (max + d))
+				throw new NumberFormatException("Over/underflow:  " + s);
+			num -= d;
+		}
+		return sign * num;
+	}
+	
+	public static boolean isKeyValid(int key) {
+		boolean validKeyDown = false;
+		for (int j = 0; j < charSet.length(); j++) {
+			if (key != charSet.charAt(j))
+				continue;
+			validKeyDown = true;
+			break;
+		}
+		return validKeyDown;
+	}
 
-    public final synchronized boolean keyUp(Event event, int i) {
-        keyDown = 0;
-        if (i == 1006)
-            keyLeftDown = false;
-        if (i == 1007)
-            keyRightDown = false;
-        return true;
-    }
+	public final synchronized boolean keyUp(boolean ctrlDown, int i,
+			char keyChar) {
+		keyDown = 0;
+		if (i == 37)
+			keyLeftDown = false;
+		if (i == 39)
+			keyRightDown = false;
+		if (i == 38)
+			keyUpDown = false;
+		if (i == 40)
+			keyDownDown = false;
+		if ((char) i == ' ')
+			keySpaceDown = false;
+		if ((char) i == 'n' || (char) i == 'm')
+			keyNMDown = false;
+		if ((char) i == 'N' || (char) i == 'M')
+			keyNMDown = false;
+		if ((char) i == '{')
+			keyLeftBraceDown = false;
+		if ((char) i == '}')
+			keyRightBraceDown = false;
+		return true;
+	}
 
 
 	public final synchronized boolean mouseMove(int i, int j) {
@@ -514,10 +640,6 @@ public class GameWindow extends Applet implements Runnable
 		private String loadingBarText;
 		private static Graphics loadingGraphics;
 		private static String charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"\243$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-
-		public boolean keyLeftDown;
-		public boolean keyRightDown;
-
 		public int threadSleepTime;
 		public int mouseX;
 		public int mouseY;

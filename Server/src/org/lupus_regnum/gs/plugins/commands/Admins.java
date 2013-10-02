@@ -1,12 +1,14 @@
 package org.lupus_regnum.gs.plugins.commands;
 
 import org.lupus_regnum.config.Constants;
+import org.lupus_regnum.config.Formulae;
 import org.lupus_regnum.gs.core.ClientUpdater;
 import org.lupus_regnum.gs.external.EntityHandler;
 import org.lupus_regnum.gs.external.ItemLoc;
 import org.lupus_regnum.gs.model.GameObject;
 import org.lupus_regnum.gs.model.InvItem;
 import org.lupus_regnum.gs.model.Item;
+import org.lupus_regnum.gs.model.Npc;
 import org.lupus_regnum.gs.model.Player;
 import org.lupus_regnum.gs.model.World;
 import org.lupus_regnum.gs.plugins.listeners.action.CommandListener;
@@ -19,8 +21,10 @@ public class Admins implements CommandListener {
      */
     public static final World world = World.getWorld();
 	
-	@Override
-	public void onCommand(String command, String[] args, Player player) {
+	private int npcsInStressTest = 0;
+        
+        @Override
+        public void onCommand(String command, String[] args, Player player) {
 		if (!player.isAdmin()) {
 		    return;
 		}
@@ -209,7 +213,21 @@ public class Admins implements CommandListener {
 	    if(command.equals("doublexp")) {
 	    	world.setDoubleXpWeekend(!world.isDoubleXpWeekend());
 	    	player.getActionSender().sendMessage("Double XP for skills is: " + world.isDoubleXpWeekend());
-	    	}   
+	    	}
+            if(command.equals("stresstest")) {
+                int amount = Integer.parseInt(args[0]);
+                if(amount > 5001) {
+                    player.getActionSender().sendMessage("@red@Command denied. Spawning this many will cause the server to crash!");
+                    return;
+                }
+                npcsInStressTest += amount;
+                int id = 0;
+                for(int i = 0; i < amount; i++) {
+                    id = Formulae.Rand(0, EntityHandler.getNpcCount());
+                    world.registerNpc(new Npc(id, player.getX(), player.getY(), player.getX() - 20, player.getX() + 20, player.getY() - 20, player.getY() + 20));
+                }
+                player.getActionSender().sendMessage("NPCs in stress test: @or1@" + npcsInStressTest);
+            }
 		return;
 	}
 	

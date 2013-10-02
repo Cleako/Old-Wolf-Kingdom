@@ -78,7 +78,13 @@ public class WalkRequest implements PacketHandler {
 						    player.getActionSender().sendMessage("You are under attack!");
 	
 						    npc.setLocation(player.getLocation(), true);
-						    for (Player p : npc.getViewArea().getPlayersInView())
+						    for (Player p : npc.getViewArea().getPlayersSectorA())
+                                                        p.removeWatchedNpc(npc);
+                                                    for (Player p : npc.getViewArea().getPlayersSectorB())
+                                                        p.removeWatchedNpc(npc);
+                                                    for (Player p : npc.getViewArea().getPlayersSectorC())
+                                                        p.removeWatchedNpc(npc);
+                                                    for (Player p : npc.getViewArea().getPlayersSectorD())
 							p.removeWatchedNpc(npc);
 						    player.setBusy(true);
 						    player.setSprite(9);

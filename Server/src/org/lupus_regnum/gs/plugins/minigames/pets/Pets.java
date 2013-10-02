@@ -36,7 +36,7 @@ public class Pets {
 					player.getActionSender().sendInventory();
 					Npc petDragon = new Npc(player.getLocation(), petNpcID[0],  player.getUsername());
 					petDragon.shouldRespawn = false;
-					//petDragon.setFollowing(player);
+                                        petDragon.setFollowing(player, 1);
 					world.registerNpc(petDragon);
 				}
 			});

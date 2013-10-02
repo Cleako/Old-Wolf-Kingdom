@@ -241,13 +241,13 @@ public final class ClientUpdater implements Processor {
 				sender.getActionSender().sendMessage("You are muted, you cannot send messages");
 				return;
 			}			
-			List<Player> recievers = sender.getViewArea().getPlayersInView();
-			ArrayList<String> recieverUsernames = new ArrayList<String>();
-			for(Player p : recievers) 
-				recieverUsernames.add(p.getUsername());
+			List<Player> recieversA = sender.getViewArea().getPlayersSectorA();
+			ArrayList<String> recieverUsernamesA = new ArrayList<String>();
+			for(Player p : recieversA) 
+				recieverUsernamesA.add(p.getUsername());
 			
-			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k, recieverUsernames));
-			for (Player recipient : recievers) {
+			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k, recieverUsernamesA));
+			for (Player recipient : recieversA) {
 				if (sender.getIndex() == recipient.getIndex() || !recipient.loggedIn()) {
 					continue;
 				}
@@ -259,7 +259,67 @@ public final class ClientUpdater implements Processor {
 				}
 				recipient.informOfChatMessage(message);
 			}
-			recievers = null;
+			recieversA = null;
+                        
+                        List<Player> recieversB = sender.getViewArea().getPlayersSectorB();
+			ArrayList<String> recieverUsernamesB = new ArrayList<String>();
+			for(Player p : recieversB) 
+				recieverUsernamesB.add(p.getUsername());
+			
+			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k, recieverUsernamesB));
+			for (Player recipient : recieversB) {
+				if (sender.getIndex() == recipient.getIndex() || !recipient.loggedIn()) {
+					continue;
+				}
+				if (recipient.getPrivacySetting(0) && !recipient.isFriendsWith(sender.getUsernameHash()) && !sender.isPMod()) {
+					continue;
+				}
+				if (recipient.isIgnoring(sender.getUsernameHash()) && !sender.isPMod()) {
+					continue;
+				}
+				recipient.informOfChatMessage(message);
+			}
+			recieversB = null;
+                        
+                        List<Player> recieversC = sender.getViewArea().getPlayersSectorC();
+			ArrayList<String> recieverUsernamesC = new ArrayList<String>();
+			for(Player p : recieversC) 
+				recieverUsernamesC.add(p.getUsername());
+			
+			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k, recieverUsernamesC));
+			for (Player recipient : recieversC) {
+				if (sender.getIndex() == recipient.getIndex() || !recipient.loggedIn()) {
+					continue;
+				}
+				if (recipient.getPrivacySetting(0) && !recipient.isFriendsWith(sender.getUsernameHash()) && !sender.isPMod()) {
+					continue;
+				}
+				if (recipient.isIgnoring(sender.getUsernameHash()) && !sender.isPMod()) {
+					continue;
+				}
+				recipient.informOfChatMessage(message);
+			}
+			recieversC = null;
+                        
+                        List<Player> recieversD = sender.getViewArea().getPlayersSectorD();
+			ArrayList<String> recieverUsernamesD = new ArrayList<String>();
+			for(Player p : recieversD) 
+				recieverUsernamesD.add(p.getUsername());
+			
+			world.addEntryToSnapshots(new Chatlog(sender.getUsername(), k, recieverUsernamesD));
+			for (Player recipient : recieversD) {
+				if (sender.getIndex() == recipient.getIndex() || !recipient.loggedIn()) {
+					continue;
+				}
+				if (recipient.getPrivacySetting(0) && !recipient.isFriendsWith(sender.getUsernameHash()) && !sender.isPMod()) {
+					continue;
+				}
+				if (recipient.isIgnoring(sender.getUsernameHash()) && !sender.isPMod()) {
+					continue;
+				}
+				recipient.informOfChatMessage(message);
+			}
+			recieversD = null;
 		}
 	}
 
