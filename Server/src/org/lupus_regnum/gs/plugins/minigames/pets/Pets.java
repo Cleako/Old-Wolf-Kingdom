@@ -27,20 +27,23 @@ public class Pets {
 		203 // Baby Blue Dragon
     }; 
 	public static void summonPet(final Player player, final InvItem item) {
-      if(item.getDef().getCommand().equalsIgnoreCase("inspect")) {
-			player.getActionSender().sendMessage("You summon your pet.");
+            if (player.getInventory().hasItemId(fullPetItemID[0])) {
+                if(item.getDef().getCommand().equalsIgnoreCase("inspect")) {
+			player.getInventory().remove(fullPetItemID[0], 1);
+			player.getActionSender().sendInventory();
+                        player.getActionSender().sendMessage("You summon your pet.");
 			world.getDelayedEventHandler().add(new ShortEvent(player) {
 				public void action() {
-					player.getInventory().remove(fullPetItemID[0], 1);
-					player.getInventory().add(new InvItem(emptyPetItemID[0], 1));
-					player.getActionSender().sendInventory();
-					Npc petDragon = new Npc(player.getLocation(), petNpcID[0],  player.getUsername());
+                                        Npc petDragon = new Npc(player.getLocation(), petNpcID[0],  player.getUsername());
 					petDragon.shouldRespawn = false;
                                         petDragon.setFollowing(player, 1);
-					world.registerNpc(petDragon);
+					player.getInventory().add(new InvItem(emptyPetItemID[0], 1));
+					player.getActionSender().sendInventory();
+                                        world.registerNpc(petDragon);
 				}
 			});
 		}
+            }
 	}
 	/*public static void returnPet(final Player player, final InvItem item) {
       if(item.getDef().getCommand().equalsIgnoreCase("inspect")) {

@@ -21,7 +21,7 @@ public class PlayerSaveHandler implements PacketHandler {
 		    System.out.println("Error loading data for: " + DataConversions.hashToUsername(usernameHash));
 		    return;
 		}
-		System.out.println("Adding save data for: " + save.getUsername());
+		//System.out.println("Adding save data for: " + save.getUsername());
 	
 		if (owner != save.getOwner()) {
 		    System.out.println("WARNING ATTEMPTED DUPE");

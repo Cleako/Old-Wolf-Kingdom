@@ -216,7 +216,7 @@ public class Admins implements CommandListener {
 	    	}
             if(command.equals("stresstest")) {
                 int amount = Integer.parseInt(args[0]);
-                if(amount > 5001) {
+                if(amount > 200) {
                     player.getActionSender().sendMessage("@red@Command denied. Spawning this many will cause the server to crash!");
                     return;
                 }

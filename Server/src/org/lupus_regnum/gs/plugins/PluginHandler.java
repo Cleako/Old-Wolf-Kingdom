@@ -92,10 +92,10 @@ public class PluginHandler {
 								e.printStackTrace();
 								continue;
 							}
-							System.out.println("Loaded new quest: " + q.getQuestName());
+							//System.out.println("Loaded new quest: " + q.getQuestName());
 						}
 						else {
-							System.out.println("Loaded new plugin: " + plugin.getName());
+							//System.out.println("Loaded new plugin: " + plugin.getName());
 						}
 						
 					}
@@ -136,10 +136,10 @@ public class PluginHandler {
 								e.printStackTrace();
 								continue;
 							}
-							System.out.println("Loaded new quest: " + q.getQuestName());
+							//System.out.println("Loaded new quest: " + q.getQuestName());
 						}
 						else {
-							System.out.println("Loaded new plugin: " + plugin.getName());
+							//System.out.println("Loaded new plugin: " + plugin.getName());
 						}
 					}
 					if(plugins_executive.containsKey(interfceName)) {
