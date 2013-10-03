@@ -464,7 +464,7 @@ public final class World {
 	public void registerNpc(Npc n) {
 		NPCLoc npc = n.getLoc();
 		if (npc.startX < npc.minX || npc.startX > npc.maxX || npc.startY < npc.minY || npc.startY > npc.maxY || (getTileValue(npc.startX, npc.startY).mapValue & 64) != 0) {
-			Logger.println("Fucked Npc: <id>" + npc.id + "</id><startX>" + npc.startX + "</startX><startY>" + npc.startY + "</startY>");
+			//Logger.println("Fucked Npc: <id>" + npc.id + "</id><startX>" + npc.startX + "</startX><startY>" + npc.startY + "</startY>");
 		}
 		npcs.add(n);
 	}

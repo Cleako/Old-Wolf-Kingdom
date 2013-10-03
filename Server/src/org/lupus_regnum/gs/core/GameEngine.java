@@ -240,7 +240,7 @@ public final class GameEngine extends Thread {
                                         if (world.countPlayers() > 0) {
                                                 p.save();
                                                 p.setLastSaveTime(now);
-                                                Logger.println("Automatic server save complete.");
+                                                //Logger.println("Automatic server save complete.");
                                         }
                                 }
                                 World.getWorld().getServer().getLoginConnector().getActionSender().saveProfiles();

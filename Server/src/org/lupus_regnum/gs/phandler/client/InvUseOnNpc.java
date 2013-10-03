@@ -1,7 +1,9 @@
 package org.lupus_regnum.gs.phandler.client;
 
+import java.util.logging.Logger;
 import org.apache.mina.common.IoSession;
 import org.lupus_regnum.gs.connection.Packet;
+import static org.lupus_regnum.gs.event.DelayedEvent.world;
 import org.lupus_regnum.gs.event.ShortEvent;
 import org.lupus_regnum.gs.event.WalkToMobEvent;
 import org.lupus_regnum.gs.model.Bubble;
@@ -11,7 +13,6 @@ import org.lupus_regnum.gs.model.Player;
 import org.lupus_regnum.gs.model.World;
 import org.lupus_regnum.gs.model.snapshot.Activity;
 import org.lupus_regnum.gs.phandler.PacketHandler;
-import org.lupus_regnum.gs.plugins.minigames.pets.Pets;
 import org.lupus_regnum.gs.states.Action;
 import org.lupus_regnum.gs.tools.DataConversions;
 
@@ -83,13 +84,25 @@ public class InvUseOnNpc implements PacketHandler {
 			owner.getActionSender().sendMessage("Nothing interesting happens.");
 			return;
 		    }
+                    /*else if (!affectedNpc.withinRange(owner, 5)) {
+                        System.out.println("Pet owner out of range.");
+                        World.getWorld().getDelayedEventHandler().add(new ShortEvent(owner) {
+                            public void action() {
+                                System.out.println("Removing pet.");
+                                affectedNpc.resetPath();
+                                affectedNpc.unblock();
+                                owner.getInventory().remove(new InvItem(1231, 1));
+                                world.unregisterNpc(affectedNpc);
+                                affectedNpc.remove();
+                                System.out.println("Pet removed.");
+                                owner.getInventory().add(new InvItem(1222, 1));
+                            }
+                        });
+                    }*/
                     else if (!affectedNpc.isFollowing(owner)) {
 			owner.getActionSender().sendMessage("That's someone elses pet!");
                         return;
                     }
-                    /*else if (!affectedNpc.isGoingToAttack(owner)) {
-                        return;
-                    }*/
 		    owner.setBusy(true);
 		    affectedNpc.blockedBy(owner);
 		    affectedNpc.resetPath();
@@ -100,16 +113,18 @@ public class InvUseOnNpc implements PacketHandler {
 			    if (DataConversions.random(0, 4) != 0) {
 				owner.getActionSender().sendMessage("You catch the baby blue dragon in the crystal.");
 				owner.getInventory().remove(new InvItem(1231, 1));
-				owner.getInventory().add(new InvItem(1222, 1));
 				owner.getActionSender().sendInventory();
-			    owner.setBusy(false);
+                                owner.setBusy(false);
 				affectedNpc.unblock();
 				world.unregisterNpc(affectedNpc);
 				affectedNpc.remove();
+                                owner.getInventory().add(new InvItem(1222, 1));
+                                owner.getActionSender().sendInventory();
 				} else {
 				owner.getActionSender().sendMessage("The baby blue dragon manages to get away from you!");
                                 owner.setBusy(false);
 				affectedNpc.unblock();
+                                affectedNpc.setFollowing(owner, 1);
 				}
 			}
 		    });
