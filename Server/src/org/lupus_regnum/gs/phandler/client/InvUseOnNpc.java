@@ -83,10 +83,13 @@ public class InvUseOnNpc implements PacketHandler {
 			owner.getActionSender().sendMessage("Nothing interesting happens.");
 			return;
 		    }
-                    if (!affectedNpc.isFollowing(owner)) {
+                    else if (!affectedNpc.isFollowing(owner)) {
 			owner.getActionSender().sendMessage("That's someone elses pet!");
                         return;
                     }
+                    /*else if (!affectedNpc.isGoingToAttack(owner)) {
+                        return;
+                    }*/
 		    owner.setBusy(true);
 		    affectedNpc.blockedBy(owner);
 		    affectedNpc.resetPath();
