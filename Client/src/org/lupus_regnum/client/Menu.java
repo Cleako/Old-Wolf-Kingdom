@@ -73,17 +73,6 @@ public class Menu {
 						&& mouseY <= menuObjectY[menuObject]
 								+ menuObjectHeight[menuObject])
 					anIntArray189[menuObject] = 1 - anIntArray189[menuObject]; // no
-																				// idea
-																				// what
-																				// this
-																				// is,
-																				// there
-																				// is
-																				// no
-																				// object
-																				// of
-																				// type
-																				// 14
 			}
 
 		}

@@ -3604,7 +3604,7 @@ public final class mudclient extends GameWindowMiddleMan {
 								menuLength++;
 							}
 
-							boolean inv = true;
+							/*boolean inv = true;
 							boolean leader = false;
 
 							for(Member m : partyMembers) {
@@ -3628,7 +3628,7 @@ public final class mudclient extends GameWindowMiddleMan {
 								menuID[menuLength] = 2840;
 								menuActionType[menuLength] = playerArray[i2].serverIndex;
 								menuLength++;
-							}
+							}*/
 						}
 					} else if (l2 == 2) {
 						ItemDef itemDef = EntityHandler.getItemDef(groundItemType[i2]);
