@@ -145,9 +145,16 @@ public class Npc extends Mob {
 		this.cursed = cursed;
 	}
 
-	public boolean isGoingToAttack() {
+	private Player isGoingToAttack;
+               
+        public boolean isGoingToAttack() {
 		return goingToAttack;
 	}
+        
+        public boolean isGoingToAttack(Player player) {
+            if (!isGoingToAttack()) return false;
+            return goingToAttack = goingToAttack;
+        }
 
 	public void setGoingToAttack(boolean goingToAttack) {
 		this.goingToAttack = goingToAttack;
