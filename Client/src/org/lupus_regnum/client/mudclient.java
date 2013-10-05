@@ -2872,6 +2872,12 @@ public final class mudclient extends GameWindowMiddleMan {
 
 	public boolean loading;
 
+        public boolean withinRange(int x, int y) {
+                int xDiff = (sectionX + areaX)- x; 
+                int yDiff = (sectionY + areaY) - y;
+                return xDiff <= 16 && xDiff >= -15 && yDiff <= 16 && yDiff >= -15;
+        }
+        
 	@SuppressWarnings("static-access")
 	private final void drawGame() throws Exception {
 		cur_fps++;
@@ -4544,9 +4550,15 @@ public final class mudclient extends GameWindowMiddleMan {
 		}
 
 		for (int j3 = 0; j3 < groundItemCount; j3++) {
-			groundItemX[j3] -= k1;
-			groundItemY[j3] -= l1;
-		}
+                if(!withinRange(groundItemX[j3], groundItemY[j3])) {
+                        groundItemType[j3] = -1;
+                        groundItemObjectVar[j3] = -1;
+                        groundItemX[j3] = -1;
+                        groundItemY[j3] = -1;
+                }
+                groundItemX[j3] -= k1;
+                groundItemY[j3] -= l1;
+                }
 
 		for (int i4 = 0; i4 < playerCount; i4++) {
 			Mob mob = playerArray[i4];
