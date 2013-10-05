@@ -45,6 +45,7 @@ public class Pets {
 		}
             }
 	}
+        
 	/*public static void returnPet(final Player player, final InvItem item) {
       if(item.getDef().getCommand().equalsIgnoreCase("inspect")) {
 			player.getActionSender().sendMessage("You return your pet to the red crystal.");

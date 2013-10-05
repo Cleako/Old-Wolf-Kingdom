@@ -276,7 +276,7 @@ public final class Player extends Mob {
 	private int combatStyle = 0;
 	private int Combo = 0;
 	/**
-	 * Added by Zerratar: Correct sleepword we are looking for! Case SenSitIvE
+	 * Added by Zerratar: Correct sleep word we are looking for! Case SenSitIvE
 	 */
 	public String correctSleepword = "";
 	/**

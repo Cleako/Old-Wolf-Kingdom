@@ -84,7 +84,7 @@ public class InvUseOnNpc implements PacketHandler {
 			owner.getActionSender().sendMessage("Nothing interesting happens.");
 			return;
 		    }
-                    /*else if (!affectedNpc.withinRange(owner, 5)) {
+                    /*else if (!affectedNpc.isFollowing()) {
                         System.out.println("Pet owner out of range.");
                         World.getWorld().getDelayedEventHandler().add(new ShortEvent(owner) {
                             public void action() {

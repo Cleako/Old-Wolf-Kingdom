@@ -12,7 +12,7 @@ function curPageURL() {
 	}
 	return $return;
 }
-$script_directory = '/lupus/';
+$script_directory = '/';
 define('IN_PHPBB', true);
 $phpbb_root_path = './board/';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
@@ -131,22 +131,22 @@ $posts_result = $db->sql_query_limit($posts, $search_limit);
 
 	<head>
 		<meta charset="utf-8"/>
-		<title>Lupus Regnum</title>
+		<title>Wolf Kingdom</title>
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/lupus/js/flot/excanvas.min.js"></script><![endif]-->
-		<link rel="stylesheet" media="all" href="/lupus/css/style.css"/>
-		<link rel="stylesheet" href="/lupus/js/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+		<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script><![endif]-->
+		<link rel="stylesheet" media="all" href="/css/style.css"/>
+		<link rel="stylesheet" href="/js/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
-		<script src="/lupus/js/cufon.js" type="text/javascript"></script>
-		<script src="/lupus/js/Aurulent_Sans.font.js" type="text/javascript"></script>
-		<script type="text/javascript" src="/lupus/js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-		<script type="text/javascript" src="/lupus/js/flot/jquery.flot.js"></script>
-		<script type="text/javascript" src="/lupus/js/flot/jquery.flot.pie.js"></script>
+		<script src="/js/cufon.js" type="text/javascript"></script>
+		<script src="/js/Aurulent_Sans.font.js" type="text/javascript"></script>
+		<script type="text/javascript" src="/js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+		<script type="text/javascript" src="/js/flot/jquery.flot.js"></script>
+		<script type="text/javascript" src="/js/flot/jquery.flot.pie.js"></script>
 		<script type="text/javascript">
 			function loadContent(user, userhash, id, hc, hsprite, sc, tc, gender, pc, lvl, on) {
-				var url = "/lupus/js/account.php";
+				var url = "/js/account.php";
 					$.post(url, {username: user, userenc: userhash, owner: id, hair: hc, head: hsprite, skin: sc, top: tc, gen: gender, pants: pc, combat: lvl, online: on} ,function(data) {
 						$("#character-details").html(data).show();
 						$("a#inline").fancybox({
@@ -168,7 +168,7 @@ $posts_result = $db->sql_query_limit($posts, $search_limit);
 						var y = $("#verification").val();
 						setTimeout(function(){
 						
-							$.post("/lupus/js/account.php", {id: i, hash: ui, ver: y} ,function(data) {
+							$.post("/js/account.php", {id: i, hash: ui, ver: y} ,function(data) {
 								$.fancybox.hideActivity();
 								$("#character-delete-form").hide();
 								window.location.reload()
@@ -225,7 +225,7 @@ $posts_result = $db->sql_query_limit($posts, $search_limit);
 					
 					setTimeout(function(){
 					
-						$.post("/lupus/js/account.php", {nm: n, pw: p} ,function(data) {
+						$.post("/js/account.php", {nm: n, pw: p} ,function(data) {
 							if(data == 0){
 								$("#user-fails").show();
 							} else if(data == 1){
@@ -252,7 +252,7 @@ $posts_result = $db->sql_query_limit($posts, $search_limit);
 	<body lang="en">
 	
 		<header>
-			<div class="large">Lupus Regnum</div>
+			<div class="large">Wolf Kingdom</div>
 		</header>
 		<div class="body-wrapper">	
 			<div class="navigation">
@@ -269,7 +269,7 @@ $posts_result = $db->sql_query_limit($posts, $search_limit);
 				<div class="account-panel">
 					<div class="avatar-box">
 					<?php if($user->data['is_registered']){ ?>
-							<a href="<?php echo $script_directory; ?>board/ucp.php?i=profile&mode=avatar"><img src="/lupus/board/download/file.php?avatar=<?php print $user->data['user_avatar']; ?>" /></a>
+							<a href="<?php echo $script_directory; ?>board/ucp.php?i=profile&mode=avatar"><img src="/board/download/file.php?avatar=<?php print $user->data['user_avatar']; ?>" /></a>
 					<?php } ?>
 					</div>
 					<div class="account-text">
@@ -366,7 +366,7 @@ $posts_result = $db->sql_query_limit($posts, $search_limit);
 			</div>
 			<div class="box">
 				<div class="widget">
-					<h3><a href="/lupus/board">Visit Forum</a></h3>
+					<h3><a href="/board">Visit Forum</a></h3>
 				</div>
 			</div>
 		</aside>
