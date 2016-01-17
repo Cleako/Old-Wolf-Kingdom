@@ -1,4 +1,0 @@
-<?php exit; ?>
-1412485451
-586
-a:1:{s:6:"normal";a:6:{i:0;a:3:{s:10:"rank_title";s:10:"Elite Wolf";s:8:"rank_min";s:3:"100";s:10:"rank_image";s:0:"";}i:1;a:3:{s:10:"rank_title";s:10:"Wolf Guard";s:8:"rank_min";s:2:"50";s:10:"rank_image";s:0:"";}i:2;a:3:{s:10:"rank_title";s:11:"Wolf Sentry";s:8:"rank_min";s:2:"30";s:10:"rank_image";s:0:"";}i:3;a:3:{s:10:"rank_title";s:4:"Wolf";s:8:"rank_min";s:2:"20";s:10:"rank_image";s:0:"";}i:4;a:3:{s:10:"rank_title";s:11:"Junior Wolf";s:8:"rank_min";s:1:"5";s:10:"rank_image";s:0:"";}i:5;a:3:{s:10:"rank_title";s:8:"Wolf Pup";s:8:"rank_min";s:1:"0";s:10:"rank_image";s:0:"";}}}
