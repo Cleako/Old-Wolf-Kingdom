@@ -3,7 +3,6 @@ package org.wolf_kingdom.gs.model.snapshot;
 
 /**
  * Activity log class, stores activity string, time of activity and activity owner
- * @author Pets
  *
  */
 public class Activity extends Snapshot {

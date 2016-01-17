@@ -696,7 +696,12 @@ public final class Player extends Mob {
 	}
 
 	public boolean canLogout() {
-		if(this.location.inWilderness()) {
+		if(System.currentTimeMillis() - this.getLastMoved() < 5000) { //general area walking 5sec
+	    		getActionSender().sendMessage("You must stand peacefully in one place for 5 seconds!");
+	    		return false;
+	    	}
+
+                if(this.location.inWilderness()) { //wilderness area walking 10sec
 			if(System.currentTimeMillis() - this.getLastMoved() < 10000) {
 	    		getActionSender().sendMessage("You must stand peacefully in one place for 10 seconds!");
 	    		return false;
@@ -802,15 +807,15 @@ public final class Player extends Mob {
 		}
 
 		if (force || canLogout()) {
-			destroy = true;
+                        destroy = true;
 			if (inParty() && getParty() != null)
 				getParty().removePlayer(this);
-			actionSender.sendLogout();
+                        actionSender.sendLogout();
 			PluginHandler.getPluginHandler().handleAction("PlayerLogout", new Object[] { this });
 		}
 		else {
 			final long startDestroy = System.currentTimeMillis();
-			World.getWorld().getDelayedEventHandler().add(new DelayedEvent(this, 3000) {
+			World.getWorld().getDelayedEventHandler().add(new DelayedEvent(this, 1000) {
 
 				public void run() {
 					if (owner.canLogout()
@@ -1746,15 +1751,8 @@ public final class Player extends Mob {
 					new DelayedEvent(this, 60000) {
 
 						private void checkStat(int statIndex) {
-							if (statIndex != 3
-									&& owner.getCurStat(statIndex) == owner
-											.getMaxStat(statIndex)) {
-								owner
-										.getActionSender()
-										.sendMessage(
-												"Your "
-														+ Formulae.statArray[statIndex]
-														+ " ability has returned to normal.");
+							if (statIndex != 3 && owner.getCurStat(statIndex) == owner.getMaxStat(statIndex)) {
+								owner.getActionSender().sendMessage("Your " + Formulae.statArray[statIndex] + " ability has returned to normal.");
 							}
 						}
 

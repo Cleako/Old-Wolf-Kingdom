@@ -91,11 +91,11 @@ public class InvUseOnNpc implements PacketHandler {
                                 System.out.println("Removing pet.");
                                 affectedNpc.resetPath();
                                 affectedNpc.unblock();
-                                owner.getInventory().remove(new InvItem(1231, 1));
+                                owner.getInventory().remove(new InvItem(1231, 1));                                
+                                owner.getInventory().add(new InvItem(1222, 1));
                                 world.unregisterNpc(affectedNpc);
                                 affectedNpc.remove();
                                 System.out.println("Pet removed.");
-                                owner.getInventory().add(new InvItem(1222, 1));
                             }
                         });
                     }*/

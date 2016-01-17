@@ -1,5 +1,6 @@
 package org.wolf_kingdom.gs.phandler.client;
 
+import static java.lang.Thread.sleep;
 import org.apache.mina.common.IoSession;
 import org.wolf_kingdom.config.Constants;
 import org.wolf_kingdom.gs.connection.Packet;
@@ -519,8 +520,9 @@ public class InvActionHandler implements PacketHandler {
                         CannonAssembling.setDownBase(player, item);
                         break;
 			case 1222: // Red Crystal
-						Pets.summonPet(player, item);
-						break;
+                                Pets.summonPet(player, item);
+                                sleep(500);
+				break;
 		    case 387: // Disk of Returning
 				if (player.getLocation().wildernessLevel() >= 30 || (player.getLocation().inModRoom() && !player.isMod())) {
 				    player.getActionSender().sendMessage("The disk doesn't seem to work here.");

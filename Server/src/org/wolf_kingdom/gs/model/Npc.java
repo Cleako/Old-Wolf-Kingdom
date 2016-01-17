@@ -8,8 +8,6 @@ import java.util.Map;
 import org.wolf_kingdom.config.Constants;
 import org.wolf_kingdom.config.Formulae;
 import org.wolf_kingdom.gs.event.DelayedEvent;
-import org.wolf_kingdom.gs.event.ShortEvent;
-import org.wolf_kingdom.gs.event.WalkToMobEvent;
 import org.wolf_kingdom.gs.event.FightEvent;
 import org.wolf_kingdom.gs.external.EntityHandler;
 import org.wolf_kingdom.gs.external.ItemDropDef;
@@ -19,6 +17,7 @@ import org.wolf_kingdom.gs.plugins.PluginHandler;
 import org.wolf_kingdom.gs.states.Action;
 import org.wolf_kingdom.gs.states.CombatState;
 import org.wolf_kingdom.gs.tools.DataConversions;
+
 
 
 
@@ -159,6 +158,34 @@ public class Npc extends Mob {
 	public void setGoingToAttack(boolean goingToAttack) {
 		this.goingToAttack = goingToAttack;
 	}
+        
+        public void teleport(int x, int y, boolean bubble) {
+		if(bubble && PluginHandler.getPluginHandler().blockDefaultAction("Teleport", new Object[] { this })) {
+			return;
+		}
+		Mob opponent = super.getOpponent();
+		if (inCombat()) {
+			resetCombat(CombatState.ERROR);
+		}
+		if (opponent != null) {
+			opponent.resetCombat(CombatState.ERROR);
+		}
+		/*for (Object o : getWatchedPlayers().getAllEntities()) {
+			Player p = ((Player) o);
+			if (bubble) {
+				p.getActionSender().sendTeleBubble(getX(), getY(), false);
+			}
+			p.removeWatchedPlayer(this);
+		}
+		if (bubble) {
+			actionSender.sendTeleBubble(getX(), getY(), false);
+		}*/
+		setLocation(Point.location(x, y), true);
+		resetPath();
+		//actionSender.sendWorldInfo();
+                //updateViewedPlayers();
+                //updateViewedObjects();
+	}
 
 	/**
 	 * Event to handle following
@@ -192,12 +219,24 @@ public class Npc extends Mob {
 		if (isFollowing()) {
 			resetFollowing();
 		}
-		following = player;
+		following = player; //pet system
 		npcFollowEvent = new DelayedEvent(null, 500) {
 			public void run() {
-				if (!Npc.this.withinRange(player) || player.isRemoved() || Npc.this.isBusy()) {
+				if (player.isRemoved()) {
 					resetFollowing();
-				} else if (!Npc.this.finishedPath() && Npc.this.withinRange(player, radius)) {
+                                        unblock();
+                                        world.unregisterNpc(Npc.this);
+                                        remove();
+                                        player.getInventory().remove(new InvItem(1231, 1));
+                                        player.getInventory().add(new InvItem(1222, 1));
+                                        //System.out.println(following + "'s " + Npc.this + " has been returned to the crystal via Npc.java.");
+                                } else if (!Npc.this.withinRange(player) && System.currentTimeMillis() - player.getLastMoved() > 1000) {
+				        Npc.this.teleport(player.getX(), player.getY(), false);
+                                        //System.out.println(following + "'s " + Npc.this + " has been teleported");
+                                        Npc.this.resetPath();
+                                } else if (Npc.this.isBusy()) {
+                                        Npc.this.resetPath();
+                                } else if (!Npc.this.finishedPath() && Npc.this.withinRange(player, radius)) {
 					Npc.this.resetPath();
 				} else if (Npc.this.finishedPath() && !Npc.this.withinRange(player, radius + 1)) {
 					Npc.this.setPath(new Path(Npc.this.getX(), Npc.this.getY(), player.getX(), player.getY()));

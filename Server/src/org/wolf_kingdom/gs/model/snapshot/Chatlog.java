@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 /**
  * Chat log class, stores chat string, time of message, message owner and set of players that saw the message
- * @author Pets
  *
  */
 public class Chatlog extends Snapshot {

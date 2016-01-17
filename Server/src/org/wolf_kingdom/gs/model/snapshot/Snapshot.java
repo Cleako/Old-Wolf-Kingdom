@@ -3,7 +3,6 @@ package org.wolf_kingdom.gs.model.snapshot;
 
 /**
  * Snapshot abstract class
- * @author Pets
  *
  */
 public abstract class Snapshot {

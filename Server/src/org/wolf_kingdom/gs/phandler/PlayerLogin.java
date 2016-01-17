@@ -52,7 +52,7 @@ public class PlayerLogin implements PacketHandler {
 		     * Check if account is a new account
 		     */
 		    if (player.getLastLogin() == 0L) { 
-				player.setLocation(Point.location(121, 647), true);
+				player.setLocation(Point.location(121, 647), true); //spawn
 				p.readShort();
 				p.readShort();
 		    } 
@@ -110,6 +110,20 @@ public class PlayerLogin implements PacketHandler {
 		    }
 	
 		    player.setInventory(inventory);
+                    
+                    /*if (player.getInventory().hasItemId(1231)) {
+                            for(int it=0; it < 30; it++) {
+                                if(player.getInventory().remove(new InvItem(1231)) != -1 ){ //removes pet item
+                                        player.getInventory().remove(new InvItem(1231));
+                                        player.getActionSender().sendInventory();
+                                        player.getInventory().add(new InvItem(1222));
+                                        player.getActionSender().sendInventory();
+                                        System.out.println("Pet has been returned to the crystal via PlayerLogin.java.");
+                                }
+                                else {
+                                }
+                            }
+                    }*/
 	
 		    Bank bank = new Bank();
 		    int bnkCount = p.readShort();
@@ -254,6 +268,19 @@ public class PlayerLogin implements PacketHandler {
 	
 		    player.setLoggedIn(true);
 		    player.setBusy(false);
+                    /*if (player.getInventory().hasItemId(1231)) {
+                            for(int it=0; it < 30; it++) {
+                                if(player.getInventory().remove(new InvItem(1231)) != -1 ){ //removes pet item
+                                        player.getInventory().remove(new InvItem(1231));
+                                        player.getActionSender().sendInventory();
+                                        player.getInventory().add(new InvItem(1222));
+                                        player.getActionSender().sendInventory();
+                                        System.out.println("Pet has been returned to the crystal via PlayerLogin.java.");
+                                }
+                                else {
+                                }
+                            }
+                    }*/
 		    
 		    PluginHandler.getPluginHandler().handleAction("PlayerLogin", new Object[] { player });
 		} 
