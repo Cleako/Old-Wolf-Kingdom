@@ -11,9 +11,9 @@ import java.io.File;
 import java.util.TreeMap;
 
 /**
- * Allows you to load, save create and view RSCD game sprites.
+ * Allows you to load, save create and view Wolf Kingdom game sprites.
  *
- * Original project concept by Reines of RSCDaemon.org.
+ * Original project concept by Reines of Wolf Kingdomaemon.org.
  *
  * @author Reines
  * @author Tim Creed (Anarchist`)
@@ -103,7 +103,7 @@ public class SpriteEditor extends JFrame implements ActionListener
 		content.add(paper, BorderLayout.CENTER);
 		content.add(footer, BorderLayout.SOUTH);
 		
-		super.setTitle("RSCD - Sprite Editor");
+		super.setTitle("Wolf Kingdom - Sprite Editor");
 		super.setSize(WIDTH, HEIGHT);
 		super.setResizable(false);
 		super.setVisible(true);
@@ -276,7 +276,7 @@ public class SpriteEditor extends JFrame implements ActionListener
 		if(event.getSource() == buttons.get("Load Sprite")) 
 		{
 			JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-			chooser.setFileFilter(new FileNameExtensionFilter("RSCD Sprite Files", "spr"));
+			chooser.setFileFilter(new FileNameExtensionFilter("Wolf Kingdom Sprite Files", "spr"));
 			
 			if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) 
 			{
@@ -309,7 +309,7 @@ public class SpriteEditor extends JFrame implements ActionListener
 		if(event.getSource() == buttons.get("Save Sprite")) 
 		{
 			JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-			chooser.setFileFilter(new FileNameExtensionFilter("RSCD Sprite Files", "spr"));
+			chooser.setFileFilter(new FileNameExtensionFilter("Wolf Kingdom Sprite Files", "spr"));
 			if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) 
 			{
 				try 

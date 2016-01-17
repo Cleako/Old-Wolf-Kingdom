@@ -4,44 +4,44 @@
 				<int>1</int>
 				<int>2</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.RegisterWorld</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.RegisterWorld</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>3</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.KillHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.KillHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>4</int>
 				<int>5</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.BanHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.BanHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>6</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.PrivacySettingHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.PrivacySettingHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>7</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.GameSettingHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.GameSettingHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>8</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.PlayerInfoRequestHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.PlayerInfoRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>9</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.SaveProfilesRequestHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.SaveProfilesRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
@@ -51,48 +51,48 @@
 				<int>13</int>
 				<int>14</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.FriendHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.FriendHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>15</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.ReportHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.ReportHandler</className>
 		</PacketHandler>
 		<PacketHandler>
             <ids>
                 <int>18</int>
             </ids>
-            <className>org.lupus_regnum.ls.packethandler.loginserver.JoinClan</className>
+            <className>org.wolf_kingdom.ls.packethandler.loginserver.JoinClan</className>
         </PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>20</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.PlayerSaveHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.PlayerSaveHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>30</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.PlayerLogoutHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.PlayerLogoutHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>31</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.PlayerLoginHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.PlayerLoginHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>32</int>
 			</ids>
-			<className>org.lupus_regnum.ls.packethandler.loginserver.LogHandler</className>
+			<className>org.wolf_kingdom.ls.packethandler.loginserver.LogHandler</className>
 		</PacketHandler>
         <PacketHandler>
             <ids>
                 <int>33</int>
             </ids>
-            <className>org.lupus_regnum.ls.packethandler.loginserver.Tradelog</className>
+            <className>org.wolf_kingdom.ls.packethandler.loginserver.Tradelog</className>
         </PacketHandler>
 </PacketHandler-array>

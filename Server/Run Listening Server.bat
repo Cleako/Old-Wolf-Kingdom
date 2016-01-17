@@ -1,1 +1,1 @@
-java -classpath "dist\Lupus Regnum Server.jar" org.lupus_regnum.ls.Server > Login_Server_Log.txt 2>&1
+java -classpath "dist\Lupus Regnum Server.jar" org.wolf_kingdom.ls.Server > Login_Server_Log.txt 2>&1

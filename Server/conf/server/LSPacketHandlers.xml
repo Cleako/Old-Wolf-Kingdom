@@ -3,73 +3,73 @@
 			<ids>
 				<int>1</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.StatRequestHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.StatRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>2</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.PlayerListRequestHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.PlayerListRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>3</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.ShutdownHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.ShutdownHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>4</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.UpdateHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.UpdateHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>5</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.GlobalHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.GlobalHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>6</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.AlertHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.AlertHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>7</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.ForceLogout</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.ForceLogout</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>8</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.ReportInfoRequestHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.ReportInfoRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>9</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.PlayerInfoRequestHandler</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.PlayerInfoRequestHandler</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>10</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.ReceivePM</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.ReceivePM</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>11</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.FriendLogin</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.FriendLogin</className>
 		</PacketHandler>
 		<PacketHandler>
 			<ids>
 				<int>12</int>
 				<int>13</int>
 			</ids>
-			<className>org.lupus_regnum.gs.phandler.ls.FriendLogout</className>
+			<className>org.wolf_kingdom.gs.phandler.ls.FriendLogout</className>
 		</PacketHandler>
 </PacketHandler-array>

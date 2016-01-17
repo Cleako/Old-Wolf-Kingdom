@@ -2,24 +2,16 @@ package spriteeditor;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.nio.ByteBuffer;
-import java.awt.Toolkit;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
-import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 import java.util.Enumeration;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import java.util.Collection;
+import javax.swing.JDialog;
 
 /**
  * Unpacks the sprites into an uncompressed folder.
@@ -40,18 +32,18 @@ public class SpriteUnpacker
 	 */
 	public static final void main(String[] args) 
 	{
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-		chooser.setFileFilter(new FileNameExtensionFilter("RSCD Sprite Pack (.rscd)", "rscd"));
-		if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-		{
-			try 
-			{
-				new SpriteUnpacker(chooser.getSelectedFile());
-			} catch(Exception e) 
-			{
-				System.err.println(e.getMessage());
-			}
-		}
+            JFileChooser fileChooser = new JFileChooser();
+            JDialog dialog = new JDialog();  
+
+              fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+              fileChooser.setFileFilter(new FileNameExtensionFilter("Wolf Kingdom (.wk)", "wk"));
+              int result = fileChooser.showOpenDialog(dialog);
+              if (result == JFileChooser.APPROVE_OPTION) {
+                  new SpriteUnpacker(fileChooser.getSelectedFile());
+              }else{
+                  System.out.println("Cancelled");
+                  System.exit(0);
+              }
 	}
 	
 	/**
@@ -93,6 +85,7 @@ public class SpriteUnpacker
 		}
 		
 		System.out.println("\n\nSuccessfully unpacked " + img + " sprite images and " + spr + " sprite files from " + file.getName() + ".");
+                System.exit(0);
 	}
 	
 	/**

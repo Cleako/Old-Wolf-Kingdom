@@ -3,49 +3,49 @@
 
 <properties>
 	<comment>Stores aliases for the XStream engine</comment>
-	<entry key="PacketHandler">org.lupus_regnum.gs.phandler.PacketHandlerDef</entry>
+	<entry key="PacketHandler">org.wolf_kingdom.gs.phandler.PacketHandlerDef</entry>
 	
-	<entry key="Point">org.lupus_regnum.gs.model.Point</entry>
-	<entry key="TelePoint">org.lupus_regnum.gs.model.TelePoint</entry>
+	<entry key="Point">org.wolf_kingdom.gs.model.Point</entry>
+	<entry key="TelePoint">org.wolf_kingdom.gs.model.TelePoint</entry>
 	
-	<entry key="Shop">org.lupus_regnum.gs.model.Shop</entry>
-	<entry key="InvItem">org.lupus_regnum.gs.model.InvItem</entry>
+	<entry key="Shop">org.wolf_kingdom.gs.model.Shop</entry>
+	<entry key="InvItem">org.wolf_kingdom.gs.model.InvItem</entry>
 	
-	<entry key="CerterDef">org.lupus_regnum.gs.external.CerterDef</entry>
-	<entry key="CertDef">org.lupus_regnum.gs.external.CertDef</entry>
+	<entry key="CerterDef">org.wolf_kingdom.gs.external.CerterDef</entry>
+	<entry key="CertDef">org.wolf_kingdom.gs.external.CertDef</entry>
 
-	<entry key="GameObjectLoc">org.lupus_regnum.gs.external.GameObjectLoc</entry>
-	<entry key="ItemLoc">org.lupus_regnum.gs.external.ItemLoc</entry>
-	<entry key="NPCLoc">org.lupus_regnum.gs.external.NPCLoc</entry>
+	<entry key="GameObjectLoc">org.wolf_kingdom.gs.external.GameObjectLoc</entry>
+	<entry key="ItemLoc">org.wolf_kingdom.gs.external.ItemLoc</entry>
+	<entry key="NPCLoc">org.wolf_kingdom.gs.external.NPCLoc</entry>
 	
-	<entry key="TileDef">org.lupus_regnum.gs.external.TileDef</entry>
-	<entry key="GameObjectDef">org.lupus_regnum.gs.external.GameObjectDef</entry>
-	<entry key="DoorDef">org.lupus_regnum.gs.external.DoorDef</entry>
-	<entry key="ItemDef">org.lupus_regnum.gs.external.ItemDef</entry>
-	<entry key="PrayerDef">org.lupus_regnum.gs.external.PrayerDef</entry>
-	<entry key="SpellDef">org.lupus_regnum.gs.external.SpellDef</entry>
-	<entry key="NPCDef">org.lupus_regnum.gs.external.NPCDef</entry>
+	<entry key="TileDef">org.wolf_kingdom.gs.external.TileDef</entry>
+	<entry key="GameObjectDef">org.wolf_kingdom.gs.external.GameObjectDef</entry>
+	<entry key="DoorDef">org.wolf_kingdom.gs.external.DoorDef</entry>
+	<entry key="ItemDef">org.wolf_kingdom.gs.external.ItemDef</entry>
+	<entry key="PrayerDef">org.wolf_kingdom.gs.external.PrayerDef</entry>
+	<entry key="SpellDef">org.wolf_kingdom.gs.external.SpellDef</entry>
+	<entry key="NPCDef">org.wolf_kingdom.gs.external.NPCDef</entry>
 	
-	<entry key="ItemCraftingDef">org.lupus_regnum.gs.external.ItemCraftingDef</entry>
-	<entry key="ItemHerbSecond">org.lupus_regnum.gs.external.ItemHerbSecond</entry>
-	<entry key="ItemDartTipDef">org.lupus_regnum.gs.external.ItemDartTipDef</entry>
-	<entry key="ItemGemDef">org.lupus_regnum.gs.external.ItemGemDef</entry>
-	<entry key="ItemLogCutDef">org.lupus_regnum.gs.external.ItemLogCutDef</entry>
-	<entry key="ItemBowStringDef">org.lupus_regnum.gs.external.ItemBowStringDef</entry>
-	<entry key="ItemArrowHeadDef">org.lupus_regnum.gs.external.ItemArrowHeadDef</entry>
-	<entry key="FiremakingDef">org.lupus_regnum.gs.external.FiremakingDef</entry>
-	<entry key="ReqOreDef">org.lupus_regnum.gs.external.ReqOreDef</entry>
-	<entry key="ItemWieldableDef">org.lupus_regnum.gs.external.ItemWieldableDef</entry>
-	<entry key="ItemUnIdentHerbDef">org.lupus_regnum.gs.external.ItemUnIdentHerbDef</entry>
-	<entry key="ItemHerbDef">org.lupus_regnum.gs.external.ItemHerbDef</entry>
-	<entry key="ItemCookingDef">org.lupus_regnum.gs.external.ItemCookingDef</entry>
-	<entry key="ItemSmeltingDef">org.lupus_regnum.gs.external.ItemSmeltingDef</entry>
-	<entry key="ItemSmithingDef">org.lupus_regnum.gs.external.ItemSmithingDef</entry>
-	<entry key="ObjectMiningDef">org.lupus_regnum.gs.external.ObjectMiningDef</entry>
-	<entry key="ObjectWoodcuttingDef">org.lupus_regnum.gs.external.ObjectWoodcuttingDef</entry>
-	<entry key="ObjectFishingDef">org.lupus_regnum.gs.external.ObjectFishingDef</entry>
-	<entry key="ObjectFishDef">org.lupus_regnum.gs.external.ObjectFishDef</entry>
-	<entry key="ItemDropDef">org.lupus_regnum.gs.external.ItemDropDef</entry>
-	<entry key="AgilityDef">org.lupus_regnum.gs.external.AgilityDef</entry>
-	<entry key="AgilityCourseDef">org.lupus_regnum.gs.external.AgilityCourseDef</entry>
+	<entry key="ItemCraftingDef">org.wolf_kingdom.gs.external.ItemCraftingDef</entry>
+	<entry key="ItemHerbSecond">org.wolf_kingdom.gs.external.ItemHerbSecond</entry>
+	<entry key="ItemDartTipDef">org.wolf_kingdom.gs.external.ItemDartTipDef</entry>
+	<entry key="ItemGemDef">org.wolf_kingdom.gs.external.ItemGemDef</entry>
+	<entry key="ItemLogCutDef">org.wolf_kingdom.gs.external.ItemLogCutDef</entry>
+	<entry key="ItemBowStringDef">org.wolf_kingdom.gs.external.ItemBowStringDef</entry>
+	<entry key="ItemArrowHeadDef">org.wolf_kingdom.gs.external.ItemArrowHeadDef</entry>
+	<entry key="FiremakingDef">org.wolf_kingdom.gs.external.FiremakingDef</entry>
+	<entry key="ReqOreDef">org.wolf_kingdom.gs.external.ReqOreDef</entry>
+	<entry key="ItemWieldableDef">org.wolf_kingdom.gs.external.ItemWieldableDef</entry>
+	<entry key="ItemUnIdentHerbDef">org.wolf_kingdom.gs.external.ItemUnIdentHerbDef</entry>
+	<entry key="ItemHerbDef">org.wolf_kingdom.gs.external.ItemHerbDef</entry>
+	<entry key="ItemCookingDef">org.wolf_kingdom.gs.external.ItemCookingDef</entry>
+	<entry key="ItemSmeltingDef">org.wolf_kingdom.gs.external.ItemSmeltingDef</entry>
+	<entry key="ItemSmithingDef">org.wolf_kingdom.gs.external.ItemSmithingDef</entry>
+	<entry key="ObjectMiningDef">org.wolf_kingdom.gs.external.ObjectMiningDef</entry>
+	<entry key="ObjectWoodcuttingDef">org.wolf_kingdom.gs.external.ObjectWoodcuttingDef</entry>
+	<entry key="ObjectFishingDef">org.wolf_kingdom.gs.external.ObjectFishingDef</entry>
+	<entry key="ObjectFishDef">org.wolf_kingdom.gs.external.ObjectFishDef</entry>
+	<entry key="ItemDropDef">org.wolf_kingdom.gs.external.ItemDropDef</entry>
+	<entry key="AgilityDef">org.wolf_kingdom.gs.external.AgilityDef</entry>
+	<entry key="AgilityCourseDef">org.wolf_kingdom.gs.external.AgilityCourseDef</entry>
 </properties>

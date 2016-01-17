@@ -20,6 +20,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Collection;
+import javax.swing.JDialog;
 
 /**
  * Packs the sprites into a
@@ -41,19 +42,18 @@ public class SpritePacker
 	 */
 	public static final void main(String[] args) 
 	{
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-		
-		chooser.setFileFilter(new FileNameExtensionFilter("RSCD Sprite Pack (.rscd)", "rscd"));
-		if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-		{
-			try 
-			{
-				new SpritePacker(chooser.getSelectedFile());
-			} catch(Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}
+            JFileChooser fileChooser = new JFileChooser();
+            JDialog dialog = new JDialog();  
+
+              fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+              fileChooser.setFileFilter(new FileNameExtensionFilter("Wolf Kingdom (.wk)", "wk"));
+              int result = fileChooser.showOpenDialog(dialog);
+              if (result == JFileChooser.APPROVE_OPTION) {
+                  new SpritePacker(fileChooser.getSelectedFile());
+              }else{
+                  System.out.println("Cancelled");
+                  System.exit(0);
+              }
 	}
 	
 	/**
@@ -157,11 +157,12 @@ public class SpritePacker
 			System.out.println("\n\n == Progress: " + progress + " ==\n\n");
 		}
 		
-		System.out.println("Pak'ing a total of " + sprites.size() + " sprites into " + file.getName() + ".");
+		System.out.println("Packing a total of " + sprites.size() + " sprites into " + file.getName() + ".");
 
 		writeZip(sprites, file);
 		
 		System.out.println("\n\n == Progress: 100% - finished ==\n\n");
+                System.exit(0);
 	}
 	
 	/**
