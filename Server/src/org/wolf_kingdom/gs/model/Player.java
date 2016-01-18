@@ -1285,7 +1285,7 @@ public final class Player extends Mob {
 		if(this.isPMod() && !this.isAdmin()) {
 			return;
 		}
-		if (useFatigue) {
+		/*if (useFatigue) {
 			if (fatigue <= 0) {
 				actionSender.sendMessage("@red@Warning: Your energy reserve has been depleted and no experience can be gained.");
 				return;
@@ -1297,7 +1297,7 @@ public final class Player extends Mob {
 				fatigue--;
 				actionSender.sendFatigue();
 			}
-		}
+		}*/
 		if (combat && i < 3	&& (combatStyleToIndex() != i && getCombatStyle() != 0)) {
 			return;
 		}

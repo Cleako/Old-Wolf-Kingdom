@@ -435,12 +435,12 @@ public final class World {
 			}
 	}
 	/**
-	 * Registers an item to be removed after 3 minutes
+	 * Registers an item to be removed after specified
 	 */
 	public void registerItem(final Item i) {
 		try {
 			if (i.getLoc() == null) {
-				delayedEventHandler.add(new DelayedEvent(null, 180000) {
+				delayedEventHandler.add(new DelayedEvent(null, (((1000 * 60) * 60) * 24) * 3) { //removes grounditem after 3 days
 	
 					public void run() {
 						ActiveTile tile = getTile(i.getLocation());
@@ -464,7 +464,6 @@ public final class World {
 	public void registerNpc(Npc n) {
 		NPCLoc npc = n.getLoc();
 		if (npc.startX < npc.minX || npc.startX > npc.maxX || npc.startY < npc.minY || npc.startY > npc.maxY || (getTileValue(npc.startX, npc.startY).mapValue & 64) != 0) {
-			//Logger.println("Fucked Npc: <id>" + npc.id + "</id><startX>" + npc.startX + "</startX><startY>" + npc.startY + "</startY>");
 		}
 		npcs.add(n);
 	}
@@ -539,7 +538,7 @@ public final class World {
 	}
 
 	/**
-	 * adds or removes the given entity from the relivant tiles
+	 * adds or removes the given entity from the associated tiles
 	 */
 	public void setLocation(Entity entity, Point oldPoint, Point newPoint) {
 		ActiveTile t;

@@ -204,7 +204,7 @@ public class MiscPacketBuilder {
 									+ "@whi@ ago. Last moved @or1@" + lastMoved
 									+ " secs @whi@ ago. Chat block is @or1@"
 									+ (chatBlock ? "on" : "off")
-									+ "@whi@. Energy left: @or1@" + fatigue
+									//+ "@whi@. Energy left: @or1@" + fatigue
 									+ "@whi@.", false);
 				} else {
 					mod

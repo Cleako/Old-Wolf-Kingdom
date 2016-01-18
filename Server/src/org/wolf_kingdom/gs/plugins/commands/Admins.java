@@ -89,8 +89,8 @@ public class Admins implements CommandListener {
 				    player.getInventory().add(new InvItem(id, amount));
 				else {
 				    for (int i = 0; i < amount; i++) {
-						if (amount > 40) { // Prevents too many un-stackable items from being spawned and crashing clients in the local area.
-							player.getActionSender().sendMessage("Invalid amount specified. Please spawn 40 or less of that item.");
+						if (amount > 30) { // Prevents too many un-stackable items from being spawned and crashing clients in the local area.
+							player.getActionSender().sendMessage("Invalid amount specified. Please spawn 30 or less of that item.");
 							return;
 						}
 				    	player.getInventory().add(new InvItem(id, 1));
@@ -214,6 +214,38 @@ public class Admins implements CommandListener {
 	    	world.setDoubleXpWeekend(!world.isDoubleXpWeekend());
 	    	player.getActionSender().sendMessage("Double XP for skills is: " + world.isDoubleXpWeekend());
 	    	}
+            if(command.equals("blink")) {
+			if (player.blink()) {
+				player.setBlink(false);
+			} else {
+				player.setBlink(true);
+			}
+			player.getActionSender().sendMessage("Site to site teleporation set to: " + player.blink());
+                }
+            if (command.equals("visit")) {
+		    if (System.currentTimeMillis() - player.getCurrentLogin() < 30000) {
+				player.getActionSender().sendMessage("You cannot do this after you have recently logged in");
+				return;
+		    }
+	    	if(!player.canLogout() || System.currentTimeMillis() - player.getLastMoved() < 10000) {
+	    		player.getActionSender().sendMessage("You must stand peacefully in one place for 10 seconds!");
+	    		return;
+	    	}
+		    if (player.getLocation().inModRoom() && !player.isMod()) {
+		    	player.getActionSender().sendMessage("You cannot use ::visit here");
+		    } 
+		    else if (!player.isMod() && System.currentTimeMillis() - player.getLastMoved() < 30000 && System.currentTimeMillis() - player.getCastTimer() < 300000) {
+				player.getActionSender().sendMessage("There is a 30 second delay on using ::visit, please stand still for 30 seconds.");
+			}
+		    else if (!player.inCombat() && System.currentTimeMillis() - player.getCombatTimer() > 30000 || player.isMod()) {
+				player.setCastTimer();
+				player.teleport(466, 659, true);
+		    }
+		    else {
+		    	player.getActionSender().sendMessage("You cannot use ::visit for 30 seconds after combat");
+		    }
+		    return;
+		}
             if(command.equals("stresstest")) {
                 int amount = Integer.parseInt(args[0]);
                 if(amount > 200) {
@@ -224,7 +256,7 @@ public class Admins implements CommandListener {
                 int id = 0;
                 for(int i = 0; i < amount; i++) {
                     id = Formulae.Rand(0, EntityHandler.getNpcCount());
-                    world.registerNpc(new Npc(id, player.getX(), player.getY(), player.getX() - 20, player.getX() + 20, player.getY() - 20, player.getY() + 20));
+                    world.registerNpc(new Npc(id, player.getX(), player.getY(), player.getX() - 200, player.getX() + 200, player.getY() - 200, player.getY() + 200));
                 }
                 player.getActionSender().sendMessage("NPCs in stress test: @or1@" + npcsInStressTest);
             }

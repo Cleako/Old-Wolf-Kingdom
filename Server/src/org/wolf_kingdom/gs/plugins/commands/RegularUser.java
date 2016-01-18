@@ -182,44 +182,37 @@ public class RegularUser implements CommandListener {
 		}
 		else if (command.equals("help") || command.equals("commands")) {
 		    player.getActionSender().sendAlert(
-			"@ora@::skull " + 
+			//"@ora@::skull " + 
 			"@gre@::say " + 
-			"@red@::noenergy " +
+			//"@red@::noenergy " +
 			"@cya@::onlinelist " +
-			"@ran@::blink " +
-			"@blu@::stuck ", true);
+			//"@ran@::blink " +
+			//"@blu@::stuck " + 
+                        "@red@::online " + 
+                            "", true);
 			
 		    return;
 		}
-		else if (command.equals("skull")) {
+		/*else if (command.equals("skull")) {
 		    int length = 20;
 		    player.addSkull(length * 60000);
 		    return;
-		}
-		else if (command.equals("noenergy")) {
+		}*/
+		/*else if (command.equals("noenergy")) {
 		    player.setFatigue(0);
 		    player.getActionSender().sendFatigue();
 		    player.getActionSender().sendMessage("You discharge all of your energy reserves.");
 		    return;
-		}
+		}*/
 		else if (command.equals("online")) {
 		    player.getActionSender().sendOnlinePlayers();
 		    return;
 		}
-		else if (command.equals("blink")) {
-			if (player.blink()) {
-				player.setBlink(false);
-			} else {
-				player.setBlink(true);
-			}
-			player.getActionSender().sendMessage("Site to site teleporation set to: " + player.blink());
-        }
 		else if (command.equals("onlinelist")) {
 		    player.getActionSender().sendOnlinePlayersList();
 		    return;
 		}
-		
-		else if (command.equals("stuck")) {
+		/*else if (command.equals("stuck")) {
 		    if (System.currentTimeMillis() - player.getCurrentLogin() < 30000) {
 				player.getActionSender().sendMessage("You cannot do this after you have recently logged in");
 				return;
@@ -242,32 +235,7 @@ public class RegularUser implements CommandListener {
 		    	player.getActionSender().sendMessage("You cannot use ::stuck for 30 seconds after combat");
 		    }
 		    return;
-		}
-		else if (command.equals("visit")) {
-		    if (System.currentTimeMillis() - player.getCurrentLogin() < 30000) {
-				player.getActionSender().sendMessage("You cannot do this after you have recently logged in");
-				return;
-		    }
-	    	if(!player.canLogout() || System.currentTimeMillis() - player.getLastMoved() < 10000) {
-	    		player.getActionSender().sendMessage("You must stand peacefully in one place for 10 seconds!");
-	    		return;
-	    	}
-		    if (player.getLocation().inModRoom() && !player.isMod()) {
-		    	player.getActionSender().sendMessage("You cannot use ::visit here");
-		    } 
-		    else if (!player.isMod() && System.currentTimeMillis() - player.getLastMoved() < 30000 && System.currentTimeMillis() - player.getCastTimer() < 300000) {
-				player.getActionSender().sendMessage("There is a 30 second delay on using ::visit, please stand still for 30 seconds.");
-			}
-		    else if (!player.inCombat() && System.currentTimeMillis() - player.getCombatTimer() > 30000 || player.isMod()) {
-				player.setCastTimer();
-				player.teleport(466, 659, true);
-		    }
-		    else {
-		    	player.getActionSender().sendMessage("You cannot use ::visit for 30 seconds after combat");
-		    }
-		    return;
-		}
-		
+		}*/		
 		return;
 	}
 

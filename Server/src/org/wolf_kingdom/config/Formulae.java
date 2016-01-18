@@ -78,7 +78,7 @@ public class Formulae {
 		}
 
     /**
-     * Adds the prayers together to calculate what perecntage the stat should be
+     * Adds the prayers together to calculate what percentage the stat should be
      * increased
      */
     public static double addPrayers(boolean first, boolean second, boolean third) {

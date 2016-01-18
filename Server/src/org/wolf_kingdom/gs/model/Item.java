@@ -110,7 +110,7 @@ public class Item extends Entity {
 		if (!removed && loc != null && loc.getRespawnTime() > 0) {
 		    World.getWorld().getDelayedEventHandler().add(new DelayedEvent(null, loc.getRespawnTime() * 1000) {
 				public void run() {
-				    world.registerItem(new Item(loc));
+				    world.registerItem(new Item(loc));//respawns item
 				    matchRunning = false;
 				}
 		    });
@@ -137,6 +137,6 @@ public class Item extends Entity {
 		if (!getDef().canTrade())
 		    return false;
 		
-		return System.currentTimeMillis() - spawnedTime > 60000;
+		return System.currentTimeMillis() - spawnedTime > 60000;//1 min till visible to everyone else
     }
 }
