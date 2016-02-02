@@ -1,5 +1,0 @@
-#1.5.3 - 5-10-2011
-added array index check that was generatinga warning message 
-
-#1.5.2 - 5-10-2011
-fixed link displayed when browser doesn't support iFrames
