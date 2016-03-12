@@ -14,6 +14,18 @@ import java.util.zip.ZipInputStream;
 
 public class Launcher extends javax.swing.JApplet {
 
+    public static void main(String[] args) {
+        try {
+            //First it downloads whatever updates are available, then it launches the client.
+            updateCache();
+            updateLib();
+            updateClient();
+            launch();
+        }         
+        catch(Exception exception) {
+        }
+    }
+    
     private static String serverVer[] = new String[15]; // Leave these as they are.
     private static String clientVer[] = new String[15];
     public static byte[] createChecksum(String s) throws Exception {
@@ -45,7 +57,7 @@ public class Launcher extends javax.swing.JApplet {
     /**
      * This is our update method where it downloads a copy of the client cache archive from the webserver and then checks the server's MD5 hash against it.
      */
-    public static void updateCache() throws IOException {
+    public static void updateClient() throws IOException {
         try {
             for(int i = 0; i < 1; i++) {
                 serverVer[i] = ""; // Leave these as they are.
@@ -53,25 +65,25 @@ public class Launcher extends javax.swing.JApplet {
             }
 			File baseDir = new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 			+ File.separator 
-			+ "LR"); // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+			+ "WK"); // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 			if (!baseDir.isDirectory()) // Checks if the directory exists or not.
 			{
 			baseDir.mkdir(); // Creates the directory if none exists.
 			}
 			if((new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 			+ File.separator 
-			+ "LR" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+			+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 			+ File.separator 
-			+ "LR.zip")).exists()) // Here is your client cache archive.
+			+ "Wolf_Kingdom.zip")).exists()) // Here is your client cache archive.
             {
                 clientVer[0] = getMD5Checksum(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 				+ File.separator 
-				+ "LR" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+				+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 				+ File.separator 
-				+ "LR.zip"); // Here is your client cache archive.
+				+ "Wolf_Kingdom.zip"); // Here is your client cache archive.
             }
                         
-            URL url = new URL("http://dargaming.net/url.x"); // The URL on your webserver that you can quickly update instead of 															 // updating the hash checker code each time the URL changes for the
+            URL url = new URL("http://localhost/url.txt"); // The URL on your webserver that you can quickly update instead of 															 // updating the hash checker code each time the URL changes for the
 																	 // client cache archive file and hashes.txt file.
             BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(url.openStream()));
             String s = bufferedreader.readLine();
@@ -80,7 +92,7 @@ public class Launcher extends javax.swing.JApplet {
             Properties properties = new Properties();
             InputStream inputstream = url1.openStream();
             properties.load(inputstream);
-            serverVer[0] = properties.getProperty("lr"); // This must match the text before the = and the MD5 hash on the hashes.txt file.
+            serverVer[0] = properties.getProperty("client"); // This must match the text before the = and the MD5 hash on the hashes.txt file.
             // EX: da=63d8e501858db397ae6e0b3ff762a1e0
             //serverVer[1] = properties.getProperty("da2"); //Disabled multiple file download but worth keeping incase of future need
             String s1 = "";
@@ -92,7 +104,7 @@ public class Launcher extends javax.swing.JApplet {
                 }
                 switch(j) {
                 case 0:
-                    s1 = "LR.zip"; // Here is where you want to name the cache archive that the client needs to download.
+                    s1 = "Wolf_Kingdom.zip"; // Here is where you want to name the cache archive that the client needs to download.
                     break;
                 }
                 if(!clientVer[j].equals(serverVer[j])) {
@@ -102,7 +114,7 @@ public class Launcher extends javax.swing.JApplet {
                     BufferedInputStream bufferedinputstream = new BufferedInputStream(url2.openStream());
                     s1 = (new StringBuilder()).append(System.getProperty("user.home") // user.home specifies the home directory of any OS.
                     + File.separator 
-                    + "LR" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+                    + "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
                     + File.separator).append(s1).toString();
                     int i1 = 0;
                     do {
@@ -147,6 +159,106 @@ public class Launcher extends javax.swing.JApplet {
         }
     }
     
+    public static void updateCache() throws IOException {
+        try {
+            for(int i = 0; i < 1; i++) {
+                serverVer[i] = ""; // Leave these as they are.
+                clientVer[i] = "";
+            }
+			File baseDir = new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
+			+ File.separator 
+			+ "WK"); // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+			if (!baseDir.isDirectory()) // Checks if the directory exists or not.
+			{
+			baseDir.mkdir(); // Creates the directory if none exists.
+			}
+			if((new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
+			+ File.separator 
+			+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+			+ File.separator 
+			+ "cache.zip")).exists()) // Here is your client cache archive.
+            {
+                clientVer[0] = getMD5Checksum(System.getProperty("user.home") // user.home specifies the home directory of any OS.
+				+ File.separator 
+				+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+				+ File.separator 
+				+ "cache.zip"); // Here is your client cache archive.
+            }
+                        
+            URL url = new URL("http://localhost/url.txt"); // The URL on your webserver that you can quickly update instead of 															 // updating the hash checker code each time the URL changes for the
+																	 // client cache archive file and hashes.txt file.
+            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(url.openStream()));
+            String s = bufferedreader.readLine();
+            bufferedreader.close();
+            URL url1 = new URL((new StringBuilder()).append(s).append("/hashes.txt").toString()); // The file that lists the MD5 hashes on your webserver.
+            Properties properties = new Properties();
+            InputStream inputstream = url1.openStream();
+            properties.load(inputstream);
+            serverVer[0] = properties.getProperty("cache"); // This must match the text before the = and the MD5 hash on the hashes.txt file.
+            String s1 = "";
+            byte byte0 = 0;
+            int j = 0;
+            do {
+                if(j >= 1) {
+                    break;
+                }
+                switch(j) {
+                case 0:
+                    s1 = "cache.zip"; // Here is where you want to name the cache archive that the client needs to download.
+                    break;
+                }
+                if(!clientVer[j].equals(serverVer[j])) {
+                    URL url2 = new URL((new StringBuilder()).append(s).append("/").append(s1).toString());
+                    int k = url2.openConnection().getContentLength();
+                    byte abyte0[] = new byte[k];
+                    BufferedInputStream bufferedinputstream = new BufferedInputStream(url2.openStream());
+                    s1 = (new StringBuilder()).append(System.getProperty("user.home") // user.home specifies the home directory of any OS.
+                    + File.separator 
+                    + "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+                    + File.separator).append(s1).toString();
+                    int i1 = 0;
+                    do {
+                        if(i1 >= k) {
+                            break;
+                        }
+                        int l = bufferedinputstream.read(abyte0, i1, abyte0.length - i1);
+                        if(l == -1) {
+                            break;
+                        }
+                        i1 += l;
+                    } while(true);
+                    FileOutputStream fileoutputstream = new FileOutputStream(s1);
+                    fileoutputstream.write(abyte0);
+                    fileoutputstream.flush();
+                    fileoutputstream.close();
+                    bufferedinputstream.close();
+                    clientVer[j] = getMD5Checksum(s1);
+                    if(!clientVer[j].equals(serverVer[j]) && byte0 < 1) {
+                        j--;
+                        System.out.println((new StringBuilder()).append("Hash mis-match after download. Retrying (").append(byte0).append(")...").toString());
+                        System.out.println((new StringBuilder()).append(getMD5Checksum(s1)));
+                        byte0++;
+                    }
+                    else {
+                        if(byte0 >= 1) {
+                            System.out.println("Error downloading file."); //You may need to verify that the client cache archive file is in the right directory.
+                            j = 2;
+                            break;
+                        }
+                        byte0 = 0;
+                        System.out.println((new StringBuilder()).append(s1).append(" - Download complete.").toString()); // Appears after the .zip has been downloaded.
+			zip3(); // Extracts the downloaded archive
+                    }
+                }
+                j++;
+            } while(true);
+        }
+        catch(Exception exception) {
+            System.out.println("Error saving file. Please make sure the game client is not already open. Try again.");
+            System.out.println(exception);
+        }
+    }
+    
     public static void updateLib() throws IOException {
         try {
             for(int i = 0; i < 1; i++) {
@@ -155,7 +267,7 @@ public class Launcher extends javax.swing.JApplet {
             }
 			File baseDir = new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 			+ File.separator 
-			+ "LR"
+			+ "WK"
                         + File.separator 
 			+ "lib");
 			if (!baseDir.isDirectory()) // Checks if the directory exists or not.
@@ -164,7 +276,7 @@ public class Launcher extends javax.swing.JApplet {
 			}
 			if((new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 			+ File.separator 
-			+ "LR"
+			+ "WK"
 			+ File.separator 
                         + "lib"
 			+ File.separator 
@@ -172,14 +284,14 @@ public class Launcher extends javax.swing.JApplet {
             {
                 clientVer[0] = getMD5Checksum(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 				+ File.separator 
-				+ "LR"
+				+ "WK"
 				+ File.separator 
                                 + "lib"
 				+ File.separator 
 				+ "lib.zip"); // Here is your client cache archive.
             }
                         
-            URL url = new URL("http://dargaming.net/url.x"); // The URL on your webserver that you can quickly update instead of 															 // updating the hash checker code each time the URL changes for the
+            URL url = new URL("http://localhost/url.txt"); // The URL on your webserver that you can quickly update instead of 															 // updating the hash checker code each time the URL changes for the
 																	 // client cache archive file and hashes.txt file.
             BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(url.openStream()));
             String s = bufferedreader.readLine();
@@ -210,7 +322,7 @@ public class Launcher extends javax.swing.JApplet {
                     BufferedInputStream bufferedinputstream = new BufferedInputStream(url2.openStream());
                     s1 = (new StringBuilder()).append(System.getProperty("user.home") // user.home specifies the home directory of any OS.
                     + File.separator 
-                    + "LR"
+                    + "WK"
                     + File.separator 
                     + "lib"
                     + File.separator).append(s1).toString();
@@ -263,9 +375,9 @@ public class Launcher extends javax.swing.JApplet {
     public static void zip1() throws Exception {
 	String fName = System.getProperty("user.home") // user.home specifies the home directory of any OS.
 	+ File.separator 
-	+ "LR" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+	+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 	+ File.separator 
-	+ "LR.zip"; // Here is your client cache archive.
+	+ "Wolf_Kingdom.zip"; // Here is your client cache archive.
 	byte[] buf = new byte[1024];
 	ZipInputStream zinstream = new ZipInputStream(
         new FileInputStream(fName));
@@ -275,7 +387,7 @@ public class Launcher extends javax.swing.JApplet {
 	while (zentry != null) {
 		String entryName = zentry.getName();
 		//System.out.println("Name of  Zip Entry : " + entryName); // You could have this printed out info for debugging purposes.
-		FileOutputStream outstream = new FileOutputStream(System.getProperty("user.home") + File.separator + "LR" + File.separator + entryName);
+		FileOutputStream outstream = new FileOutputStream(System.getProperty("user.home") + File.separator + "WK" + File.separator + entryName);
 		int n;
 		while ((n = zinstream.read(buf, 0, 1024)) > -1) {
 			outstream.write(buf, 0, n);
@@ -292,7 +404,7 @@ public class Launcher extends javax.swing.JApplet {
     public static void zip2() throws Exception {
 	String fName = System.getProperty("user.home") // user.home specifies the home directory of any OS.
 	+ File.separator 
-	+ "LR" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+	+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 	+ File.separator 
         + "lib" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 	+ File.separator 
@@ -306,7 +418,7 @@ public class Launcher extends javax.swing.JApplet {
 	while (zentry != null) {
 		String entryName = zentry.getName();
 		//System.out.println("Name of  Zip Entry : " + entryName); // You could have this printed out info for debugging purposes.
-		FileOutputStream outstream = new FileOutputStream(System.getProperty("user.home") + File.separator + "LR" + File.separator + "lib" + File.separator + entryName);
+		FileOutputStream outstream = new FileOutputStream(System.getProperty("user.home") + File.separator + "WK" + File.separator + "lib" + File.separator + entryName);
 		int n;
 		while ((n = zinstream.read(buf, 0, 1024)) > -1) {
 			outstream.write(buf, 0, n);
@@ -320,15 +432,44 @@ public class Launcher extends javax.swing.JApplet {
 	System.out.println("Game client lib data update extracted successfully.");
     }
     
+    public static void zip3() throws Exception {
+	String fName = System.getProperty("user.home") // user.home specifies the home directory of any OS.
+	+ File.separator 
+	+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+	+ File.separator 
+	+ "cache.zip"; // Here is your client cache archive.
+	byte[] buf = new byte[1024];
+	ZipInputStream zinstream = new ZipInputStream(
+        new FileInputStream(fName));
+	ZipEntry zentry = zinstream.getNextEntry();
+	//System.out.println("Name of current Zip Entry : " + entry + "\n"); // You could have this printed out info for debugging purposes.
+	System.out.println("Attempting to extract game client cache...");
+	while (zentry != null) {
+		String entryName = zentry.getName();
+		//System.out.println("Name of  Zip Entry : " + entryName); // You could have this printed out info for debugging purposes.
+		FileOutputStream outstream = new FileOutputStream(System.getProperty("user.home") + File.separator + "WK" + File.separator + entryName);
+		int n;
+		while ((n = zinstream.read(buf, 0, 1024)) > -1) {
+			outstream.write(buf, 0, n);
+		}
+		//System.out.println("Successfully Extracted File Name : " + entryName); // You could have this printed out info for debugging purposes.
+		outstream.close();
+		zinstream.closeEntry();
+		zentry = zinstream.getNextEntry();
+	}
+	zinstream.close();
+	System.out.println("Game client cache data update extracted successfully.");
+    }
+    
     /**
     * This method launches your executable jar after it has verified the MD5 hash is up to date.
     */
     public static void launch() throws Exception {
 	File f = new File(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 	+ File.separator 
-	+ "LR" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
+	+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 	+ File.separator 
-	+ "LR_client.jar"); // Here is your executable client JAR file that it launches.
+	+ "Wolf_Kingdom.jar"); // Here is your executable client JAR file that it launches.
         ProcessBuilder pb = new ProcessBuilder(System.getProperty("java.home") // Your PC's Java runtime environment folder
 	+ File.separator 
 	+ "bin" // Self explainatory
