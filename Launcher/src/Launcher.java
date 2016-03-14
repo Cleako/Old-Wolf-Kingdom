@@ -17,9 +17,9 @@ public class Launcher extends javax.swing.JApplet {
     public static void main(String[] args) {
         try {
             //First it downloads whatever updates are available, then it launches the client.
+            updateClient();
             updateCache();
             updateLib();
-            updateClient();
             launch();
         }         
         catch(Exception exception) {
@@ -74,13 +74,13 @@ public class Launcher extends javax.swing.JApplet {
 			+ File.separator 
 			+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 			+ File.separator 
-			+ "Wolf_Kingdom.zip")).exists()) // Here is your client cache archive.
+			+ "client.zip")).exists()) // Here is your client cache archive.
             {
                 clientVer[0] = getMD5Checksum(System.getProperty("user.home") // user.home specifies the home directory of any OS.
 				+ File.separator 
 				+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 				+ File.separator 
-				+ "Wolf_Kingdom.zip"); // Here is your client cache archive.
+				+ "client.zip"); // Here is your client cache archive.
             }
                         
             URL url = new URL("http://localhost/url.txt"); // The URL on your webserver that you can quickly update instead of 															 // updating the hash checker code each time the URL changes for the
@@ -104,7 +104,7 @@ public class Launcher extends javax.swing.JApplet {
                 }
                 switch(j) {
                 case 0:
-                    s1 = "Wolf_Kingdom.zip"; // Here is where you want to name the cache archive that the client needs to download.
+                    s1 = "client.zip"; // Here is where you want to name the cache archive that the client needs to download.
                     break;
                 }
                 if(!clientVer[j].equals(serverVer[j])) {
@@ -377,7 +377,7 @@ public class Launcher extends javax.swing.JApplet {
 	+ File.separator 
 	+ "WK" // This is the folder in your home directory it creates, saves, and extracts the cache in to.
 	+ File.separator 
-	+ "Wolf_Kingdom.zip"; // Here is your client cache archive.
+	+ "client.zip"; // Here is your client cache archive.
 	byte[] buf = new byte[1024];
 	ZipInputStream zinstream = new ZipInputStream(
         new FileInputStream(fName));
