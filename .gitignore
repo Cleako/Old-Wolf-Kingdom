@@ -1,3 +1,9 @@
+.class
 .DS_Store
 /Tools/Sprite Editor/nbproject/private/
 /Web/nbproject/private/
+/Server/build/
+/Server/dist/
+/Server/nbbuild/
+/Client/build/
+/Client/dist/

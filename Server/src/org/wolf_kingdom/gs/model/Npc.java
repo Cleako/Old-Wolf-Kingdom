@@ -8,11 +8,14 @@ import java.util.Map;
 import org.wolf_kingdom.config.Constants;
 import org.wolf_kingdom.config.Formulae;
 import org.wolf_kingdom.gs.event.DelayedEvent;
+import static org.wolf_kingdom.gs.event.DelayedEvent.world;
 import org.wolf_kingdom.gs.event.FightEvent;
+import org.wolf_kingdom.gs.event.ShortEvent;
 import org.wolf_kingdom.gs.external.EntityHandler;
 import org.wolf_kingdom.gs.external.ItemDropDef;
 import org.wolf_kingdom.gs.external.NPCDef;
 import org.wolf_kingdom.gs.external.NPCLoc;
+import static org.wolf_kingdom.gs.phandler.client.InvActionHandler.showBubble;
 import org.wolf_kingdom.gs.plugins.PluginHandler;
 import org.wolf_kingdom.gs.states.Action;
 import org.wolf_kingdom.gs.states.CombatState;
@@ -456,6 +459,41 @@ public class Npc extends Mob {
 	public int getWeaponPowerPoints() {
 		return 1;
 	}
+        
+        static int[] emptyPetItemID = {
+		1231 // Charged crystal without a pet inside
+        };
+
+        static int[] fullPetItemID = {
+		1222 // Red crystal with pet inside
+        };
+
+        static int[] petNpcID = {
+		203 // Baby Blue Dragon
+        }; 
+        
+        public static void summonPet(final Player player, final InvItem item) {
+                if (player.getInventory().hasItemId(fullPetItemID[0])) {
+                        if(item.getDef().getCommand().equalsIgnoreCase("inspect")) {
+                                player.getInventory().remove(fullPetItemID[0], 1);
+                                player.getActionSender().sendInventory();
+                                showBubble(player, item);
+                                player.getActionSender().sendMessage("You begin to summon your pet.");
+                                world.getDelayedEventHandler().add(new ShortEvent(player) {
+                                        public void action() {
+                                                owner.setBusy(true);
+                                                Npc petDragon = new Npc(player.getLocation(), petNpcID[0],  player.getUsername());
+                                                petDragon.shouldRespawn = false;
+                                                petDragon.setFollowing(player, 1);
+                                                player.getInventory().add(new InvItem(emptyPetItemID[0], 1));
+                                                player.getActionSender().sendInventory();
+                                                world.registerNpc(petDragon);
+                                                owner.setBusy(false);
+                                        }
+                                });
+                        }
+                }
+        }
         
 	public void killedBy(Mob mob, boolean stake) {
 		if (mob instanceof Player) {

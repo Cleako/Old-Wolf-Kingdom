@@ -1,0 +1,1 @@
+no main manifest attribute, in wolf_kingdom.jar

@@ -11,9 +11,10 @@ import org.wolf_kingdom.gs.model.InvItem;
 import org.wolf_kingdom.gs.model.MenuHandler;
 import org.wolf_kingdom.gs.model.Player;
 import org.wolf_kingdom.gs.model.World;
+import org.wolf_kingdom.gs.model.Npc;
 import org.wolf_kingdom.gs.model.snapshot.Activity;
 import org.wolf_kingdom.gs.phandler.PacketHandler;
-import org.wolf_kingdom.gs.plugins.minigames.pets.Pets;
+//import org.wolf_kingdom.gs.plugins.minigames.Pets;
 import org.wolf_kingdom.gs.plugins.PluginHandler;
 import org.wolf_kingdom.gs.tools.DataConversions;
 import org.wolf_kingdom.gs.plugins.minigames.cannons.CannonAssembling;
@@ -520,7 +521,7 @@ public class InvActionHandler implements PacketHandler {
                         CannonAssembling.setDownBase(player, item);
                         break;
 			case 1222: // Red Crystal
-                                Pets.summonPet(player, item);
+                                Npc.summonPet(player, item);
                                 sleep(500);
 				break;
 		    case 387: // Disk of Returning

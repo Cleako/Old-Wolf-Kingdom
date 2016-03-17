@@ -58,6 +58,7 @@
         <java classname="org.wolf_kingdom.gs.Server" fork="true">
             <jvmarg value="-Xms128m" />
             <jvmarg value="-Xmx512m" />
+            <jvmarg value="-XX:+UseParallelGC" />
             <arg value="server.conf" />
             <arg value="p2p" />
             <arg value="no" />
