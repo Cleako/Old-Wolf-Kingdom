@@ -106,7 +106,7 @@ public class DBConnection {
 		return con;
 	}
 	/**
-	 * Closes the database conection.
+	 * Closes the database connection.
 	 *
 	 * @throws SQLException if there was an error when closing the connection
 	 */

@@ -286,7 +286,7 @@ public class MiscPacketBuilder {
     }
 
     /**
-     * Sends the whole friendlist
+     * Sends the whole friend list
      */
     public void sendFriendList() {
 		RSCPacketBuilder s = new RSCPacketBuilder();

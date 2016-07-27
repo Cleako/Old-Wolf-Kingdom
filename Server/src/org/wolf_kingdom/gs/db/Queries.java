@@ -19,7 +19,7 @@ public class Queries {
 	/**
 	 * Submits a report to the database
 	 * 
-	 * Chatlogs, snapshots, locations etc are generated inside this method.
+	 * Chat logs, snapshots, locations etc are generated inside this method.
 	 * 
 	 * @param from Players usernameHash (who reported)
 	 * @param about Players usernameHash (who got reported)

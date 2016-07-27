@@ -137,6 +137,6 @@ public class Item extends Entity {
 		if (!getDef().canTrade())
 		    return false;
 		
-		return System.currentTimeMillis() - spawnedTime > 60000;//1 min till visible to everyone else
+		return System.currentTimeMillis() - spawnedTime > 1000;//1 second until dropped items become visible to everyone else
     }
 }

@@ -327,7 +327,7 @@ public final class Player extends Mob {
 	/**
 	 * Amount of fatigue - 0 to 100
 	 */
-	private int fatigue = 100;
+	private int fatigue = 0;
 	/**
 	 * Event to handle following
 	 */

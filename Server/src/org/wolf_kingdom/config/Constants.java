@@ -10,9 +10,9 @@ public class Constants {
      */
     public static class GameServer {
 	/**
-	 * Used throughout strings ingame, this is your Server's name.
+	 * Used throughout strings in game, this is your Server's name.
 	 */
-	public static final String SERVER_NAME = "Dragon Annihilators";
+	public static final String SERVER_NAME = "Wolf Kingdom";
 	/**
 	 * Set by runtime arguments. Is this World a Members/Subscriber (P2P)
 	 * world?
@@ -33,11 +33,11 @@ public class Constants {
 	/**
 	 * Exp Rate multiplier per kill.
 	 */
-	public static final double EXP_RATE = 1.0;
+	public static final double EXP_RATE = 0.0;
 	/**
 	 * Subscribed Exp Rate multiplier per kill.
 	 */
-	public static final double SUB_EXP_RATE = 2.0;
+	public static final double SUB_EXP_RATE = 0.0;
 	/**
 	 * Strikes, Bolts & Blast Spells.
 	 * 

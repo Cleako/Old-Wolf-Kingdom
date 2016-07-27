@@ -150,7 +150,7 @@ public class Server {
     }
 
     /**
-     * Kills the game engine and irc engine
+     * Kills the game engine
      * 
      * @throws InterruptedException
      */

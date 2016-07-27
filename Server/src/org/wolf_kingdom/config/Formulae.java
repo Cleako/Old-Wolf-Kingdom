@@ -25,15 +25,13 @@ import org.wolf_kingdom.gs.tools.DataConversions;
 
 
 public class Formulae {
-	public static final Point[] noremoveTiles = {new Point(341,487), new Point(343,581), new Point(92,649), new Point(434,682), new Point(660,551), new Point(196,3266), new Point(59,573), new Point(560,472), new Point(140,180), new Point(285,195), new Point(243,178), new Point(394,851), new Point(388,851), new Point(512,550)};
+    public static final Point[] noremoveTiles = {new Point(341,487), new Point(343,581), new Point(92,649), new Point(434,682), new Point(660,551), new Point(196,3266), new Point(59,573), new Point(560,472), new Point(140,180), new Point(285,195), new Point(243,178), new Point(394,851), new Point(388,851), new Point(512,550)};
     public static final int[] arrowIDs = { 723, 647, 646, 645, 644, 643, 642, 641, 640, 639, 638, 574, 11 };
     public static final int[] poisonousWeapons = { 559, 560, 561, 562, 563, 564, 565, 1135, 1136, 1137, 1138, 1139, 1140 };
-	public static final int[] poisonousNPCs = { 271, 292 };
-	public static final int[] bodySprites = { 2, 5 };
+    public static final int[] poisonousNPCs = { 271, 292 };
+    public static final int[] bodySprites = { 2, 5 };
     public static final int[] boltIDs = { 786, 592, 190 };
     public static final int[] bowIDs = { 188, 189, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657 };
-    
-	// spell
     public static final int[] experienceArray = { 83, 174, 276, 388, 512, 650, 801, 969, 1154, 1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523, 3973, 4470, 5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824, 12031, 13363, 14833, 16456, 18247, 20224, 22406, 24815, 27473, 30408, 33648, 37224, 41171, 45529, 50339, 55649, 61512, 67983, 75127, 83014, 91721, 101333, 111945, 123660, 136594, 150872, 166636, 184040, 203254, 224466, 247886, 273742, 302288, 333804, 368599, 407015, 449428, 496254, 547953, 605032, 668051, 737627, 814445, 899257, 992895, 1096278, 1210421, 1336443, 1475581, 1629200, 1798808, 1986068, 2192818, 2421087, 2673114, 2951373, 3258594, 3597792, 3972294, 4385776, 4842295, 5346332, 5902831, 6517253, 7195629, 7944614, 8771558, 9684577, 10692629, 11805606, 13034431, 14391160 };
     public static final int[] headSprites = { 1, 4, 6, 7, 8 };
     public static final int[] miningAxeIDs = { 1262, 1261, 1260, 1259, 1258, 156 };
@@ -95,7 +93,7 @@ public class Formulae {
     }
 
     /**
-     * Returns a power to assosiate with each arrow
+     * Returns a power to associate with each arrow
      */
     private static double arrowPower(int arrowID) {
 	switch (arrowID) {
@@ -212,7 +210,7 @@ public class Formulae {
     }
 
     /**
-     * Calulates what one mob should hit on another with meelee
+     * Calculates what one mob should hit on another with melee
      */
     public static int calcFightHit(Mob attacker, Mob defender) {
 	int max = maxHit(attacker.getStrength(), attacker.getWeaponPowerPoints(), attacker.isPrayerActivated(1), attacker.isPrayerActivated(4), attacker.isPrayerActivated(10), styleBonus(attacker, 2));
@@ -1098,7 +1096,7 @@ public class Formulae {
     }
 
     /**
-     * Calulates what one mob should hit on another with meelee
+     * Calculates what one mob should hit on another with melee
      */
     public static double parseDouble(double number) {
 	String numberString = String.valueOf(number);
@@ -1137,10 +1135,10 @@ public class Formulae {
     	}
 
     public final static int[] IRON = {6,5,7,8,2,3,9,28, 1075,1, 71, 83, 77, 12, 1258, 89, 0, 670, 1063}; 
-	public final static int[] RUNE = {112, 399, 400, 401, 404, 403, 402, 396, 1080, 397, 75, 398, 81, 405, 1262, 93, 98, 674, 1067};
-	public final static int[] ADDY = {111, 107, 116, 120, 131, 127, 123, 65, 1079, 69, 74, 86, 80, 204, 1261, 92, 97, 673, 1066};
-	public final static int[] MITH = {110, 106, 115, 119, 130, 126, 122, 64, 1078, 68, 73, 85, 79, 203, 1260, 91, 96, 672, 1065};
-	public final static int[] STEEL = {109, 105, 114, 118, 129, 125, 121, 63, 1077, 67, 72, 84, 78, 88, 1259, 90, 95, 671, 1064};
-	public final static int[] BRONZE = {108, 104, 113, 117, 128, 124, 206, 62, 1076, 66, 70, 82, 76, 87, 156, 87, 205, 669, 1062};
+    public final static int[] RUNE = {112, 399, 400, 401, 404, 403, 402, 396, 1080, 397, 75, 398, 81, 405, 1262, 93, 98, 674, 1067};
+    public final static int[] ADDY = {111, 107, 116, 120, 131, 127, 123, 65, 1079, 69, 74, 86, 80, 204, 1261, 92, 97, 673, 1066};
+    public final static int[] MITH = {110, 106, 115, 119, 130, 126, 122, 64, 1078, 68, 73, 85, 79, 203, 1260, 91, 96, 672, 1065};
+    public final static int[] STEEL = {109, 105, 114, 118, 129, 125, 121, 63, 1077, 67, 72, 84, 78, 88, 1259, 90, 95, 671, 1064};
+    public final static int[] BRONZE = {108, 104, 113, 117, 128, 124, 206, 62, 1076, 66, 70, 82, 76, 87, 156, 87, 205, 669, 1062};
 
 }

@@ -200,7 +200,7 @@ public class HalloweenDrop implements
                                 World.getWorld().getDelayedEventHandler().add(new MiniEvent(null, 1000) {
                                     @Override
                                     public void action() {
-                                        World.getWorld().sendWorldAnnouncement("@red@Happy Halloween from Dragon Annihilators!");
+                                        World.getWorld().sendWorldAnnouncement("@red@Happy Halloween from Wolf Kingdom!");
                                     }
                                 });
                             }

@@ -438,7 +438,7 @@ public final class World {
 	 * Registers an item to be removed after specified
 	 */
 	public void registerItem(final Item i) {
-		try {
+		/*try { //this section was commented out so that the server never removes ground items
 			if (i.getLoc() == null) {
 				delayedEventHandler.add(new DelayedEvent(null, (((1000 * 60) * 60) * 24) * 3) { //removes grounditem after 3 days
 	
@@ -455,7 +455,7 @@ public final class World {
 		catch(Exception e) {
 			i.remove();
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	/**

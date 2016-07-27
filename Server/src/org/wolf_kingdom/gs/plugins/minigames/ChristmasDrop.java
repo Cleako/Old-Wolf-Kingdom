@@ -200,7 +200,7 @@ public class ChristmasDrop implements
                                 World.getWorld().getDelayedEventHandler().add(new MiniEvent(null, 1000) {
                                     @Override
                                     public void action() {
-                                        World.getWorld().sendWorldAnnouncement("@red@Merry Christmas from Dragon Annihilators!");
+                                        World.getWorld().sendWorldAnnouncement("@red@Merry Christmas from Wolf Kingdom!");
                                     }
                                 });
                             }
