@@ -3194,7 +3194,7 @@ public final class mudclient extends GameWindowMiddleMan {
 			int i8 = lastAutoCameraRotatePlayerY + screenRotationY;
 			gameCamera.setCamera(l5,
 					-engineHandle.getAveragedElevation(l5, i8), i8,
-					cameraVertical, cameraRotation * 4, 0, cameraHeight * 2);
+					cameraVertical, cameraRotation * 4, 0, cameraHeight + (cameraHeight/99)); //this sets the height of the camera (default zoom distance)
 		}
 
 		gameCamera.finishCamera();

@@ -15,7 +15,7 @@ public class Camera {
 		aDouble387 = 1.1000000000000001D;
 		anInt388 = 1;
 		aBoolean389 = false;
-		maxVisibleModelCount = 100;
+		maxVisibleModelCount = 300;
 		visibleModelsArray = new Model[maxVisibleModelCount];
 		visibleModelIntArray = new int[maxVisibleModelCount];
 		width = 512;

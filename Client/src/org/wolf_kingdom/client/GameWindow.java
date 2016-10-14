@@ -20,7 +20,7 @@ public class GameWindow extends Applet implements Runnable
 	public int getYOffset() {
 		return 0;
 	}
-	public static int gameWidth = 800;
+	public static int gameWidth = 800; //client window size is set in the config.properties file in the cache folder
 	public static int gameHeight = 600 - 30;
 	private static final long serialVersionUID = -8976121820127349733L;
 	public static final Color BAR_COLOUR = new Color(120, 0, 0);
