@@ -21,6 +21,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Collection;
 import javax.swing.JDialog;
+import static spriteeditor.SpriteUnpacker.FOLDER;
 
 /**
  * Packs the sprites into a
@@ -42,6 +43,9 @@ public class SpritePacker
 	 */
 	public static final void main(String[] args) 
 	{
+            if(!new File(FOLDER + "unpack").exists())
+			new File(FOLDER).mkdir();
+            
             JFileChooser fileChooser = new JFileChooser();
             JDialog dialog = new JDialog();  
 

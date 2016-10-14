@@ -63,6 +63,9 @@ public class SpriteUnpacker
 		// Open the .pak archive and put all Sprites into a Map
 		sprites = readZip(file);
 		
+                if(!new File(FOLDER + "unpack").exists())
+			new File(FOLDER).mkdir();
+                
 		if(!new File(FOLDER + "/img/").exists())
 			new File(FOLDER + "/img/").mkdir();
 			
