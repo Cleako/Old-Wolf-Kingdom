@@ -92,7 +92,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Lupus Regnum Game Launcher"/>
+        <Property name="text" type="java.lang.String" value="Wolf Kingdom Game Launcher"/>
       </Properties>
     </Component>
   </SubComponents>

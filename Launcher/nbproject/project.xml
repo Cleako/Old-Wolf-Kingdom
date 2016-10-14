@@ -9,7 +9,7 @@
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>Client Launcher</name>
+            <name>Wolf Kingdom Launcher</name>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

@@ -55,7 +55,7 @@ public class Launcher extends javax.swing.JApplet {
         return s1;
     }
     /**
-     * This is our update method where it downloads a copy of the client cache archive from the webserver and then checks the server's MD5 hash against it.
+     * This is our update method where it downloads a copy of the client cache archive from the web server and then checks the server's MD5 hash against it.
      */
     public static void updateClient() throws IOException {
         try {
@@ -549,7 +549,7 @@ public class Launcher extends javax.swing.JApplet {
         jTextPane1.setOpaque(false);
         jScrollPane1.setViewportView(jTextPane1);
 
-        jLabel1.setText("Lupus Regnum Game Launcher");
+        jLabel1.setText("Wolf Kingdom Game Launcher");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -562,12 +562,11 @@ public class Launcher extends javax.swing.JApplet {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(178, 178, 178)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(launchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(39, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(launchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
